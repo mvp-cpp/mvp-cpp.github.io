@@ -90,105 +90,81 @@
   </section>
 
   <section class="section">
-    <div class="container">
-      <div class="section-title">
-        <h2>Site Insights</h2>
-        <p>Illustrative web analytics widgets for visitor distribution and real-time activity. Replace with a live analytics service when ready.</p>
+  <div class="container">
+    <div class="section-title">
+      <h2>Visitor Map</h2>
+      <p>Powered by ClustrMaps. Paste your own ClustrMaps widget code into the embed area below to show real visitor geography and traffic information.</p>
+    </div>
+
+    <div class="clustrmaps-layout">
+      <div class="panel card clustrmaps-card">
+        <div class="analytics-head">
+          <div>
+            <div class="kicker">Website analytics</div>
+            <h3>Global visitors overview</h3>
+          </div>
+          <div class="analytics-pill">ClustrMaps</div>
+        </div>
+
+        <div class="clustrmaps-embed" id="clustrmaps-embed">
+          <div class="clustrmaps-placeholder">
+            <div class="clustrmaps-placeholder-title">ClustrMaps widget area</div>
+            <p>
+              Replace this placeholder with your ClustrMaps embed code after registering
+              <code>https://mvp-cpp.github.io</code> in your ClustrMaps dashboard.
+            </p>
+            <div class="code">
+<pre><code>&lt;!-- Paste your ClustrMaps embed code here --&gt;
+&lt;script type="text/javascript" id="clustrmaps" src="...your widget code..."&gt;&lt;/script&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="clustrmaps-help">
+          <div class="mini-tip">
+            <strong>What it can show</strong>
+            <span>Geographic distribution, visitor volume and map-based traffic overview.</span>
+          </div>
+          <div class="mini-tip">
+            <strong>How to activate</strong>
+            <span>Generate the widget code in ClustrMaps and replace the placeholder in <code>home/index.html</code>.</span>
+          </div>
+        </div>
       </div>
 
-      <div class="analytics-layout">
-        <div class="panel card analytics-geo">
-          <div class="analytics-head">
-            <div>
-              <div class="kicker">Visitor geography</div>
-              <h3>Global visitor distribution</h3>
-            </div>
-            <div class="analytics-pill">Last 30 days</div>
-          </div>
-
-          <div class="geo-stage">
-            <div class="geo-map">
-              <span class="geo-dot dot-1"></span>
-              <span class="geo-dot dot-2"></span>
-              <span class="geo-dot dot-3"></span>
-              <span class="geo-dot dot-4"></span>
-              <span class="geo-dot dot-5"></span>
-              <span class="geo-dot dot-6"></span>
-              <span class="geo-dot dot-7"></span>
-              <span class="geo-dot dot-8"></span>
-              <span class="geo-dot dot-9"></span>
-              <span class="geo-dot dot-10"></span>
-              <span class="geo-glow glow-1"></span>
-              <span class="geo-glow glow-2"></span>
-              <span class="geo-glow glow-3"></span>
-            </div>
-
-            <div class="geo-legend">
-              <div class="legend-row"><span class="legend-name">Asia-Pacific</span><span class="legend-value">46%</span></div>
-              <div class="legend-row"><span class="legend-name">Europe</span><span class="legend-value">24%</span></div>
-              <div class="legend-row"><span class="legend-name">North America</span><span class="legend-value">18%</span></div>
-              <div class="legend-row"><span class="legend-name">Other regions</span><span class="legend-value">12%</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="analytics-stack">
-          <div class="panel card analytics-mini">
-            <div class="kicker">Realtime</div>
-            <div class="analytics-number">18</div>
-            <div class="analytics-label">Current online users</div>
-          </div>
-
-          <div class="panel card analytics-mini">
-            <div class="kicker">Today</div>
-            <div class="analytics-number">426</div>
-            <div class="analytics-label">Visits today</div>
-          </div>
-
-          <div class="panel card analytics-mini">
-            <div class="kicker">Traffic source</div>
-            <div class="source-bars">
-              <div class="source-row"><span>Direct</span><div class="source-bar"><i style="width:44%"></i></div><strong>44%</strong></div>
-              <div class="source-row"><span>GitHub</span><div class="source-bar"><i style="width:31%"></i></div><strong>31%</strong></div>
-              <div class="source-row"><span>Search</span><div class="source-bar"><i style="width:17%"></i></div><strong>17%</strong></div>
-              <div class="source-row"><span>Other</span><div class="source-bar"><i style="width:8%"></i></div><strong>8%</strong></div>
-            </div>
-          </div>
-
-          <div class="panel card analytics-mini">
-            <div class="kicker">Trend</div>
-            <div class="trend-chart" aria-label="Weekly traffic trend">
-              <span style="height:38%"></span>
-              <span style="height:52%"></span>
-              <span style="height:47%"></span>
-              <span style="height:76%"></span>
-              <span style="height:69%"></span>
-              <span style="height:84%"></span>
-              <span style="height:91%"></span>
-            </div>
-            <div class="analytics-label">7-day active visit trend</div>
-          </div>
-        </div>
+      <div class="panel card clustrmaps-side-card">
+        <div class="kicker">Setup note</div>
+        <h3>Ready for live embed</h3>
+        <p>
+          The page layout is already prepared for ClustrMaps. Because each site gets its own widget code,
+          you only need to paste your personal embed snippet to enable the live map.
+        </p>
+        <ul class="text-list">
+          <li>Register <code>https://mvp-cpp.github.io</code> in ClustrMaps</li>
+          <li>Copy the generated widget code</li>
+          <li>Replace the placeholder block in the home page</li>
+        </ul>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 </main>
 
-<footer class="footer footer-showcase">
-  <div class="container footer-showcase-grid">
-    <section class="footer-col">
-      <h3 class="footer-title">Sitemap:</h3>
-      <div class="footer-links footer-links-inline">
+<footer class="footer footer-site">
+  <div class="container footer-site-grid">
+    <section class="footer-site-col">
+      <div class="footer-site-heading">Sitemap</div>
+      <div class="footer-site-links">
         <a href="/home/">Home</a>
         <a href="/download/">Download</a>
-        <a href="/tutorial/">Tutorials</a>
+        <a href="/tutorial/">Tutorial</a>
         <a href="/contact/">Contact Us</a>
       </div>
     </section>
 
-    <section class="footer-col">
-      <h3 class="footer-title">Visit our other tools:</h3>
-      <div class="footer-links footer-links-inline">
+    <section class="footer-site-col">
+      <div class="footer-site-heading">Other Tools</div>
+      <div class="footer-site-links">
         <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
         <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
         <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
@@ -197,18 +173,13 @@
       </div>
     </section>
 
-    <section class="footer-col footer-col-right">
-      <div class="footer-copyright">
+    <section class="footer-site-col footer-site-right">
+      <div class="footer-site-heading">MVP</div>
+      <div class="footer-site-copy">
         Copyright © 2021–present. MVP official website.
       </div>
-      <div class="visitor-badge" aria-label="Visitor statistics badge">
-        <span class="visitor-left">
-          <span class="visitor-bars" aria-hidden="true">
-            <i></i><i></i><i></i>
-          </span>
-          <span>Today/Total Visitors</span>
-        </span>
-        <span class="visitor-right">30 / 121,838</span>
+      <div class="footer-site-copy">
+        Memory-efficient, Visualization-enhanced, and Parallel-accelerated GWAS.
       </div>
     </section>
   </div>
