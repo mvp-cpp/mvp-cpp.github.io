@@ -7,6 +7,7 @@ GitHub Pages site for MVP.
 - `https://mvp-cpp.github.io/home/`
 - `https://mvp-cpp.github.io/download/`
 - `https://mvp-cpp.github.io/tutorial/`
+- `https://mvp-cpp.github.io/contact/`
 
 ## Deploy
 
