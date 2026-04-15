@@ -861,4 +861,18 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   .clustrmaps-help{
     grid-template-columns:1fr;
   }
+}\n\n/* home visitor map only */
+.visitor-map-single{
+  padding: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 360px;
 }
+.visitor-map-embed{
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}\n

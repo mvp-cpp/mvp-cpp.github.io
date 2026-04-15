@@ -68,14 +68,20 @@
       </div>
       <div class="grid grid-3">
         <div class="panel card">
+          <div class="feature-icon">🧠</div>
+          <div class="kicker">M</div>
           <h3>Memory-efficient</h3>
           <p>Built for large marker matrices and population-scale studies, with an architecture that emphasizes practical efficiency in high-throughput GWAS pipelines.</p>
         </div>
         <div class="panel card">
+          <div class="feature-icon">📊</div>
+          <div class="kicker">V</div>
           <h3>Visualization-enhanced</h3>
           <p>Integrates analysis with visual reporting, making it straightforward to inspect phenotype distributions, PCA structure, Manhattan peaks and Q-Q deviations.</p>
         </div>
         <div class="panel card">
+          <div class="feature-icon">⚡</div>
+          <div class="kicker">P</div>
           <h3>Parallel-accelerated</h3>
           <p>Designed with modern compute in mind, so the C++ implementation can better exploit multicore and performance-oriented workflows across platforms.</p>
         </div>
@@ -85,35 +91,14 @@
 
   <section class="section">
   <div class="container">
-    <div class="clustrmaps-layout">
-      <div class="panel card clustrmaps-card">
-        <div class="analytics-head">
-          <div>
-            <div class="kicker">Website analytics</div>
-            <h3>Global visitors overview</h3>
-          </div>
-          <div class="analytics-pill">ClustrMaps</div>
-        </div>
+    <div class="section-title">
+      <h2>Visitor Map</h2>
+      <p>Real-time visitor map powered by ClustrMaps / MapMyVisitors.</p>
+    </div>
 
-        <div class="clustrmaps-embed" id="clustrmaps-embed">
-          <div class="clustrmaps-placeholder">
-            <div class="clustrmaps-placeholder-title">ClustrMaps widget area</div>
-            <div class="code">
-<pre><code><script type='text/javascript' id='mapmyvisitors' src='https://mapmyvisitors.com/map.js?cl=080808&w=a&t=n&d=2rfHNS93XyXlQmlme84_dsxd-UcdGJfx4Kr1baizhBU&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script></code></pre>
-            </div>
-          </div>
-        </div>
-
-        <div class="clustrmaps-help">
-          <div class="mini-tip">
-            <strong>What it can show</strong>
-            <span>Geographic distribution, visitor volume and map-based traffic overview.</span>
-          </div>
-          <div class="mini-tip">
-            <strong>How to activate</strong>
-            <span>Generate the widget code in ClustrMaps and replace the placeholder in <code>home/index.html</code>.</span>
-          </div>
-        </div>
+    <div class="visitor-map-single panel card">
+      <div class="visitor-map-embed">
+        <script type='text/javascript' id='mapmyvisitors' src='https://mapmyvisitors.com/map.js?cl=080808&w=300&t=n&d=2rfHNS93XyXlQmlme84_dsxd-UcdGJfx4Kr1baizhBU&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script>
       </div>
     </div>
   </div>
@@ -144,11 +129,12 @@
     </section>
 
     <section class="footer-site-col footer-site-right">
+      <div class="footer-site-heading">MVP</div>
       <div class="footer-site-copy">
         Copyright © 2021–present. MVP official website.
       </div>
       <div class="footer-site-copy">
-        All rights reserved. No commercial use without authorization.
+        Memory-efficient, Visualization-enhanced, and Parallel-accelerated GWAS.
       </div>
     </section>
   </div>
