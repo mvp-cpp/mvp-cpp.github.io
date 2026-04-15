@@ -495,3 +495,19 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
     filter: none !important;
   }
 }
+
+/* home brand text only */
+.brand-text-only{
+  display:flex;
+  align-items:center;
+}
+.brand-text-only div{
+  display:flex;
+  flex-direction:column;
+}
+.brand-text-only strong{
+  display:block;
+}
+.brand-text-only span{
+  max-width: 520px;
+}
