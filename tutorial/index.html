@@ -107,7 +107,6 @@
       <a class="brand brand-text-only" href="/home/">
         <div>
           <strong>MVP</strong>
-          <span>Memory-efficient, Visualization-enhanced, and Parallel-accelerated GWAS</span>
         </div>
       </a>
       <nav class="site-nav">
@@ -129,7 +128,7 @@
       <div class="tutorial-layout">
         <aside class="tutorial-sidebar tutorial-sidebar-left panel">
           <div class="tutorial-sidebar-inner">
-            <div class="toc-heading">一级目录</div>
+            <!-- <div class="toc-heading">一级目录</div> -->
             <nav class="toc-nav toc-nav-primary" id="primaryToc">
               <a href="#getting-started" class="toc-link toc-link-primary active" data-target="getting-started">Getting Started</a>
               <a href="#input-data" class="toc-link toc-link-primary" data-target="input-data">Input Data</a>
@@ -325,8 +324,7 @@ cmake --build . -j</code></pre></div>
 
         <aside class="tutorial-sidebar tutorial-sidebar-right panel">
           <div class="tutorial-sidebar-inner">
-            <div class="toc-heading">二级目录</div>
-            <div class="toc-section-label" id="secondaryLabel">Getting Started</div>
+            <!-- <div class="toc-heading">二级目录</div> -->
             <nav class="toc-nav toc-nav-secondary" id="secondaryToc"></nav>
           </div>
         </aside>
@@ -358,12 +356,11 @@ cmake --build . -j</code></pre></div>
     </section>
 
     <section class="footer-site-col footer-site-right">
-      <div class="footer-site-heading">MVP</div>
       <div class="footer-site-copy">
-        Copyright © 2021–present. MVP official website.
+        Copyright © 2026–present. All rights reserved.
       </div>
       <div class="footer-site-copy">
-        Memory-efficient, Visualization-enhanced, and Parallel-accelerated GWAS.
+        No commercial use without authorization.
       </div>
     </section>
   </div>
@@ -377,13 +374,11 @@ cmake --build . -j</code></pre></div>
         .filter(Boolean);
 
       const secondaryToc = document.getElementById('secondaryToc');
-      const secondaryLabel = document.getElementById('secondaryLabel');
 
       function buildSecondary(section) {
         const title = section.dataset.sectionTitle || section.querySelector('h2')?.textContent || '';
         const subs = Array.from(section.querySelectorAll('.doc-subsection h3'));
 
-        secondaryLabel.textContent = title;
         secondaryToc.innerHTML = '';
 
         subs.forEach((heading, index) => {

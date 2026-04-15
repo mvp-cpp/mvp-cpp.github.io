@@ -876,3 +876,33 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   justify-content: center;
   align-items: center;
 }\n
+
+/* tutorial right sidebar secondary-only */
+.toc-section-label{
+  display:none !important;
+}
+
+/* wider global layout */
+.container{
+  width: min(1380px, calc(100% - 40px)) !important;
+}
+.narrow{
+  width: min(1120px, calc(100% - 40px)) !important;
+}
+.tutorial-layout{
+  grid-template-columns: 240px minmax(0, 1fr) 240px !important;
+}
+@media (max-width: 1180px){
+  .tutorial-layout{
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+  }
+}
+@media (max-width: 860px){
+  .container,
+  .narrow{
+    width: min(100%, calc(100% - 24px)) !important;
+  }
+  .tutorial-layout{
+    grid-template-columns: 1fr !important;
+  }
+}
