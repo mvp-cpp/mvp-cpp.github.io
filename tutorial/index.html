@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVP - Tutorial</title>
+  <meta name="description" content="MVP 教程页面。包含环境要求、编译方式、运行示例和常见问题。" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="logo" href="/home/">MVP</a>
+      <nav class="site-nav">
+        <a href="/home/">Home</a>
+        <a href="/download/">Download</a>
+        <a href="/tutorial/" class="active">Tutorial</a>
+        <a href="https://github.com/mvp-cpp/mvp" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="narrow">
+      <h1>教程</h1>
+      <p class="lead">
+        本页提供 MVP 的基础教程模板。你可以将真实的依赖、编译参数、命令行选项和示例数据继续填充到这里。
+      </p>
+
+      <div class="doc-card">
+        <h2>目录</h2>
+        <ol class="toc">
+          <li><a href="#requirements">环境要求</a></li>
+          <li><a href="#build">安装与编译</a></li>
+          <li><a href="#run">运行示例</a></li>
+          <li><a href="#faq">常见问题</a></li>
+        </ol>
+      </div>
+
+      <section id="requirements" class="doc-section">
+        <h2>环境要求</h2>
+        <div class="doc-card">
+          <ul class="list">
+            <li>C++17 或更高版本编译器</li>
+            <li>CMake 3.16 及以上</li>
+            <li>Git</li>
+            <li>Linux / macOS / Windows</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="build" class="doc-section">
+        <h2>安装与编译</h2>
+        <div class="doc-card">
+          <p>推荐通过源码构建：</p>
+          <pre><code>git clone https://github.com/mvp-cpp/mvp.git
+cd mvp
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build . -j</code></pre>
+
+          <p class="small">
+            如果你的项目依赖第三方库，可以在此处进一步补充依赖安装命令和平台差异说明。
+          </p>
+        </div>
+      </section>
+
+      <section id="run" class="doc-section">
+        <h2>运行示例</h2>
+        <div class="doc-card">
+          <p>下面是示例命令，请按你真实的程序名和参数替换：</p>
+          <pre><code>./mvp --help
+./mvp --input example.txt --output result.txt</code></pre>
+
+          <hr class="soft" />
+
+          <p>建议继续补充：</p>
+          <ul class="list">
+            <li>输入文件格式说明</li>
+            <li>输出结果说明</li>
+            <li>关键命令行参数解释</li>
+            <li>典型案例与性能测试结果</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="faq" class="doc-section">
+        <h2>常见问题</h2>
+        <div class="doc-card">
+          <h3>Q1：访问路径怎么记？</h3>
+          <p>
+            本站已配置为三个固定入口：
+            <span class="kbd">/home</span>、
+            <span class="kbd">/download</span>、
+            <span class="kbd">/tutorial</span>。
+            规范访问形式分别是 <code>/home/</code>、<code>/download/</code>、<code>/tutorial/</code>。
+          </p>
+
+          <h3>Q2：编译失败怎么办？</h3>
+          <p>请先检查编译器版本、CMake 版本和依赖库是否安装完整，再确认当前系统是否受支持。</p>
+
+          <h3>Q3：如何提交问题或建议？</h3>
+          <p>
+            请前往
+            <a href="https://github.com/mvp-cpp/mvp/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>
+            进行反馈。
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <div>© 2026 MVP Project. Maintained by mvp-cpp.</div>
+      <div>
+        <a href="https://github.com/mvp-cpp/mvp/issues" target="_blank" rel="noopener noreferrer">Submit an Issue</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

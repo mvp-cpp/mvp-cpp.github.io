@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVP - Download</title>
+  <meta name="description" content="MVP 下载页面。提供 GitHub Releases、源码下载和安装提示。" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="logo" href="/home/">MVP</a>
+      <nav class="site-nav">
+        <a href="/home/">Home</a>
+        <a href="/download/" class="active">Download</a>
+        <a href="/tutorial/">Tutorial</a>
+        <a href="https://github.com/mvp-cpp/mvp" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="narrow">
+      <h1>下载</h1>
+      <p class="lead">
+        推荐普通用户从 GitHub Releases 下载稳定版本；开发者可直接克隆源码仓库进行本地编译。
+      </p>
+
+      <div class="grid grid-2">
+        <div class="doc-card">
+          <h2>推荐方式：Releases</h2>
+          <p>适合直接下载已打包版本与查看版本更新说明。</p>
+          <p>
+            <a class="btn btn-primary" href="https://github.com/mvp-cpp/mvp/releases" target="_blank" rel="noopener noreferrer">
+              打开 Releases 页面
+            </a>
+          </p>
+        </div>
+
+        <div class="doc-card">
+          <h2>源码仓库</h2>
+          <p>适合需要自行编译、调试或二次开发的用户。</p>
+          <p>
+            <a class="btn btn-secondary" href="https://github.com/mvp-cpp/mvp" target="_blank" rel="noopener noreferrer">
+              打开 GitHub 仓库
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <div class="doc-card" style="margin-top:20px;">
+        <h2>源码下载与克隆</h2>
+        <p>你可以通过 Git 克隆源码：</p>
+        <pre><code>git clone https://github.com/mvp-cpp/mvp.git
+cd mvp</code></pre>
+        <p>或者直接在 GitHub 仓库页面下载源码压缩包。</p>
+      </div>
+
+      <div class="doc-card" style="margin-top:20px;">
+        <h2>建议的发布内容</h2>
+        <ul class="list">
+          <li>Windows 可执行程序或压缩包</li>
+          <li>Linux / macOS 对应二进制文件</li>
+          <li>源码包与版本说明</li>
+          <li>依赖要求、兼容性说明与更新日志</li>
+        </ul>
+      </div>
+
+      <div class="note" style="margin-top:20px;">
+        <strong>提示：</strong>
+        安装与编译步骤建议放在 <a href="/tutorial/">Tutorial 页面</a> 中持续维护。
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <div>© 2026 MVP Project. Maintained by mvp-cpp.</div>
+      <div>
+        <a href="https://github.com/mvp-cpp/mvp/releases" target="_blank" rel="noopener noreferrer">Latest Releases</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
