@@ -1,18 +1,219 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>MVP | Next-generation GWAS in C++</title><meta name="description" content="MVP 是一个面向 Genome-Wide Association Study 的高性能 C++ 工具，承接 rMVP 的核心理念，并以更现代的工程实现重构。" /><link rel="stylesheet" href="/assets/css/style.css" /></head><body>
-<header class="site-header"><div class="container nav-wrap"><a class="brand brand-text-only" href="/home/">
-        <div>
-          <strong>MVP</strong>
-          <span>Memory-efficient, Visualization-enhanced, and Parallel-accelerated GWAS</span>
-        </div>
-      </a><nav class="site-nav"><a href="/home/" class="active">Home</a><a href="/download/">Download</a><a href="/tutorial/">Tutorial</a><a href="/contact/">Contact Us</a></nav></div></header>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVP | Next-generation GWAS in C++</title>
+  <meta name="description" content="MVP 是一个面向 Genome-Wide Association Study 的高性能 C++ 工具，承接 rMVP 的核心理念，并以更现代的工程实现重构。" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand brand-text-only" href="/home/">
+      <div>
+        <strong>MVP</strong>
+        <span>Memory-efficient, Visualization-enhanced, and Parallel-accelerated GWAS</span>
+      </div>
+    </a>
+    <nav class="site-nav">
+      <a href="/home/" class="active">Home</a>
+      <a href="/download/">Download</a>
+      <a href="/tutorial/">Tutorial</a>
+      <a href="/contact/">Contact Us</a>
+    </nav>
+  </div>
+</header>
+
 <main>
-<section class="hero"><div class="container hero-grid"><div><div class="eyebrow">Genome-Wide Association Study · Rebuilt from rMVP to C++</div><h1><span class="highlight">MVP</span> brings memory-efficient, visualization-enhanced, and parallel-accelerated GWAS into a modern C++ stack.</h1><p>MVP is the C++ reimplementation of the original rMVP project. It keeps the core philosophy of handling large-scale GWAS efficiently, while moving toward a more performant, portable, and engineering-oriented software architecture for next-generation genomic analyses.</p><div class="hero-actions"><a class="btn btn-primary" href="/download/">Get MVP</a><a class="btn btn-secondary" href="/tutorial/">Explore tutorial</a></div><div class="chip-row"><div class="chip">Memory-efficient</div><div class="chip">Visualization-enhanced</div><div class="chip">Parallel-accelerated</div><div class="chip">Built for GWAS</div></div></div>
-<div class="panel hero-visual"><img class="hero-logo" src="/assets/svg/mvp-logo-wide.svg" alt="MVP wordmark" /><img src="/assets/svg/hero-illustration.svg" alt="Stylized GWAS interface illustration" /><div class="hero-stats"><div class="stat"><strong>GWAS</strong><span>GLM, MLM, FarmCPU and visualization workflows</span></div><div class="stat"><strong>C++</strong><span>Reengineered for speed, portability and future extensibility</span></div><div class="stat"><strong>Plots</strong><span>Manhattan, QQ, PCA and report-ready figures</span></div></div><div class="small-note">Designed for researchers who need scalable association analysis and publication-ready outputs in one workflow.</div></div></div></section>
-<section class="section"><div class="container"><div class="section-title"><h2>Why MVP</h2><p>From the original rMVP philosophy to a cleaner, faster and more extensible C++ release.</p></div><div class="grid grid-3"><div class="panel card"><div class="feature-icon">🧠</div><div class="kicker">M</div><h3>Memory-efficient</h3><p>Built for large marker matrices and population-scale studies, with an architecture that emphasizes practical efficiency in high-throughput GWAS pipelines.</p></div><div class="panel card"><div class="feature-icon">📊</div><div class="kicker">V</div><h3>Visualization-enhanced</h3><p>Integrates analysis with visual reporting, making it straightforward to inspect phenotype distributions, PCA structure, Manhattan peaks and Q-Q deviations.</p></div><div class="panel card"><div class="feature-icon">⚡</div><div class="kicker">P</div><h3>Parallel-accelerated</h3><p>Designed with modern compute in mind, so the C++ implementation can better exploit multicore and performance-oriented workflows across platforms.</p></div></div></div></section>
-<section class="section"><div class="container showcase"><div class="panel image-card"><img src="/assets/img/manhattan.jpg" alt="Legacy rMVP Manhattan plot example" /><div class="image-caption">Manhattan plot visualization carried over from the original rMVP ecosystem and reimagined for the new MVP release.</div></div><div class="panel card"><div class="kicker">Scientific outputs</div><h2>Publication-ready visualizations remain a first-class feature.</h2><p>The original rMVP site emphasizes output figures such as phenotype distribution, SNP-density plots, PCA plots, circular and rectangular Manhattan plots, and Q-Q plots. The new MVP homepage keeps those strengths visible and places them at the center of the product identity.</p><ul class="text-list"><li>Rectangular and circular Manhattan plots for GWAS result interpretation</li><li>PCA-based population structure visualization</li><li>Q-Q plots for model assessment and signal calibration</li><li>Distribution and density figures for fast exploratory analysis</li></ul><div class="metric-strip"><div class="metric"><strong>Input</strong><span>Phenotype, genotype, relationship matrix, PCs</span></div><div class="metric"><strong>Models</strong><span>Core GWAS workflows inherited from rMVP</span></div><div class="metric"><strong>Output</strong><span>Figures and result tables for downstream interpretation</span></div><div class="metric"><strong>Target</strong><span>Large-scale genomic studies</span></div></div></div></div></section>
-<section class="section"><div class="container split"><div class="panel card"><div class="kicker">A modern homepage for MVP</div><h2>Designed for a cleaner software identity.</h2><p>This landing page uses a darker scientific aesthetic, a custom genome-inspired logo, and larger visual blocks so the homepage feels more like a mature computational biology product rather than a plain documentation page.</p><p>The structure also separates product introduction, downloads, tutorials and contact information into dedicated routes, so the root domain can feel like an official software site.</p><div class="chip-row"><div class="chip">/home</div><div class="chip">/download</div><div class="chip">/tutorial</div><div class="chip">/contact</div></div></div><div class="grid grid-2"><div class="panel image-card"><img src="/assets/img/pca.jpg" alt="Legacy rMVP PCA plot example" /><div class="image-caption">PCA visualization example</div></div><div class="panel image-card"><img src="/assets/img/qqplot.jpg" alt="Legacy rMVP QQ plot example" /><div class="image-caption">Q-Q plot visualization example</div></div></div></div></section>
-<section class="section"><div class="container logo-gallery"><div class="panel badge-box"><img src="/assets/svg/mvp-logo.svg" alt="MVP symbol logo" /></div><div class="panel card"><div class="kicker">Visual identity</div><h2>Custom logo concept</h2><p>The new logo combines a modern <strong>MVP</strong> wordmark with a stylized DNA double helix to signal both genomic data analysis and computational performance. The blue–gold palette echoes the legacy MVP visual language while giving the C++ version a more premium, technology-forward appearance.</p><p class="mt-12">You can keep this logo as-is, or later replace it with a fully illustrated brand package that extends into documentation covers, social graphics and release banners.</p></div></div></section>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Genome-Wide Association Study · Rebuilt from rMVP to C++</div>
+        <h1><span class="highlight">MVP</span> brings memory-efficient, visualization-enhanced, and parallel-accelerated GWAS into a modern C++ stack.</h1>
+        <p>
+          MVP is the C++ reimplementation of the original rMVP project. It keeps the core philosophy of handling large-scale GWAS efficiently,
+          while moving toward a more performant, portable, and engineering-oriented software architecture for next-generation genomic analyses.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/download/">Get MVP</a>
+          <a class="btn btn-secondary" href="/tutorial/">Explore tutorial</a>
+        </div>
+        <div class="chip-row">
+          <div class="chip">Memory-efficient</div>
+          <div class="chip">Visualization-enhanced</div>
+          <div class="chip">Parallel-accelerated</div>
+          <div class="chip">Built for GWAS</div>
+        </div>
+      </div>
+
+      <div class="panel hero-visual">
+        <img class="hero-logo" src="/assets/svg/mvp-logo-wide.svg" alt="MVP wordmark" />
+        <img src="/assets/svg/hero-illustration.svg" alt="Stylized GWAS interface illustration" />
+        <div class="hero-stats">
+          <div class="stat"><strong>GWAS</strong><span>GLM, MLM, FarmCPU and visualization workflows</span></div>
+          <div class="stat"><strong>C++</strong><span>Reengineered for speed, portability and future extensibility</span></div>
+          <div class="stat"><strong>Plots</strong><span>Manhattan, QQ, PCA and report-ready figures</span></div>
+        </div>
+        <div class="small-note">Designed for researchers who need scalable association analysis and publication-ready outputs in one workflow.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Why MVP</h2>
+        <p>From the original rMVP philosophy to a cleaner, faster and more extensible C++ release.</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="panel card">
+          <div class="feature-icon">🧠</div>
+          <div class="kicker">M</div>
+          <h3>Memory-efficient</h3>
+          <p>Built for large marker matrices and population-scale studies, with an architecture that emphasizes practical efficiency in high-throughput GWAS pipelines.</p>
+        </div>
+        <div class="panel card">
+          <div class="feature-icon">📊</div>
+          <div class="kicker">V</div>
+          <h3>Visualization-enhanced</h3>
+          <p>Integrates analysis with visual reporting, making it straightforward to inspect phenotype distributions, PCA structure, Manhattan peaks and Q-Q deviations.</p>
+        </div>
+        <div class="panel card">
+          <div class="feature-icon">⚡</div>
+          <div class="kicker">P</div>
+          <h3>Parallel-accelerated</h3>
+          <p>Designed with modern compute in mind, so the C++ implementation can better exploit multicore and performance-oriented workflows across platforms.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Site Insights</h2>
+        <p>Illustrative web analytics widgets for visitor distribution and real-time activity. Replace with a live analytics service when ready.</p>
+      </div>
+
+      <div class="analytics-layout">
+        <div class="panel card analytics-geo">
+          <div class="analytics-head">
+            <div>
+              <div class="kicker">Visitor geography</div>
+              <h3>Global visitor distribution</h3>
+            </div>
+            <div class="analytics-pill">Last 30 days</div>
+          </div>
+
+          <div class="geo-stage">
+            <div class="geo-map">
+              <span class="geo-dot dot-1"></span>
+              <span class="geo-dot dot-2"></span>
+              <span class="geo-dot dot-3"></span>
+              <span class="geo-dot dot-4"></span>
+              <span class="geo-dot dot-5"></span>
+              <span class="geo-dot dot-6"></span>
+              <span class="geo-dot dot-7"></span>
+              <span class="geo-dot dot-8"></span>
+              <span class="geo-dot dot-9"></span>
+              <span class="geo-dot dot-10"></span>
+              <span class="geo-glow glow-1"></span>
+              <span class="geo-glow glow-2"></span>
+              <span class="geo-glow glow-3"></span>
+            </div>
+
+            <div class="geo-legend">
+              <div class="legend-row"><span class="legend-name">Asia-Pacific</span><span class="legend-value">46%</span></div>
+              <div class="legend-row"><span class="legend-name">Europe</span><span class="legend-value">24%</span></div>
+              <div class="legend-row"><span class="legend-name">North America</span><span class="legend-value">18%</span></div>
+              <div class="legend-row"><span class="legend-name">Other regions</span><span class="legend-value">12%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="analytics-stack">
+          <div class="panel card analytics-mini">
+            <div class="kicker">Realtime</div>
+            <div class="analytics-number">18</div>
+            <div class="analytics-label">Current online users</div>
+          </div>
+
+          <div class="panel card analytics-mini">
+            <div class="kicker">Today</div>
+            <div class="analytics-number">426</div>
+            <div class="analytics-label">Visits today</div>
+          </div>
+
+          <div class="panel card analytics-mini">
+            <div class="kicker">Traffic source</div>
+            <div class="source-bars">
+              <div class="source-row"><span>Direct</span><div class="source-bar"><i style="width:44%"></i></div><strong>44%</strong></div>
+              <div class="source-row"><span>GitHub</span><div class="source-bar"><i style="width:31%"></i></div><strong>31%</strong></div>
+              <div class="source-row"><span>Search</span><div class="source-bar"><i style="width:17%"></i></div><strong>17%</strong></div>
+              <div class="source-row"><span>Other</span><div class="source-bar"><i style="width:8%"></i></div><strong>8%</strong></div>
+            </div>
+          </div>
+
+          <div class="panel card analytics-mini">
+            <div class="kicker">Trend</div>
+            <div class="trend-chart" aria-label="Weekly traffic trend">
+              <span style="height:38%"></span>
+              <span style="height:52%"></span>
+              <span style="height:47%"></span>
+              <span style="height:76%"></span>
+              <span style="height:69%"></span>
+              <span style="height:84%"></span>
+              <span style="height:91%"></span>
+            </div>
+            <div class="analytics-label">7-day active visit trend</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
-<footer class="footer"><div class="container footer-wrap"><div>© 2026 MVP Project. Maintained by mvp-cpp.</div><div><a href="https://github.com/mvp-cpp/mvp" target="_blank" rel="noopener noreferrer">Source repository</a></div></div></footer><script src="/assets/js/site.js"></script>
-</body></html>
+
+<footer class="footer footer-showcase">
+  <div class="container footer-showcase-grid">
+    <section class="footer-col">
+      <h3 class="footer-title">Sitemap:</h3>
+      <div class="footer-links footer-links-inline">
+        <a href="/home/">Home</a>
+        <a href="/download/">Download</a>
+        <a href="/tutorial/">Tutorials</a>
+        <a href="/contact/">Contact Us</a>
+      </div>
+    </section>
+
+    <section class="footer-col">
+      <h3 class="footer-title">Visit our other tools:</h3>
+      <div class="footer-links footer-links-inline">
+        <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
+        <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
+        <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
+        <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
+      </div>
+    </section>
+
+    <section class="footer-col footer-col-right">
+      <div class="footer-copyright">
+        Copyright © 2021–present. MVP official website.
+      </div>
+      <div class="visitor-badge" aria-label="Visitor statistics badge">
+        <span class="visitor-left">
+          <span class="visitor-bars" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </span>
+          <span>Today/Total Visitors</span>
+        </span>
+        <span class="visitor-right">30 / 121,838</span>
+      </div>
+    </section>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js"></script>
+</body>
+</html>
