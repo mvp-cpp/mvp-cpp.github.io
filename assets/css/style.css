@@ -455,3 +455,43 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   .people-grid-authors,
   .people-grid-contributors{grid-template-columns:1fr}
 }
+
+/* floating card effect */
+.float-in{
+  opacity: 0;
+  transform: translateY(22px) scale(0.985);
+  filter: saturate(0.94);
+  transition:
+    opacity 720ms cubic-bezier(.2,.8,.2,1) var(--float-delay, 0ms),
+    transform 820ms cubic-bezier(.2,.8,.2,1) var(--float-delay, 0ms),
+    filter 720ms ease var(--float-delay, 0ms),
+    box-shadow 260ms ease;
+  will-change: transform, opacity;
+}
+.float-visible{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: saturate(1);
+  animation: float-drift 6.5s ease-in-out var(--float-offset, 0s) infinite;
+}
+@keyframes float-drift{
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@media (hover: hover) and (pointer: fine){
+  .float-visible:hover{
+    transform: translateY(-10px) scale(1.01);
+    box-shadow: 0 24px 60px rgba(24, 44, 76, 0.22);
+    animation-play-state: paused;
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  .float-in,
+  .float-visible{
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+    filter: none !important;
+  }
+}

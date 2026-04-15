@@ -6,6 +6,100 @@
   <title>MVP | Tutorial</title>
   <meta name="description" content="MVP tutorial, installation notes, build instructions and usage examples." />
   <link rel="stylesheet" href="/assets/css/style.css" />
+
+  <style>
+    /* tutorial page self-contained layout fix */
+    .tutorial-layout{
+      display:grid;
+      grid-template-columns:220px minmax(0, 1fr) 220px;
+      gap:22px;
+      align-items:start;
+    }
+    .tutorial-sidebar{
+      padding:0;
+      position:sticky;
+      top:98px;
+      max-height:calc(100vh - 118px);
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:var(--panel, rgba(255,255,255,0.06));
+      box-shadow:var(--shadow, 0 22px 60px rgba(0,0,0,0.28));
+      backdrop-filter: blur(14px);
+    }
+    .tutorial-sidebar-inner{padding:22px 18px}
+    .tutorial-content{
+      min-width:0;
+      padding:30px 34px;
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:var(--panel, rgba(255,255,255,0.06));
+      box-shadow:var(--shadow, 0 22px 60px rgba(0,0,0,0.28));
+      backdrop-filter: blur(14px);
+    }
+    .toc-heading{
+      font-size:.82rem; letter-spacing:.12em; text-transform:uppercase;
+      font-weight:800; color:var(--blue,#69b7ff); margin-bottom:10px;
+    }
+    .toc-section-label{
+      font-size:.96rem; font-weight:700; color:var(--text,#eaf2ff);
+      margin-bottom:12px; line-height:1.45;
+    }
+    .toc-nav{display:flex; flex-direction:column; gap:8px}
+    .toc-link{
+      display:block; padding:9px 12px; border-radius:12px; color:var(--muted,#9fb5d6);
+      border:1px solid transparent; transition:.18s ease; line-height:1.4;
+    }
+    .toc-link:hover{
+      text-decoration:none; color:var(--text,#eef6ff);
+      background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.08);
+    }
+    .toc-link.active{
+      color:var(--text,#ffffff);
+      background:linear-gradient(135deg, rgba(105,183,255,.18), rgba(76,224,210,.10));
+      border-color:rgba(139,200,255,.22);
+    }
+    .toc-link-primary{font-weight:700}
+    .toc-link-secondary{font-size:.95rem; padding-left:14px}
+    .tutorial-block + .tutorial-block{
+      margin-top:48px; padding-top:12px; border-top:1px solid rgba(255,255,255,.08);
+    }
+    .tutorial-block h2{margin:8px 0 10px; font-size:2rem}
+    .tutorial-lead{color:var(--muted,#9fb5d6); font-size:1.03rem; margin:0 0 20px}
+    .doc-kicker{
+      color:var(--blue,#7ec0ff); font-size:.78rem; text-transform:uppercase;
+      letter-spacing:.14em; font-weight:800;
+    }
+    .doc-subsection{scroll-margin-top:110px; margin-top:24px}
+    .doc-subsection h3{scroll-margin-top:110px; margin-bottom:10px; font-size:1.22rem}
+    @media (max-width:1180px){
+      .tutorial-layout{grid-template-columns:210px minmax(0, 1fr)}
+      .tutorial-sidebar-right{display:none}
+    }
+    @media (max-width:860px){
+      .tutorial-layout{grid-template-columns:1fr}
+      .tutorial-sidebar{position:static; max-height:none}
+      .tutorial-content{padding:24px 20px}
+    }
+    @media (prefers-color-scheme: light){
+      .tutorial-sidebar, .tutorial-content{
+        background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(249,252,255,.86));
+      }
+      .toc-section-label{color:#28425f}
+      .toc-link:hover{
+        color:#143250; background:rgba(30,100,216,.06); border-color:rgba(30,100,216,.10);
+      }
+      .toc-link.active{
+        color:#0f1c2f;
+        background:linear-gradient(135deg, rgba(47,124,255,.12), rgba(28,199,182,.08));
+        border-color:rgba(30,100,216,.12);
+      }
+      .tutorial-block + .tutorial-block{
+        border-top:1px solid rgba(20,50,90,.08);
+      }
+    }
+  </style>
+
 </head>
 <body>
   <header class="site-header">
@@ -352,5 +446,5 @@ cmake --build . -j</code></pre></div>
       onScroll();
     })();
   </script>
-</body>
-</html>
+<script src="/assets/js/site.js"></script>
+</body></html>
