@@ -1,6 +1,356 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>MVP | Tutorial</title><meta name="description" content="MVP tutorial, installation notes, build instructions and usage examples." /><link rel="stylesheet" href="/assets/css/style.css" /></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand" href="/home/"><img src="/assets/svg/mvp-logo.svg" alt="MVP logo" /><div><strong>MVP</strong><span>GWAS in modern C++</span></div></a><nav class="site-nav"><a href="/home/">Home</a><a href="/download/">Download</a><a href="/tutorial/" class="active">Tutorial</a><a href="/contact/">Contact Us</a></nav></div></header><main class="section"><div class="narrow"><div class="section-title"><h2>Tutorial</h2><p>Start from installation, then move to basic analysis and visualization.</p></div><div class="panel card"><h3>Build MVP from source</h3><div class="code"><pre><code>git clone https://github.com/mvp-cpp/mvp.git
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVP | Tutorial</title>
+  <meta name="description" content="MVP tutorial, installation notes, build instructions and usage examples." />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="/home/">
+        <img src="/assets/svg/mvp-logo.svg" alt="MVP logo" />
+        <div>
+          <strong>MVP</strong>
+          <span>GWAS in modern C++</span>
+        </div>
+      </a>
+      <nav class="site-nav">
+        <a href="/home/">Home</a>
+        <a href="/download/">Download</a>
+        <a href="/tutorial/" class="active">Tutorial</a>
+        <a href="/contact/">Contact Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Tutorial</h2>
+        <p>Structured documentation with synchronized navigation for installation, workflow and visualization.</p>
+      </div>
+
+      <div class="tutorial-layout">
+        <aside class="tutorial-sidebar tutorial-sidebar-left panel">
+          <div class="tutorial-sidebar-inner">
+            <div class="toc-heading">一级目录</div>
+            <nav class="toc-nav toc-nav-primary" id="primaryToc">
+              <a href="#getting-started" class="toc-link toc-link-primary active" data-target="getting-started">Getting Started</a>
+              <a href="#input-data" class="toc-link toc-link-primary" data-target="input-data">Input Data</a>
+              <a href="#association-analysis" class="toc-link toc-link-primary" data-target="association-analysis">Association Analysis</a>
+              <a href="#visualization-output" class="toc-link toc-link-primary" data-target="visualization-output">Visualization & Output</a>
+              <a href="#faq-support" class="toc-link toc-link-primary" data-target="faq-support">FAQ & Support</a>
+            </nav>
+          </div>
+        </aside>
+
+        <article class="tutorial-content panel" id="tutorialContent">
+          <section class="tutorial-block" id="getting-started" data-section-title="Getting Started">
+            <div class="doc-kicker">Section 1</div>
+            <h2>Getting Started</h2>
+            <p class="tutorial-lead">
+              MVP is the modern C++ reimplementation of the rMVP workflow for large-scale GWAS analysis.
+              This guide starts from installation and then walks through data preparation, model execution and downstream visualization.
+            </p>
+
+            <div class="doc-subsection" id="overview">
+              <h3>Overview</h3>
+              <p>
+                The new MVP keeps the core spirit of <strong>Memory-efficient, Visualization-enhanced, and Parallel-accelerated</strong>,
+                while moving the implementation to C++ for stronger engineering scalability and better control of computational performance.
+              </p>
+              <ul class="text-list">
+                <li>Built for genome-wide association analysis on large cohorts</li>
+                <li>Designed for memory efficiency and multicore execution</li>
+                <li>Organized as a command-line workflow suitable for servers and reproducible pipelines</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="installation">
+              <h3>Installation</h3>
+              <p>Build MVP from source with CMake:</p>
+              <div class="code"><pre><code>git clone https://github.com/mvp-cpp/mvp.git
 cd mvp
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
-cmake --build . -j</code></pre></div></div><div class="grid grid-2 mt-20"><div class="panel card"><h3>Suggested tutorial structure</h3><ul class="text-list"><li>Input formats for phenotype and genotype data</li><li>Supported GWAS models and parameter explanations</li><li>Population structure correction and matrix inputs</li><li>Output plots and result interpretation</li></ul></div><div class="panel card"><h3>Example topics to add later</h3><ul class="text-list"><li>Reproducing a basic GWAS workflow from sample data</li><li>Generating Manhattan, PCA and Q-Q plots</li><li>Running large jobs on multicore servers</li><li>Comparing the new MVP workflow with legacy rMVP usage</li></ul></div></div><div class="note mt-20">This page is intentionally lightweight for now. Once the C++ release stabilizes, you can expand it into a full user guide with command-line reference, examples and FAQs.</div></div></main><footer class="footer"><div class="container footer-wrap"><div>© 2026 MVP Project. Maintained by mvp-cpp.</div><div><a href="https://github.com/mvp-cpp/mvp/issues" target="_blank" rel="noopener noreferrer">Report an issue</a></div></div></footer></body></html>
+cmake --build . -j</code></pre></div>
+              <p class="mt-12">
+                If your server uses custom BLAS, LAPACK or OpenMP backends, you can extend the build options here with environment-specific flags.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="system-requirements">
+              <h3>System Requirements</h3>
+              <ul class="text-list">
+                <li>C++17-compatible compiler</li>
+                <li>CMake 3.16 or later</li>
+                <li>Linux, macOS or Windows development environment</li>
+                <li>Enough memory and CPU threads for the target GWAS scale</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="tutorial-block" id="input-data" data-section-title="Input Data">
+            <div class="doc-kicker">Section 2</div>
+            <h2>Input Data</h2>
+            <p class="tutorial-lead">
+              Before running association analysis, prepare genotype, phenotype and covariate inputs in a consistent and documented manner.
+            </p>
+
+            <div class="doc-subsection" id="genotype-files">
+              <h3>Genotype Files</h3>
+              <p>
+                Organize genotype files in the format supported by your MVP build. For release documentation, this section should clearly state
+                accepted input types, marker coding rules, chromosome conventions and missing-value handling.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="phenotype-covariates">
+              <h3>Phenotype and Covariates</h3>
+              <p>
+                Keep phenotype tables and covariate matrices aligned by sample identifier. When population structure or relatedness correction is required,
+                document how principal components, fixed effects and random-effect matrices should be supplied.
+              </p>
+              <div class="note mt-12">
+                建议在正式版本中补充一张输入文件格式示意图，帮助用户快速核对列名、样本顺序与编码规则。
+              </div>
+            </div>
+
+            <div class="doc-subsection" id="quality-control">
+              <h3>Quality Control</h3>
+              <p>
+                A practical tutorial should also list the recommended quality-control thresholds, such as minor allele frequency, marker missingness,
+                sample missingness and trait preprocessing conventions.
+              </p>
+            </div>
+          </section>
+
+          <section class="tutorial-block" id="association-analysis" data-section-title="Association Analysis">
+            <div class="doc-kicker">Section 3</div>
+            <h2>Association Analysis</h2>
+            <p class="tutorial-lead">
+              This part explains how to configure model runs, specify correction terms and interpret major outputs from the association step.
+            </p>
+
+            <div class="doc-subsection" id="basic-workflow">
+              <h3>Basic Workflow</h3>
+              <p>Below is a placeholder command example. Replace it with the real executable name and argument design of the C++ release:</p>
+              <div class="code"><pre><code>./mvp --geno genotype.bin \
+      --pheno phenotype.txt \
+      --covar covariate.txt \
+      --out results/example_run</code></pre></div>
+            </div>
+
+            <div class="doc-subsection" id="model-options">
+              <h3>Model Options</h3>
+              <p>
+                Add a concise table or bullet list describing supported GWAS models, parameter meanings and default settings.
+                This is usually one of the most important sections for end users.
+              </p>
+              <ul class="text-list">
+                <li>Association model selection</li>
+                <li>Covariate correction settings</li>
+                <li>Parallel execution controls</li>
+                <li>Output prefix and result directory structure</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="parallel-execution">
+              <h3>Parallel Execution</h3>
+              <p>
+                Since MVP emphasizes parallel acceleration, this subsection can explain CPU thread usage, server deployment recommendations
+                and how runtime performance scales with marker count, sample size and available memory.
+              </p>
+            </div>
+          </section>
+
+          <section class="tutorial-block" id="visualization-output" data-section-title="Visualization & Output">
+            <div class="doc-kicker">Section 4</div>
+            <h2>Visualization & Output</h2>
+            <p class="tutorial-lead">
+              One of the signature strengths inherited from rMVP is the emphasis on high-quality GWAS visualization and interpretable output.
+            </p>
+
+            <div class="doc-subsection" id="manhattan-plot">
+              <h3>Manhattan Plot</h3>
+              <p>
+                Document how MVP exports association summary statistics and how users can generate or customize Manhattan plots for publication-grade output.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="qq-plot">
+              <h3>Q-Q Plot</h3>
+              <p>
+                Explain the expected input for Q-Q plotting, genomic inflation interpretation and how to compare corrected versus uncorrected results.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="pca-visualization">
+              <h3>PCA Visualization</h3>
+              <p>
+                If MVP includes PCA-related utilities or integrates with downstream plotting, this subsection should illustrate recommended use cases
+                for population structure inspection and sample-level diagnostics.
+              </p>
+            </div>
+          </section>
+
+          <section class="tutorial-block" id="faq-support" data-section-title="FAQ & Support">
+            <div class="doc-kicker">Section 5</div>
+            <h2>FAQ & Support</h2>
+            <p class="tutorial-lead">
+              The final section collects troubleshooting guidance and user support links.
+            </p>
+
+            <div class="doc-subsection" id="common-errors">
+              <h3>Common Errors</h3>
+              <p>
+                Summarize typical failure cases such as build errors, malformed input, inconsistent sample order or unsupported platform-specific dependencies.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="versioning-updates">
+              <h3>Versioning and Updates</h3>
+              <p>
+                Explain where users should check release notes, API changes, parameter updates and compatibility notices between rMVP and the new C++ version.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="issue-reporting">
+              <h3>Issue Reporting</h3>
+              <p>
+                For bugs and feature requests, direct users to
+                <a href="https://github.com/mvp-cpp/mvp/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>.
+                You can also add a project contact email here for academic or collaboration inquiries.
+              </p>
+            </div>
+          </section>
+        </article>
+
+        <aside class="tutorial-sidebar tutorial-sidebar-right panel">
+          <div class="tutorial-sidebar-inner">
+            <div class="toc-heading">二级目录</div>
+            <div class="toc-section-label" id="secondaryLabel">Getting Started</div>
+            <nav class="toc-nav toc-nav-secondary" id="secondaryToc"></nav>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-wrap">
+      <div>© 2026 MVP Project. Maintained by mvp-cpp.</div>
+      <div><a href="https://github.com/mvp-cpp/mvp/issues" target="_blank" rel="noopener noreferrer">Report an issue</a></div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const primaryLinks = Array.from(document.querySelectorAll('.toc-link-primary'));
+      const sections = primaryLinks
+        .map(link => document.getElementById(link.dataset.target))
+        .filter(Boolean);
+
+      const secondaryToc = document.getElementById('secondaryToc');
+      const secondaryLabel = document.getElementById('secondaryLabel');
+
+      function buildSecondary(section) {
+        const title = section.dataset.sectionTitle || section.querySelector('h2')?.textContent || '';
+        const subs = Array.from(section.querySelectorAll('.doc-subsection h3'));
+
+        secondaryLabel.textContent = title;
+        secondaryToc.innerHTML = '';
+
+        subs.forEach((heading, index) => {
+          if (!heading.id) {
+            heading.id = `${section.id}-sub-${index + 1}`;
+          }
+          const a = document.createElement('a');
+          a.href = `#${heading.id}`;
+          a.className = 'toc-link toc-link-secondary';
+          a.dataset.target = heading.id;
+          a.textContent = heading.textContent;
+          secondaryToc.appendChild(a);
+        });
+
+        syncSecondaryActive();
+      }
+
+      function setActivePrimary(sectionId) {
+        primaryLinks.forEach(link => {
+          link.classList.toggle('active', link.dataset.target === sectionId);
+        });
+      }
+
+      function syncSecondaryActive() {
+        const secondaryLinks = Array.from(document.querySelectorAll('.toc-link-secondary'));
+        const headings = secondaryLinks
+          .map(link => document.getElementById(link.dataset.target))
+          .filter(Boolean);
+
+        let activeHeadingId = headings[0]?.id || null;
+        const threshold = window.innerHeight * 0.22;
+
+        headings.forEach(heading => {
+          const rect = heading.getBoundingClientRect();
+          if (rect.top <= threshold) {
+            activeHeadingId = heading.id;
+          }
+        });
+
+        secondaryLinks.forEach(link => {
+          link.classList.toggle('active', link.dataset.target === activeHeadingId);
+        });
+      }
+
+      function findActiveSection() {
+        let activeSection = sections[0];
+        const threshold = window.innerHeight * 0.22;
+
+        sections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= threshold) {
+            activeSection = section;
+          }
+        });
+        return activeSection;
+      }
+
+      let currentSectionId = sections[0]?.id || null;
+      if (sections[0]) {
+        buildSecondary(sections[0]);
+        setActivePrimary(sections[0].id);
+      }
+
+      function onScroll() {
+        const activeSection = findActiveSection();
+        if (!activeSection) return;
+
+        if (activeSection.id !== currentSectionId) {
+          currentSectionId = activeSection.id;
+          buildSecondary(activeSection);
+          setActivePrimary(activeSection.id);
+        }
+        syncSecondaryActive();
+      }
+
+      document.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', function () {
+          requestAnimationFrame(() => {
+            setTimeout(onScroll, 120);
+          });
+        });
+      });
+
+      onScroll();
+    })();
+  </script>
+</body>
+</html>

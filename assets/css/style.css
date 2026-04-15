@@ -180,3 +180,122 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   .nav-wrap{padding:14px 0;flex-direction:column;align-items:flex-start}
   .hero{padding-top:44px}
 }
+
+/* tutorial document layout */
+.tutorial-layout{
+  display:grid;
+  grid-template-columns:220px minmax(0, 1fr) 220px;
+  gap:22px;
+  align-items:start;
+}
+.tutorial-sidebar{
+  padding:0;
+  position:sticky;
+  top:98px;
+  max-height:calc(100vh - 118px);
+  overflow:auto;
+}
+.tutorial-sidebar-inner{
+  padding:22px 18px;
+}
+.tutorial-content{
+  min-width:0;
+  padding:30px 34px;
+}
+.toc-heading{
+  font-size:.82rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-weight:800;
+  color:#8fc3ff;
+  margin-bottom:10px;
+}
+.toc-section-label{
+  font-size:.96rem;
+  font-weight:700;
+  color:#dce9ff;
+  margin-bottom:12px;
+  line-height:1.45;
+}
+.toc-nav{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.toc-link{
+  display:block;
+  padding:9px 12px;
+  border-radius:12px;
+  color:var(--muted);
+  border:1px solid transparent;
+  transition:.18s ease;
+  line-height:1.4;
+}
+.toc-link:hover{
+  text-decoration:none;
+  color:#eef6ff;
+  background:rgba(255,255,255,.05);
+  border-color:rgba(255,255,255,.08);
+}
+.toc-link.active{
+  color:#ffffff;
+  background:linear-gradient(135deg, rgba(105,183,255,.18), rgba(76,224,210,.10));
+  border-color:rgba(139,200,255,.22);
+}
+.toc-link-primary{
+  font-weight:700;
+}
+.toc-link-secondary{
+  font-size:.95rem;
+  padding-left:14px;
+}
+.tutorial-block + .tutorial-block{
+  margin-top:48px;
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.tutorial-block h2{
+  margin:8px 0 10px;
+  font-size:2rem;
+}
+.tutorial-lead{
+  color:var(--muted);
+  font-size:1.03rem;
+  margin:0 0 20px;
+}
+.doc-kicker{
+  color:#7ec0ff;
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-weight:800;
+}
+.doc-subsection{
+  scroll-margin-top:110px;
+  margin-top:24px;
+}
+.doc-subsection h3{
+  scroll-margin-top:110px;
+  margin-bottom:10px;
+  font-size:1.22rem;
+}
+@media (max-width:1180px){
+  .tutorial-layout{
+    grid-template-columns:210px minmax(0, 1fr);
+  }
+  .tutorial-sidebar-right{
+    display:none;
+  }
+}
+@media (max-width:860px){
+  .tutorial-layout{
+    grid-template-columns:1fr;
+  }
+  .tutorial-sidebar{
+    position:static;
+    max-height:none;
+  }
+  .tutorial-content{
+    padding:24px 20px;
+  }
+}
