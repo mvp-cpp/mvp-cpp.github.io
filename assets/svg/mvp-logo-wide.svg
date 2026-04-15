@@ -1,0 +1,40 @@
+<svg width="720" height="220" viewBox="0 0 720 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mvpl" x1="110" y1="40" x2="615" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7CC8FF"/>
+      <stop offset="0.52" stop-color="#58A7FF"/>
+      <stop offset="1" stop-color="#FFBE76"/>
+    </linearGradient>
+    <linearGradient id="helix1" x1="40" y1="120" x2="680" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB26B"/>
+      <stop offset="1" stop-color="#67B6FF"/>
+    </linearGradient>
+    <linearGradient id="helix2" x1="40" y1="120" x2="680" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#67B6FF"/>
+      <stop offset="1" stop-color="#FF9E73"/>
+    </linearGradient>
+    <filter id="glow" x="-50" y="-50" width="820" height="320" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="720" height="220" rx="28" fill="#081425"/>
+  <g filter="url(#glow)">
+    <path d="M52 164C120 164 138 64 214 64C290 64 312 164 392 164C472 164 492 64 566 64C620 64 649 120 668 144" stroke="url(#helix1)" stroke-width="18" stroke-linecap="round"/>
+    <path d="M52 76C122 76 140 176 214 176C288 176 314 76 392 76C470 76 494 176 566 176C620 176 649 120 668 96" stroke="url(#helix2)" stroke-width="18" stroke-linecap="round"/>
+    <g stroke="#FFD5A1" stroke-width="11" stroke-linecap="round" opacity="0.95">
+      <line x1="102" y1="98" x2="102" y2="142"/>
+      <line x1="156" y1="83" x2="156" y2="157"/>
+      <line x1="213" y1="74" x2="213" y2="166"/>
+      <line x1="272" y1="86" x2="272" y2="154"/>
+      <line x1="332" y1="100" x2="332" y2="140"/>
+      <line x1="392" y1="101" x2="392" y2="139"/>
+      <line x1="452" y1="87" x2="452" y2="153"/>
+      <line x1="510" y1="75" x2="510" y2="165"/>
+      <line x1="569" y1="83" x2="569" y2="157"/>
+      <line x1="622" y1="99" x2="622" y2="141"/>
+    </g>
+  </g>
+  <text x="82" y="94" fill="url(#mvpl)" font-size="92" font-family="Georgia, Times, serif" font-weight="700" letter-spacing="6">MVP</text>
+  <text x="86" y="202" fill="#9FB7D9" font-size="18" font-family="Inter, Arial, sans-serif" letter-spacing="1.8">Memory-efficient • Visualization-enhanced • Parallel-accelerated</text>
+</svg>

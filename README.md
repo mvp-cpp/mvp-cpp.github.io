@@ -1,19 +1,17 @@
 # mvp-cpp.github.io
 
-GitHub Pages site for MVP.
+Official GitHub Pages site for MVP.
 
-## URL structure
+## Routes
 
 - `https://mvp-cpp.github.io/home/`
 - `https://mvp-cpp.github.io/download/`
 - `https://mvp-cpp.github.io/tutorial/`
 - `https://mvp-cpp.github.io/contact/`
 
-## Deploy
+The root path redirects to `/home/`.
 
-1. Push this repository to `mvp-cpp.github.io`
-2. Go to **Settings → Pages**
-3. Set **Source** to `Deploy from a branch`
-4. Select branch `main` and folder `/ (root)`
+## Notes
 
-The root `index.html` redirects to `/home/`.
+- This version includes a redesigned homepage, a custom SVG logo, and local screenshots inspired by the legacy rMVP site.
+- Update the placeholder contact email before publishing.
