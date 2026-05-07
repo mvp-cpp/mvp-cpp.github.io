@@ -1,9 +1,102 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>MVP | Download</title><meta name="description" content="Download MVP from GitHub Releases or build it from source." /><link rel="stylesheet" href="/assets/css/style.css" /></head><body><header class="site-header"><div class="container nav-wrap"><a class="brand brand-text-only" href="/home/">
-        <div>
-          <strong>MVP</strong>
-        </div>
-      </a><nav class="site-nav"><a href="/home/">Home</a><a href="/download/" class="active">Download</a><a href="/tutorial/">Tutorial</a><a href="/contact/">Contact Us</a></nav></div></header><main class="section"><div class="narrow"><div class="section-title"><h2>Download MVP</h2><p>Choose a release package or build from source.</p></div><div class="grid grid-2"><div class="panel card"><div class="kicker">Recommended</div><h3>Stable releases</h3><p>Download packaged releases, review change logs, and pick the version appropriate for your environment.</p><a class="btn btn-primary" href="https://github.com/mvp-cpp/mvp/releases" target="_blank" rel="noopener noreferrer">Open Releases</a></div><div class="panel card"><div class="kicker">Developers</div><h3>Source code</h3><p>Clone the C++ repository for local compilation, debugging and integration into high-performance workflows.</p><a class="btn btn-secondary" href="https://github.com/mvp-cpp/mvp" target="_blank" rel="noopener noreferrer">Open repository</a></div></div><div class="panel card mt-20"><h3>Git clone</h3><div class="code"><pre><code>git clone https://github.com/mvp-cpp/mvp.git
-cd mvp</code></pre></div></div><div class="panel card mt-20"><h3>What to publish in each release</h3><ul class="text-list"><li>Source package or tagged source snapshot</li><li>Platform-specific binaries if you plan to distribute them</li><li>Release notes and compatibility notes</li><li>Benchmark summaries and installation updates</li></ul></div></div></main><footer class="footer footer-site">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVP | Download</title>
+  <meta name="description" content="Download MVP releases, clone the source repository, and review basic build requirements." />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand brand-text-only" href="/home/">
+      <div>
+        <strong>MVP</strong>
+      </div>
+    </a>
+    <nav class="site-nav">
+      <a href="/home/">Home</a>
+      <a href="/download/" class="active">Download</a>
+      <a href="/tutorial/">Tutorial</a>
+      <a href="/contact/">Contact Us</a>
+    </nav>
+  </div>
+</header>
+
+<main class="section">
+  <div class="narrow">
+    <div class="section-title">
+      <h2>Download MVP</h2>
+      <p>Get the latest release, clone the source tree, and prepare a local build environment.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="panel card">
+        <div class="kicker">Recommended</div>
+        <h3>Stable releases</h3>
+        <p>Download packaged releases, review release notes, and choose the version that matches your environment and deployment plan.</p>
+        <a class="btn btn-primary" href="https://github.com/hyacz/himvp/releases" target="_blank" rel="noopener noreferrer">Open Releases</a>
+      </div>
+
+      <div class="panel card">
+        <div class="kicker">Developers</div>
+        <h3>Source repository</h3>
+        <p>Clone the active C++ repository for local compilation, debugging, benchmarking and source-level inspection.</p>
+        <a class="btn btn-secondary" href="https://github.com/hyacz/himvp" target="_blank" rel="noopener noreferrer">Open Repository</a>
+      </div>
+    </div>
+
+    <div class="panel card mt-20">
+      <h3>Get the source</h3>
+      <div class="code"><pre><code>git clone https://github.com/hyacz/himvp.git
+cd himvp</code></pre></div>
+      <p class="mt-12">Use the Tutorial page for command-level guidance after cloning or downloading a release package.</p>
+    </div>
+
+    <div class="grid grid-2 mt-20">
+      <div class="panel card">
+        <h3>Build requirements</h3>
+        <ul class="text-list">
+          <li>C++17-compatible compiler</li>
+          <li>CMake environment for source builds</li>
+          <li>Enough CPU, memory and storage for target GWAS workloads</li>
+          <li>Optional CUDA environment when GPU-enabled builds are needed</li>
+        </ul>
+      </div>
+
+      <div class="panel card">
+        <h3>Release notes and version tracking</h3>
+        <ul class="text-list">
+          <li>Check tagged releases before updating production workflows.</li>
+          <li>Keep the exact release tag or commit hash in benchmark and manuscript records.</li>
+          <li>Review compatibility notes when build options or CLI behavior change.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel card mt-20">
+      <h3>Basic source build</h3>
+      <div class="code"><pre><code>mkdir -p build
+cd build
+cmake ..
+cmake --build . -j</code></pre></div>
+      <p class="mt-12">Detailed module options, runtime commands and input-file requirements are documented in <a href="/tutorial/">Tutorial</a>.</p>
+    </div>
+
+    <div class="panel card mt-20">
+      <h3>What to publish in each release</h3>
+      <ul class="text-list">
+        <li>Tagged source snapshot or source package</li>
+        <li>Platform-specific binaries when they are officially supported</li>
+        <li>Release notes, installation updates and compatibility notes</li>
+        <li>Optional benchmark summaries or performance comparison notes</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<footer class="footer footer-site">
   <div class="container footer-site-grid">
     <section class="footer-site-col">
       <div class="footer-site-heading">Sitemap</div>
@@ -35,5 +128,8 @@ cd mvp</code></pre></div></div><div class="panel card mt-20"><h3>What to publish
       </div>
     </section>
   </div>
-</footer><script src="/assets/js/site.js"></script>
-</body></html>
+</footer>
+
+<script src="/assets/js/site.js"></script>
+</body>
+</html>

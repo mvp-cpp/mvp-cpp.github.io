@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MVP | Home</title>
-  <meta name="description" content="MVP 是一个面向 Genome-Wide Association Study 的高性能 C++ 工具，承接 rMVP 的核心理念，并以更现代的工程实现重构。" />
+  <meta name="description" content="MVP is a modern C++ toolkit for scalable GWAS, structure analysis and publication-ready genomic reporting." />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -29,14 +29,14 @@
     <div class="container hero-grid">
       <div>
         <h1><span class="highlight">MVP</span></h1> 
-        <h2>A memory-efficient, visualization-enhanced, and parallel-accelerated tool for Genome-Wide Association Study.</h2>
+        <h2>A modern C++ toolkit for scalable GWAS, structure analysis and publication-ready genomic reporting.</h2>
         <p>
-          MVP is the C++ reimplementation of the original rMVP project. It keeps the core philosophy of handling large-scale GWAS efficiently,
-          while moving toward a more performant, portable, and engineering-oriented software architecture for next-generation genomic analyses.
+          MVP carries forward the core philosophy of rMVP while rebuilding the workflow in C++ for better portability, cleaner engineering and a more practical path from raw genotype input to association results, structure analysis and figures.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="/download/">Get MVP</a>
-          <a class="btn btn-secondary" href="/tutorial/">Explore tutorial</a>
+          <a class="btn btn-secondary" href="#quick-start">Quick Start</a>
+          <a class="btn btn-secondary" href="https://github.com/hyacz/himvp" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
         <div class="chip-row">
           <div class="chip">Memory-efficient</div>
@@ -47,12 +47,16 @@
       </div>
 
       <div class="panel hero-visual">
-        <img class="hero-logo" src="/assets/svg/mvp-logo-wide.svg" alt="MVP wordmark" />
-        <img src="/assets/svg/hero-illustration.svg" alt="Stylized GWAS interface illustration" />
+        <div class="hero-logo-band">
+          <img class="hero-logo" src="/assets/svg/mvp-logo-wide.svg" alt="MVP wordmark" />
+        </div>
+        <div class="hero-dashboard-frame" aria-label="GWAS dashboard illustration with Manhattan, Q-Q and circular genomic plot visuals">
+          <img class="hero-dashboard" src="/assets/img/hero-gwas-dashboard-v2.png" alt="" />
+        </div>
         <div class="hero-stats">
-          <div class="stat"><strong>GWAS</strong><span>GLM, MLM, FarmCPU and visualization workflows</span></div>
-          <div class="stat"><strong>C++</strong><span>Reengineered for speed, portability and future extensibility</span></div>
-          <div class="stat"><strong>Plots</strong><span>Manhattan, QQ, PCA and report-ready figures</span></div>
+          <div class="stat"><strong>GWAS</strong><span>GLM, MLM and high-throughput association workflows for large cohorts</span></div>
+          <div class="stat"><strong>C++</strong><span>Reengineered for portability, performance and long-term extensibility</span></div>
+          <div class="stat"><strong>Plots</strong><span>Manhattan, Q-Q, PCA and result views prepared for interpretation</span></div>
         </div>
         <div class="small-note">Designed for researchers who need scalable association analysis and publication-ready outputs in one workflow.</div>
       </div>
@@ -62,21 +66,142 @@
   <section class="section">
     <div class="container">
       <div class="section-title">
-        <h2>Why MVP</h2>
-        <p>From the original rMVP philosophy to a cleaner, faster and more extensible C++ release.</p>
+        <h2>What MVP Can Do</h2>
+        <p>A complete C++ workflow for genotype input, association modeling, population-aware analysis and publication-ready reporting.</p>
       </div>
-      <div class="grid grid-3">
-        <div class="panel card">
-          <h3>Memory-efficient</h3>
-          <p>Built for large marker matrices and population-scale studies, with an architecture that emphasizes practical efficiency in high-throughput GWAS pipelines.</p>
+      <div class="capability-layout">
+        <div class="capability-grid">
+          <div class="panel capability-item">
+            <div class="kicker">Association</div>
+            <h3>Run scalable GWAS</h3>
+            <p>Analyze single or multiple traits with GLM and MLM workflows built for large genotype cohorts.</p>
+            <div class="capability-tags">
+              <span>GLM</span>
+              <span>MLM</span>
+              <span>Multi-trait</span>
+            </div>
+          </div>
+          <div class="panel capability-item">
+            <div class="kicker">Structure</div>
+            <h3>Control population structure</h3>
+            <p>Use PCA, GRM and clustering outputs to inspect relatedness, subgroup patterns and model inflation.</p>
+            <div class="capability-tags">
+              <span>PCA</span>
+              <span>GRM</span>
+              <span>Clustering</span>
+            </div>
+          </div>
+          <div class="panel capability-item">
+            <div class="kicker">Integration</div>
+            <h3>Integrate complex cohorts</h3>
+            <p>Combine subgroup or cohort-level evidence with UCALM and meta-analysis workflows for heterogeneous populations.</p>
+            <div class="capability-tags">
+              <span>UCALM</span>
+              <span>Meta-analysis</span>
+              <span>Subgroup GWAS</span>
+            </div>
+          </div>
+          <div class="panel capability-item">
+            <div class="kicker">Reporting</div>
+            <h3>Produce interpretable results</h3>
+            <p>Generate association tables and visual summaries such as Manhattan, Q-Q, PCA, density and circular views.</p>
+            <div class="capability-tags">
+              <span>Manhattan</span>
+              <span>Q-Q</span>
+              <span>PCA plots</span>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="quick-start">
+    <div class="container">
+      <div class="section-title">
+        <h2>Quick Start</h2>
+        <p>The shortest path from repository clone to local build and a first analysis command.</p>
+      </div>
+      <div class="split">
         <div class="panel card">
-          <h3>Visualization-enhanced</h3>
-          <p>Integrates analysis with visual reporting, making it straightforward to inspect phenotype distributions, PCA structure, Manhattan peaks and Q-Q deviations.</p>
+          <div class="kicker">Quick Start</div>
+          <h3>Build locally and connect the docs to current source behavior</h3>
+          <p>
+            The website is maintained in the Pages repository, but the software source of truth lives in
+            <a href="https://github.com/hyacz/himvp" target="_blank" rel="noopener noreferrer">hyacz/himvp</a>.
+            Clone the source, build it locally and use the Tutorial page for input requirements, workflow recipes and output interpretation.
+          </p>
+          <ul class="text-list">
+            <li>Clone the current source repository from GitHub.</li>
+            <li>Build <code>himvp</code> in your local environment.</li>
+            <li>Prepare phenotype, genotype and covariate inputs.</li>
+            <li>Run GWAS, inspect PCA or continue into meta-analysis.</li>
+          </ul>
         </div>
-        <div class="panel card">
-          <h3>Parallel-accelerated</h3>
-          <p>Designed with modern compute in mind, so the C++ implementation can better exploit multicore and performance-oriented workflows across platforms.</p>
+        <div class="code">
+<pre><code>git clone https://github.com/hyacz/himvp.git
+cd himvp
+
+cmake -S . -B build
+cmake --build build -j
+
+./build/himvp --help</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Workflow</h2>
+        <p>A compact view of how MVP fits into a practical genomic analysis pipeline.</p>
+      </div>
+      <div class="metric-strip">
+        <div class="metric">
+          <strong>1. Prepare input</strong>
+          <span>Load phenotype, covariate and genotype files from PLINK 1 or PLINK 2 style datasets.</span>
+        </div>
+        <div class="metric">
+          <strong>2. Run analysis</strong>
+          <span>Launch GLM or MLM depending on study design, population structure and model needs.</span>
+        </div>
+        <div class="metric">
+          <strong>3. Inspect structure</strong>
+          <span>Review PCA, GRM and clustering outputs to understand the genetic background of the cohort.</span>
+        </div>
+        <div class="metric">
+          <strong>4. Export figures</strong>
+          <span>Summarize with Manhattan, Q-Q and downstream reporting assets for interpretation and publication.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Visualization Showcase</h2>
+        <p>Representative result views already used throughout GWAS interpretation and reporting.</p>
+      </div>
+      <div class="grid grid-3 showcase-grid">
+        <div class="panel image-card">
+          <div class="showcase-image-frame">
+            <img src="/assets/img/manhattan.jpg" alt="Example Manhattan plot output" />
+          </div>
+          <div class="image-caption">Manhattan plot views highlight association peaks across the genome and help prioritize candidate regions.</div>
+        </div>
+        <div class="panel image-card">
+          <div class="showcase-image-frame showcase-image-frame-square">
+            <img src="/assets/img/qqplot.jpg" alt="Example Q-Q plot output" />
+          </div>
+          <div class="image-caption">Q-Q plot summaries help separate genomic signal from inflation and provide a fast quality check of association results.</div>
+        </div>
+        <div class="panel image-card">
+          <div class="showcase-image-frame">
+            <img src="/assets/img/pca.jpg" alt="Example PCA visualization output" />
+          </div>
+          <div class="image-caption">PCA visualization makes cohort structure, subgroup patterns and potential outliers easier to inspect.</div>
         </div>
       </div>
     </div>

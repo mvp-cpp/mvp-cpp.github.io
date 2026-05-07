@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MVP | Tutorial</title>
-  <meta name="description" content="MVP tutorial, installation notes, build instructions and usage examples." />
+  <meta name="description" content="MVP tutorial covering input file formats, GLM, MLM, PCA, GRM, clustering, meta-analysis, UCALM, visualization and troubleshooting." />
   <link rel="stylesheet" href="/assets/css/style.css" />
 
   <style>
@@ -72,6 +72,36 @@
     }
     .doc-subsection{scroll-margin-top:110px; margin-top:24px}
     .doc-subsection h3{scroll-margin-top:110px; margin-bottom:10px; font-size:1.22rem}
+    .tutorial-note{
+      margin:14px 0 0;
+      padding:14px 16px;
+      border:1px solid rgba(126,192,255,.24);
+      border-radius:14px;
+      background:rgba(105,183,255,.08);
+      color:var(--muted,#9fb5d6);
+    }
+    .tutorial-note strong{color:var(--text,#eef6ff)}
+    .table-wrap{overflow-x:auto; margin-top:14px}
+    .tutorial-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:.94rem;
+      line-height:1.5;
+      color:var(--muted,#9fb5d6);
+    }
+    .tutorial-table th,
+    .tutorial-table td{
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.10);
+      text-align:left;
+      vertical-align:top;
+    }
+    .tutorial-table th{
+      color:var(--text,#eef6ff);
+      background:rgba(255,255,255,.05);
+      font-weight:800;
+    }
+    .tutorial-table code{white-space:nowrap}
     @media (max-width:1180px){
       .tutorial-layout{grid-template-columns:210px minmax(0, 1fr)}
       .tutorial-sidebar-right{display:none}
@@ -96,6 +126,19 @@
       }
       .tutorial-block + .tutorial-block{
         border-top:1px solid rgba(20,50,90,.08);
+      }
+      .tutorial-note{
+        background:rgba(30,100,216,.06);
+        border-color:rgba(30,100,216,.14);
+      }
+      .tutorial-note strong{color:#143250}
+      .tutorial-table th,
+      .tutorial-table td{
+        border-color:rgba(20,50,90,.12);
+      }
+      .tutorial-table th{
+        color:#143250;
+        background:rgba(30,100,216,.06);
       }
     }
   </style>
@@ -122,7 +165,7 @@
     <div class="container">
       <div class="section-title">
         <h2>Tutorial</h2>
-        <p>Structured documentation with synchronized navigation for installation, workflow and visualization.</p>
+        <p>Practical command-line guide for MVP input formats, analysis workflows, meta-analysis, UCALM and visualization.</p>
       </div>
 
       <div class="tutorial-layout">
@@ -130,194 +173,1097 @@
           <div class="tutorial-sidebar-inner">
             <!-- <div class="toc-heading">一级目录</div> -->
             <nav class="toc-nav toc-nav-primary" id="primaryToc">
-              <a href="#getting-started" class="toc-link toc-link-primary active" data-target="getting-started">Getting Started</a>
-              <a href="#input-data" class="toc-link toc-link-primary" data-target="input-data">Input Data</a>
-              <a href="#association-analysis" class="toc-link toc-link-primary" data-target="association-analysis">Association Analysis</a>
-              <a href="#visualization-output" class="toc-link toc-link-primary" data-target="visualization-output">Visualization & Output</a>
-              <a href="#faq-support" class="toc-link toc-link-primary" data-target="faq-support">FAQ & Support</a>
+              <a href="#introduction" class="toc-link toc-link-primary active" data-target="introduction">Introduction</a>
+              <a href="#input-file-formats" class="toc-link toc-link-primary" data-target="input-file-formats">Input File Formats</a>
+              <a href="#running-mvp" class="toc-link toc-link-primary" data-target="running-mvp">Running MVP</a>
+              <a href="#meta-analysis" class="toc-link toc-link-primary" data-target="meta-analysis">Meta-analysis</a>
+              <a href="#ucalm" class="toc-link toc-link-primary" data-target="ucalm">UCALM</a>
+              <a href="#output-visualization-faq" class="toc-link toc-link-primary" data-target="output-visualization-faq">Output, Visualization &amp; FAQ</a>
             </nav>
           </div>
         </aside>
 
         <article class="tutorial-content panel" id="tutorialContent">
-          <section class="tutorial-block" id="getting-started" data-section-title="Getting Started">
+          <section class="tutorial-block" id="introduction" data-section-title="Introduction">
             <div class="doc-kicker">Section 1</div>
-            <h2>Getting Started</h2>
+            <h2>Introduction</h2>
             <p class="tutorial-lead">
-              MVP is the modern C++ reimplementation of the rMVP workflow for large-scale GWAS analysis.
-              This guide starts from installation and then walks through data preparation, model execution and downstream visualization.
+              MVP is a memory-efficient, visualization-enhanced and parallel-accelerated command-line tool for genome-wide association study.
+              This tutorial follows the style of a practical software manual: prepare input files, select an analysis mode, run MVP, then inspect outputs.
             </p>
 
-            <div class="doc-subsection" id="overview">
-              <h3>Overview</h3>
+            <div class="doc-subsection" id="what-is-mvp">
+              <h3>What is MVP</h3>
               <p>
-                The new MVP keeps the core spirit of <strong>Memory-efficient, Visualization-enhanced, and Parallel-accelerated</strong>,
-                while moving the implementation to C++ for stronger engineering scalability and better control of computational performance.
+                MVP is implemented in C++17 for scalable GWAS workflows. It is designed as a command-line program: each run starts from one
+                major function flag, reads well-defined input files, and writes analysis tables or plots under the output prefix. The same
+                phenotype and genotype files can be reused across GLM, MLM, PCA, GRM construction and downstream population-aware workflows.
               </p>
               <ul class="text-list">
-                <li>Built for genome-wide association analysis on large cohorts</li>
-                <li>Designed for memory efficiency and multicore execution</li>
-                <li>Organized as a command-line workflow suitable for servers and reproducible pipelines</li>
+                <li><code>--glm</code>: General Linear Model.</li>
+                <li><code>--mlm</code>: Mixed Linear Model.</li>
+                <li><code>--pca</code>: Principal component analysis.</li>
+                <li><code>--make-grm</code>: Genomic relationship matrix construction.</li>
+                <li><code>--cluster</code> or <code>--auto-cluster</code>: Unsupervised adaptive population clustering.</li>
+                <li><code>--ucalm</code>: Unsupervised adaptive Clustering-based Association and Layered Meta integration.</li>
+                <li><code>--meta</code>: Meta-analysis for multiple GWAS summary statistics files.</li>
+                <li><code>--plot</code> and <code>--plot-only</code>: Visualization after analysis or from existing results.</li>
               </ul>
+              <p class="tutorial-note">
+                <strong>Typical workflow.</strong> Prepare phenotype and genotype files, run PCA or GRM if needed, select GLM or MLM for
+                association analysis, then use plotting or meta-analysis commands to summarize the results.
+              </p>
             </div>
 
-            <div class="doc-subsection" id="installation">
-              <h3>Installation</h3>
-              <p>Build MVP from source with CMake:</p>
-              <div class="code"><pre><code>git clone https://github.com/mvp-cpp/mvp.git
-cd mvp
-mkdir build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-cmake --build . -j</code></pre></div>
+            <div class="doc-subsection" id="main-features">
+              <h3>Main Features</h3>
+              <ul class="text-list">
+                <li>MVP accepts PLINK 1 binary genotype prefixes with <code>--bfile</code> and PLINK 2 PGEN prefixes with <code>--pfile</code>.</li>
+                <li>Multi-trait phenotype analysis with comma-separated phenotype columns.</li>
+                <li>CPU execution by default, optional CUDA acceleration for supported builds.</li>
+                <li>Automatic plot generation for association and PCA outputs when plotting is enabled.</li>
+                <li>Optional compile-time modules for clustering, meta-analysis and plotting.</li>
+              </ul>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Feature</th><th>What it is used for</th><th>Main options</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Association scan</td><td>Single-trait or multi-trait GWAS with additive or dominant effects.</td><td><code>--glm</code>, <code>--mlm</code>, <code>--add</code>, <code>--dom</code></td></tr>
+                    <tr><td>Population structure</td><td>PCA correction, clustering, subgroup GWAS and meta-analysis.</td><td><code>--npc</code>, <code>--cluster</code>, <code>--pop-class</code></td></tr>
+                    <tr><td>Relationship matrix</td><td>GRM construction for MLM and PCA from relationship matrix.</td><td><code>--make-grm</code>, <code>--grm</code>, <code>--grm-method</code></td></tr>
+                    <tr><td>Visualization</td><td>Generate Manhattan, Q-Q, PCA and density-style plots from analysis outputs.</td><td><code>--plot</code>, <code>--plot-only</code>, <code>--plot-theme</code></td></tr>
+                    <tr><td>Performance</td><td>Threaded CPU execution, optional CUDA execution and benchmark reports.</td><td><code>--threads</code>, <code>--device</code>, <code>--benchmark</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="doc-subsection" id="command-structure">
+              <h3>Command Structure</h3>
+              <p>
+                MVP uses one main function flag followed by input, model, runtime and output options. In most cases, use only one function
+                flag in a command. For example, do not run <code>--pca</code> and <code>--make-grm</code> in the same command.
+              </p>
+              <div class="code"><pre><code>mvp [Function] [Option]</code></pre></div>
+              <p class="mt-12">For example:</p>
+              <div class="code"><pre><code>mvp --glm --bfile data/geno --pheno data/pheno.txt --out result/glm</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Option group</th><th>Examples</th><th>Notes</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Function</td><td><code>--glm</code>, <code>--mlm</code>, <code>--pca</code>, <code>--meta</code></td><td>Selects the major analysis mode.</td></tr>
+                    <tr><td>Input</td><td><code>--pheno</code>, <code>--bfile</code>, <code>--pfile</code>, <code>--grm</code></td><td>Points to phenotype, genotype, GRM or summary files.</td></tr>
+                    <tr><td>Model</td><td><code>--pheno-pos</code>, <code>--dcovar</code>, <code>--qcovar</code>, <code>--maf</code></td><td>Defines trait columns, covariates and filtering.</td></tr>
+                    <tr><td>Runtime</td><td><code>--threads</code>, <code>--device</code>, <code>--step</code></td><td>Controls CPU/GPU resources and block size.</td></tr>
+                    <tr><td>Output</td><td><code>--out</code>, <code>--plot</code>, <code>--benchmark-out</code></td><td>Controls output prefix, figures and benchmark records.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="doc-subsection" id="check-version-help">
+              <h3>Check Version and Help</h3>
+              <div class="code"><pre><code>mvp --version
+mvp --help</code></pre></div>
               <p class="mt-12">
-                If your server uses custom BLAS, LAPACK or OpenMP backends, you can extend the build options here with environment-specific flags.
+                Use <code>--help</code> before starting a new analysis to confirm which optional modules are available in your build. If a flag
+                shown in this tutorial is missing from the help message, rebuild MVP with the corresponding module enabled or use a release
+                binary that includes that feature.
               </p>
-            </div>
-
-            <div class="doc-subsection" id="system-requirements">
-              <h3>System Requirements</h3>
-              <ul class="text-list">
-                <li>C++17-compatible compiler</li>
-                <li>CMake 3.16 or later</li>
-                <li>Linux, macOS or Windows development environment</li>
-                <li>Enough memory and CPU threads for the target GWAS scale</li>
-              </ul>
+              <p class="tutorial-note">
+                <strong>Reproducibility tip.</strong> Save the output of <code>mvp --version</code>, the full command line and the input file
+                prefixes together with your result files.
+              </p>
             </div>
           </section>
 
-          <section class="tutorial-block" id="input-data" data-section-title="Input Data">
+          <section class="tutorial-block" id="input-file-formats" data-section-title="Input File Formats">
             <div class="doc-kicker">Section 2</div>
-            <h2>Input Data</h2>
+            <h2>Input File Formats</h2>
             <p class="tutorial-lead">
-              Before running association analysis, prepare genotype, phenotype and covariate inputs in a consistent and documented manner.
+              MVP follows HIBLUP-compatible data organization. Keep individual IDs consistent across phenotype, genotype, PC, GRM and population files.
             </p>
 
-            <div class="doc-subsection" id="genotype-files">
-              <h3>Genotype Files</h3>
+            <div class="doc-subsection" id="phenotype-file">
+              <h3>Phenotype File</h3>
               <p>
-                Organize genotype files in the format supported by your MVP build. For release documentation, this section should clearly state
-                accepted input types, marker coding rules, chromosome conventions and missing-value handling.
+                The phenotype file is a text table with a header. The first column is the individual ID. Missing values should be encoded as
+                <code>NA</code>. Phenotype column positions are 1-indexed.
+              </p>
+              <div class="code"><pre><code>id trait1 trait2 sex year height
+ID001 12.4 8.1 F 2025 168
+ID002 NA 7.6 M 2025 175
+ID003 10.9 8.4 F 2026 162</code></pre></div>
+              <p class="mt-12">
+                Use <code>--pheno-pos</code> to select the analyzed traits. The default is column <code>2</code>.
+              </p>
+              <div class="code"><pre><code>--pheno demo.phe --pheno-pos 2
+--pheno demo.phe --pheno-pos 2,3</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Column</th><th>Meaning</th><th>How MVP uses it</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Column 1</td><td>Individual ID</td><td>Used to match genotype, PC, population and GRM IDs.</td></tr>
+                    <tr><td>Trait columns</td><td>Numeric phenotypes</td><td>Selected by <code>--pheno-pos</code>. Multiple columns can be comma-separated.</td></tr>
+                    <tr><td>Discrete covariates</td><td>Groups such as sex, year or batch</td><td>Selected by <code>--dcovar</code>.</td></tr>
+                    <tr><td>Quantitative covariates</td><td>Continuous variables such as height or age</td><td>Selected by <code>--qcovar</code>.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Column numbering.</strong> MVP follows user-facing 1-based column positions. Because the first column is reserved for
+                IDs, phenotype positions must be larger than 1.
               </p>
             </div>
 
-            <div class="doc-subsection" id="phenotype-covariates">
-              <h3>Phenotype and Covariates</h3>
+            <div class="doc-subsection" id="genotype-files">
+              <h3>Genotype Files: PLINK BED and PLINK2 PGEN</h3>
               <p>
-                Keep phenotype tables and covariate matrices aligned by sample identifier. When population structure or relatedness correction is required,
-                document how principal components, fixed effects and random-effect matrices should be supplied.
+                MVP supports both PLINK 1 binary files and PLINK 2 PGEN files. Provide the file prefix, not the file name with extension.
+                The sample IDs in genotype files should match the IDs in the phenotype file after any keep/remove filters are applied.
               </p>
-              <div class="note mt-12">
-                建议在正式版本中补充一张输入文件格式示意图，帮助用户快速核对列名、样本顺序与编码规则。
+              <div class="code"><pre><code># PLINK 1 binary prefix
+demo.bed
+demo.bim
+demo.fam
+--bfile demo
+
+# PLINK 2 PGEN prefix
+demo.pgen
+demo.pvar
+demo.psam
+--pfile demo</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Input type</th><th>Required files</th><th>MVP option</th><th>Common mistake</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>PLINK 1 binary</td><td><code>.bed</code>, <code>.bim</code>, <code>.fam</code></td><td><code>--bfile demo</code></td><td>Using <code>--bfile demo.bed</code> instead of the prefix.</td></tr>
+                    <tr><td>PLINK 2 PGEN</td><td><code>.pgen</code>, <code>.pvar</code>, <code>.psam</code></td><td><code>--pfile demo</code></td><td>Supplying <code>--bfile</code> and <code>--pfile</code> together.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="doc-subsection" id="covariates-in-phenotype">
+              <h3>Covariates in Phenotype File</h3>
+              <p>
+                MVP reads covariates from the phenotype file by column position. Use <code>--dcovar</code> for discrete covariates and
+                <code>--qcovar</code> for quantitative covariates.
+              </p>
+              <div class="code"><pre><code># column 4 = sex, column 5 = year, column 6 = height
+--dcovar 4,5
+--qcovar 6</code></pre></div>
+              <ul class="text-list">
+                <li>Discrete covariates are converted to model terms suitable for categorical variables.</li>
+                <li>Quantitative covariates are treated as numeric columns and should not contain text labels.</li>
+                <li>Do not include the phenotype column itself in <code>--dcovar</code> or <code>--qcovar</code>.</li>
+                <li>When a covariate has many missing values, remove or impute those records before running MVP.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="principal-component-file">
+              <h3>Principal Component File</h3>
+              <p>
+                A PC file can be used as standalone clustering input with <code>--cluster</code>. It should include a header, and the first
+                column should contain individual IDs. For GLM or MLM, PCs are usually generated internally by specifying <code>--npc</code>.
+              </p>
+              <div class="code"><pre><code>id PC1 PC2 PC3
+ID001 -0.021 0.114 0.008
+ID002 0.034 -0.090 0.012
+ID003 -0.006 0.041 -0.017</code></pre></div>
+              <p class="mt-12">
+                To generate PCs from genotype data, use <code>--pca</code>. To use an existing PC file as standalone clustering input, use
+                <code>--cluster --pc</code>.
+              </p>
+              <div class="code"><pre><code>--pca --bfile demo --npc 5
+--cluster --pc result/demo_pca.pc --npc 3</code></pre></div>
+              <p class="tutorial-note">
+                <strong>Important.</strong> <code>--pc</code> is for standalone clustering input. For GLM or MLM correction, use
+                <code>--npc</code> so MVP can add principal components to the model.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="population-classification-file">
+              <h3>Population Classification File</h3>
+              <p>
+                Use <code>--pop-class</code> to provide known population labels. The file contains two columns: individual ID and population label.
+              </p>
+              <div class="code"><pre><code>ID001 POP_A
+ID002 POP_B
+ID003 POP_A</code></pre></div>
+              <p class="mt-12">
+                When this file is supplied with <code>--glm</code> or <code>--mlm</code>, MVP can run population-specific association scans and
+                then combine subgroup evidence through the meta-analysis workflow if the meta module is available.
+              </p>
+              <ul class="text-list">
+                <li>Each individual should appear at most once.</li>
+                <li>Population labels should be short and stable because they may be used in output column names.</li>
+                <li><code>--pop-class</code> cannot be used together with standalone <code>--cluster</code>.</li>
+                <li>Do not provide a pre-computed <code>--grm</code> in the same command when using population classification.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="relationship-matrix-file">
+              <h3>Relationship Matrix File</h3>
+              <p>
+                Use <code>--grm</code> with the prefix of pre-computed relationship matrix files. MVP expects paired binary and ID files. A GRM
+                can be reused by MLM and PCA, which is useful when several traits share the same genotype data.
+              </p>
+              <div class="code"><pre><code>demo_grm.bin
+demo_grm.id
+
+--grm demo_grm</code></pre></div>
+              <p class="tutorial-note">
+                <strong>ID consistency.</strong> The GRM ID file must match the individuals used in the phenotype and genotype data after sample
+                filtering.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="summary-statistics-file">
+              <h3>GWAS Summary Statistics File</h3>
+              <p>
+                Use <code>--sumstat</code> for standalone meta-analysis. At least two summary statistics files are required.
+                Each file should include the following header fields:
+              </p>
+              <div class="code"><pre><code>SNP chr pos a1 a2 freq b se p n
+rs001 1 10583 A G 0.42 0.031 0.010 0.0021 1200
+rs002 1 12940 C T 0.18 -0.024 0.012 0.0450 1200</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Field</th><th>Description</th><th>Requirement</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>SNP</code></td><td>Marker ID.</td><td>Should be consistent across cohorts whenever possible.</td></tr>
+                    <tr><td><code>chr</code>, <code>pos</code></td><td>Chromosome and base-pair position.</td><td>Use the same genome build across all files.</td></tr>
+                    <tr><td><code>a1</code>, <code>a2</code></td><td>Effect and non-effect allele coding.</td><td>Allele orientation must be checked before meta-analysis.</td></tr>
+                    <tr><td><code>freq</code></td><td>Allele frequency for <code>a1</code>.</td><td>Used for MAF and population-structure-aware methods.</td></tr>
+                    <tr><td><code>b</code>, <code>se</code>, <code>p</code></td><td>Effect, standard error and p-value.</td><td>Required for method-specific meta-analysis statistics.</td></tr>
+                    <tr><td><code>n</code></td><td>Sample size.</td><td>Should be numeric and cohort-specific.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Meta-analysis input.</strong> <code>--sumstat</code> requires at least two files, separated by commas, and duplicate file
+                paths are rejected.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="genome-window-file">
+              <h3>Genome Window File</h3>
+              <p>
+                Window-based methods can use fixed windows or a user-defined window file. The user-defined file should include
+                <code>chr</code>, <code>start</code> and <code>end</code> columns.
+              </p>
+              <div class="code"><pre><code>chr start end
+1 1 1000000
+1 1000001 2000000
+2 1 1000000</code></pre></div>
+              <p class="mt-12">Window options are mutually exclusive:</p>
+              <div class="code"><pre><code># Fixed physical window size
+mvp --meta --sumstat c1.sumstat,c2.sumstat --window-bp 1000000 --out result/meta_bp
+
+# Fixed number of SNPs per window
+mvp --meta --sumstat c1.sumstat,c2.sumstat --window-num 500 --out result/meta_num
+
+# User-defined window file
+mvp --meta --sumstat c1.sumstat,c2.sumstat --window-file windows.txt --out result/meta_windows</code></pre></div>
+              <ul class="text-list">
+                <li>If no window option is supplied, MVP uses a default fixed base-pair window.</li>
+                <li>Do not use <code>--window-bp</code> and <code>--window-num</code> together.</li>
+                <li>Do not provide fixed window settings when <code>--window-file</code> is used.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="sample-marker-filter-files">
+              <h3>Sample and Marker Filter Files</h3>
+              <p>
+                Use <code>--keep</code> and <code>--remove</code> for individual filters. Use <code>--extract</code> and
+                <code>--exclude</code> for marker filters. Do not specify both include and exclude files for the same target.
+              </p>
+              <div class="code"><pre><code># Keep only selected individuals
+--keep keep.id
+
+# Remove selected individuals
+--remove remove.id
+
+# Analyze selected markers
+--extract marker_keep.txt</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Target</th><th>Include option</th><th>Exclude option</th><th>Expected content</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Individuals</td><td><code>--keep</code></td><td><code>--remove</code></td><td>One individual ID per line.</td></tr>
+                    <tr><td>Markers</td><td><code>--extract</code></td><td><code>--exclude</code></td><td>One marker ID per line.</td></tr>
+                  </tbody>
+                </table>
               </div>
             </div>
 
             <div class="doc-subsection" id="quality-control">
               <h3>Quality Control</h3>
               <p>
-                A practical tutorial should also list the recommended quality-control thresholds, such as minor allele frequency, marker missingness,
-                sample missingness and trait preprocessing conventions.
+                Before running large analyses, check ID consistency, missing phenotype values, genotype file prefixes, MAF thresholds,
+                sample filters and marker filters. Use <code>--maf</code> to set the minor allele frequency threshold.
               </p>
+              <ul class="text-list">
+                <li>Confirm that phenotype IDs and genotype IDs use the same naming convention.</li>
+                <li>Check that the first phenotype column is the ID column and all selected trait columns are numeric or <code>NA</code>.</li>
+                <li>Remove samples or markers with known quality issues before running production analyses.</li>
+                <li>Use a clear <code>--out</code> prefix for each test run so intermediate files are not overwritten.</li>
+                <li>For meta-analysis, check genome build, marker ID, allele coding and sample-size columns before combining cohorts.</li>
+              </ul>
             </div>
           </section>
 
-          <section class="tutorial-block" id="association-analysis" data-section-title="Association Analysis">
+          <section class="tutorial-block" id="running-mvp" data-section-title="Running MVP">
             <div class="doc-kicker">Section 3</div>
-            <h2>Association Analysis</h2>
+            <h2>Running MVP</h2>
             <p class="tutorial-lead">
-              This part explains how to configure model runs, specify correction terms and interpret major outputs from the association step.
+              This section lists common MVP workflows. Use one analysis mode per command unless the workflow explicitly supports automatic clustering inside GLM or MLM.
             </p>
 
-            <div class="doc-subsection" id="basic-workflow">
-              <h3>Basic Workflow</h3>
-              <p>Below is a placeholder command example. Replace it with the real executable name and argument design of the C++ release:</p>
-              <div class="code"><pre><code>./mvp --geno genotype.bin \
-      --pheno phenotype.txt \
-      --covar covariate.txt \
-      --out results/example_run</code></pre></div>
-            </div>
-
-            <div class="doc-subsection" id="model-options">
-              <h3>Model Options</h3>
+            <div class="doc-subsection" id="quick-start">
+              <h3>Quick Start</h3>
               <p>
-                Add a concise table or bullet list describing supported GWAS models, parameter meanings and default settings.
-                This is usually one of the most important sections for end users.
+                Start with a small and explicit command before launching a full analysis. The examples below assume that genotype files use the
+                prefix <code>data/geno</code>, the phenotype file is <code>data/pheno.txt</code>, and output files will be written under
+                <code>result/</code>.
               </p>
+              <div class="code"><pre><code># GLM GWAS
+mvp --glm --bfile data/geno --pheno data/pheno.txt --out result/glm
+
+# MLM GWAS
+mvp --mlm --bfile data/geno --pheno data/pheno.txt --out result/mlm
+
+# PCA
+mvp --pca --bfile data/geno --npc 5 --out result/pca
+
+# GRM construction
+mvp --make-grm --bfile data/geno --out result/grm</code></pre></div>
               <ul class="text-list">
-                <li>Association model selection</li>
-                <li>Covariate correction settings</li>
-                <li>Parallel execution controls</li>
-                <li>Output prefix and result directory structure</li>
+                <li>Use <code>--glm</code> first to verify basic phenotype, genotype and covariate formatting.</li>
+                <li>Use <code>--mlm</code> when relatedness or population structure needs stronger control.</li>
+                <li>Use <code>--pca</code> or <code>--make-grm</code> separately when you want to inspect intermediate files.</li>
+                <li>Use a fresh <code>--out</code> prefix for each run to avoid overwriting previous output.</li>
               </ul>
             </div>
 
-            <div class="doc-subsection" id="parallel-execution">
-              <h3>Parallel Execution</h3>
+            <div class="doc-subsection" id="output-prefix-threads">
+              <h3>Output Prefix and Threads</h3>
               <p>
-                Since MVP emphasizes parallel acceleration, this subsection can explain CPU thread usage, server deployment recommendations
-                and how runtime performance scales with marker count, sample size and available memory.
+                Use <code>--out</code> to set the output prefix and <code>--threads</code> to set the number of CPU threads. This rule applies
+                across GLM, MLM, PCA, GRM, clustering, meta-analysis and plotting workflows.
+              </p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Option</th><th>Purpose</th><th>Recommendation</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>--out</code></td><td>Prefix for result tables, figures and logs.</td><td>Use a directory plus a descriptive prefix, for example <code>result/trait1_glm</code>.</td></tr>
+                    <tr><td><code>--threads</code></td><td>Number of CPU threads.</td><td>Use a value that leaves resources for the operating system and other jobs.</td></tr>
+                    <tr><td><code>--step</code></td><td>Number of markers loaded into RAM at a time.</td><td>Increase for speed when memory is sufficient; decrease when memory is tight.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Output prefix rule.</strong> MVP appends suffixes such as <code>.assoc.txt</code> or plot file extensions to the prefix.
+                The prefix itself should not include those suffixes.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="glm-analysis">
+              <h3>GLM Analysis</h3>
+              <p>
+                Use <code>--glm</code> as the first GWAS scan to verify phenotype, genotype, covariate and association-output formatting.
+              </p>
+              <p><strong>Requires:</strong> phenotype file and one genotype prefix. See <a href="#phenotype-file">Phenotype File</a> and <a href="#genotype-files">Genotype Files</a>.</p>
+              <div class="code"><pre><code>mvp --glm \
+    --bfile demo \
+    --pheno demo.phe \
+    --pheno-pos 2 \
+    --dcovar 4,5 \
+    --qcovar 6 \
+    --maf 0.01 \
+    --out result/glm_demo</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> association table under the selected <code>--out</code> prefix.</li>
+                <li>Use <code>--add</code> for additive genetic effect or <code>--dom</code> for dominant effect. If neither is supplied, additive effect is used.</li>
+                <li>Add covariates only after confirming their column positions and data types in the input-format section.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="mlm-analysis">
+              <h3>MLM Analysis</h3>
+              <p>
+                Use <code>--mlm</code> when population structure or kinship may inflate GLM statistics. If no <code>--grm</code> is provided,
+                MVP can construct the relationship matrix from genotype data.
+              </p>
+              <p><strong>Requires:</strong> phenotype file, genotype prefix and optionally a GRM prefix. See <a href="#relationship-matrix-file">Relationship Matrix File</a>.</p>
+              <div class="code"><pre><code>mvp --mlm \
+    --bfile demo \
+    --pheno demo.phe \
+    --pheno-pos 2 \
+    --npc 3 \
+    --out result/mlm_demo</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> association table and model logs under the selected <code>--out</code> prefix.</li>
+                <li><code>--npc</code> adds principal components to the fixed-effect part of the GWAS model.</li>
+                <li><code>--max-iter</code> controls the maximum number of variance component iterations.</li>
+                <li>For production MLM runs, keep the GRM prefix, version and command line together with the output.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="multi-trait-analysis">
+              <h3>Multi-trait Analysis</h3>
+              <p>
+                Pass multiple phenotype columns to analyze several traits in one command.
+              </p>
+              <p><strong>Requires:</strong> one phenotype file whose selected trait columns share the same individual ID column.</p>
+              <div class="code"><pre><code>mvp --mlm \
+    --bfile demo \
+    --pheno demo.phe \
+    --pheno-pos 2,3,4 \
+    --out result/mlm_multi_trait</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> trait-specific columns in the association result table.</li>
+                <li>Each selected trait may have missing values encoded as <code>NA</code>.</li>
+                <li>If <code>--vg</code> and <code>--ve</code> are supplied, provide one value per selected trait in the same order as <code>--pheno-pos</code>.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="pca">
+              <h3>PCA</h3>
+              <p>
+                Use <code>--pca</code> with genotype data or a pre-computed GRM to inspect population structure.
+              </p>
+              <p><strong>Requires:</strong> genotype prefix or GRM prefix, plus the requested number of PCs.</p>
+              <div class="code"><pre><code>mvp --pca --bfile demo --npc 5 --out result/pca
+mvp --pca --grm demo_grm --npc 5 --out result/pca_from_grm</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> PC scores and variance summary files.</li>
+                <li>Use PCA output for structure review, plotting and clustering input.</li>
+              </ul>
+              <p class="tutorial-note">
+                <strong>Model correction.</strong> For GLM or MLM, specify <code>--npc</code> in the association command rather than passing a
+                PC file with <code>--pc</code>.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="grm-construction">
+              <h3>GRM Construction</h3>
+              <p>
+                Use <code>--make-grm</code> to construct reusable genomic relationship matrix files.
+              </p>
+              <p><strong>Requires:</strong> genotype prefix. The resulting GRM can be reused by MLM, PCA and clustering workflows.</p>
+              <div class="code"><pre><code>mvp --make-grm \
+    --bfile demo \
+    --grm-method 1 \
+    --out result/demo_grm</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> GRM binary matrix and ID files under the selected prefix.</li>
+                <li><code>--grm-method</code> selects the relationship-matrix construction method.</li>
+                <li>Use <code>--bitwise-grm</code> for BED-based raw additive GRM construction when that optimized path is appropriate.</li>
+                <li>Use <code>--float-prec</code> if you need lower memory use for matrix-heavy steps.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="population-clustering">
+              <h3>Population Clustering</h3>
+              <p>
+                Use <code>--cluster</code> or <code>--auto-cluster</code> for HDBSCAN-based clustering from genotype, GRM or PC input.
+              </p>
+              <p><strong>Requires:</strong> one structure input source. See <a href="#principal-component-file">Principal Component File</a> and <a href="#relationship-matrix-file">Relationship Matrix File</a>.</p>
+              <div class="code"><pre><code>mvp --cluster --bfile demo --npc-cluster 3 --out result/cluster
+mvp --cluster --pc demo.pc --npc 3 --out result/cluster_from_pc</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> cluster labels and optional parameter/embedding files.</li>
+                <li>Use clustering when known population labels are unavailable or need cross-checking.</li>
+                <li>When clustering from genotype data, MVP first derives the requested number of PCs for clustering.</li>
+                <li>Use <code>--npc-cluster</code> for the number of PCs used in clustering from genotype or GRM input.</li>
+                <li><code>--use-umap</code> can add UMAP before clustering; tune <code>--umap-nn</code> and <code>--umap-md</code> only after the basic command works.</li>
+                <li><code>--use-kdtree</code> can reduce memory cost for clustering neighborhood queries.</li>
+              </ul>
+              <div class="code"><pre><code>mvp --auto-cluster \
+    --bfile demo \
+    --npc-cluster 10 \
+    --use-umap \
+    --umap-nn 15 \
+    --umap-md 0.1 \
+    --out result/cluster_umap</code></pre></div>
+              <p class="tutorial-note">
+                <strong>Parameter compatibility.</strong> Do not combine <code>--grid</code> with <code>--use-umap</code>. Grid optimization is
+                for the automatic clustering workflow without UMAP.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="gpu-acceleration">
+              <h3>GPU Acceleration</h3>
+              <p>
+                GPU options are available only when MVP is built with CUDA support. Use GPU acceleration mainly for computationally intensive
+                MLM workflows and benchmark CPU versus GPU results on a representative subset before running a full dataset.
+              </p>
+              <p><strong>Requires:</strong> CUDA-enabled MVP build and a working CUDA runtime.</p>
+              <div class="code"><pre><code>mvp --mlm \
+    --bfile demo \
+    --pheno demo.phe \
+    --device cuda \
+    --gpus 0,1 \
+    --evd-method mg \
+    --out result/mlm_gpu</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Option</th><th>Values</th><th>Use</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>--device</code></td><td><code>auto</code>, <code>cpu</code>, <code>cuda</code></td><td>Selects compute device.</td></tr>
+                    <tr><td><code>--gpus</code></td><td>Comma-separated IDs</td><td>Selects GPU devices, for example <code>0,1</code>.</td></tr>
+                    <tr><td><code>--evd-method</code></td><td><code>dc</code>, <code>mg</code>, <code>cs</code>, <code>bk</code>, <code>jacobi</code>, <code>svd_z</code></td><td>Controls eigendecomposition path accepted by current runtime validation.</td></tr>
+                    <tr><td><code>--mlm-var-method</code></td><td><code>ai</code>, <code>he</code>, <code>hi</code></td><td>Controls variance estimation strategy.</td></tr>
+                    <tr><td><code>--mlm-path</code></td><td><code>mkm</code>, <code>emmax</code></td><td>Selects MLM algorithmic path.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Runtime validation.</strong> The current source tree still has a few differences between CLI help text and later parameter
+                validation. This table lists values that pass the current runtime checks.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="benchmark-mode">
+              <h3>Benchmark Mode</h3>
+              <p>
+                Use benchmark mode to write phase-level timing information. This is useful when comparing CPU and GPU settings, tuning
+                <code>--step</code>, or preparing a performance report for a release.
+              </p>
+              <p><strong>Requires:</strong> any valid analysis command plus benchmark output options.</p>
+              <div class="code"><pre><code>mvp --mlm \
+    --bfile demo \
+    --pheno demo.phe \
+    --benchmark \
+    --benchmark-out result/mlm_benchmark \
+    --out result/mlm</code></pre></div>
+              <p class="mt-12">
+                MVP writes <code>&lt;benchmark-out&gt;.timing.json</code>. Keep this JSON file with the association output so runtime comparisons
+                can be reproduced later.
+              </p>
+              <ul class="text-list">
+                <li>Run benchmark commands on an otherwise quiet machine when possible.</li>
+                <li>Use the same input files and model options when comparing two devices.</li>
+                <li>Record CPU model, GPU model, memory size and MVP version together with the timing file.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="plot-generation">
+              <h3>Plot Generation During Analysis</h3>
+              <p>
+                When the plotting module is enabled, add <code>--plot</code> to generate figures after analysis. This is convenient for routine
+                GWAS runs because association tables and plots are generated from the same command and output prefix.
+              </p>
+              <p><strong>Requires:</strong> a plotting-enabled MVP build and an analysis that produces plot-ready output.</p>
+              <div class="code"><pre><code>mvp --glm \
+    --bfile demo \
+    --pheno demo.phe \
+    --plot \
+    --plot-theme nature \
+    --out result/glm_plot</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> association table plus figures under the selected prefix.</li>
+                <li>Use <code>--plot-only</code> from an existing result file when you only need to regenerate figures.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="tutorial-block" id="meta-analysis" data-section-title="Meta-analysis">
+            <div class="doc-kicker">Section 4</div>
+            <h2>Meta-analysis</h2>
+            <p class="tutorial-lead">
+              MVP can combine GWAS summary statistics from multiple cohorts or populations. The standalone mode uses <code>--meta</code> and
+              <code>--sumstat</code>.
+            </p>
+
+            <div class="doc-subsection" id="meta-overview">
+              <h3>Overview</h3>
+              <p>
+                Meta-analysis starts from existing GWAS summary statistics. Use this workflow when each cohort or population has already been
+                analyzed separately.
+              </p>
+              <p><strong>Requires:</strong> at least two summary statistics files. See <a href="#summary-statistics-file">GWAS Summary Statistics File</a>.</p>
+              <div class="code"><pre><code>mvp --meta \
+    --sumstat cohort1.sumstat,cohort2.sumstat,cohort3.sumstat \
+    --meta-method 1 \
+    --maf 0.01 \
+    --out result/meta_demo</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> combined association results under the selected <code>--out</code> prefix.</li>
+                <li>Use comma-separated paths in <code>--sumstat</code>; do not insert spaces around commas.</li>
+                <li>Use <code>--maf</code> to remove low-frequency markers before combining evidence.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="summary-statistics-input">
+              <h3>Summary Statistics Input</h3>
+              <p>
+                The file format is defined once in <a href="#summary-statistics-file">GWAS Summary Statistics File</a>. In meta-analysis
+                commands, pass multiple summary files as a comma-separated list.
+              </p>
+              <div class="code"><pre><code>--sumstat cohort1.sumstat,cohort2.sumstat,cohort3.sumstat</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Pre-check</th><th>Reason</th><th>Recommended action</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Genome build</td><td>Position mismatches create false marker alignment.</td><td>Convert all cohorts to the same build before meta-analysis.</td></tr>
+                    <tr><td>Allele orientation</td><td>Effect directions depend on <code>a1</code> and <code>a2</code>.</td><td>Harmonize effect alleles and frequencies across cohorts.</td></tr>
+                    <tr><td>Sample size</td><td>Fixed and random effects depend on reliable standard errors and sample sizes.</td><td>Use cohort-specific numeric <code>n</code> values.</td></tr>
+                    <tr><td>P-value range</td><td>Invalid p-values break p-value aggregation methods.</td><td>Ensure <code>0 &lt; p &lt;= 1</code> whenever possible.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Pre-check.</strong> Harmonize marker IDs, genome build, allele orientation and sample-size columns before combining cohorts.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="meta-method-selection">
+              <h3>Meta Method Selection</h3>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Selector</th><th>Method</th><th>Use when</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>--meta-method 1</code></td><td>UCALM</td><td>Summary-statistics integration for heterogeneous populations.</td></tr>
+                    <tr><td><code>--meta-method 2</code></td><td>Fixed effect</td><td>Cohorts are similar and effect directions are expected to match.</td></tr>
+                    <tr><td><code>--meta-method 3</code></td><td>Random effect</td><td>Effect sizes may vary across cohorts.</td></tr>
+                    <tr><td><code>--meta-method 4</code></td><td>MR-MEGA</td><td>Allele-frequency structure should be modeled across populations.</td></tr>
+                    <tr><td><code>--meta-method 5</code></td><td>ACAT</td><td>Signals may appear in only a subset of cohorts.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>UCALM shortcut.</strong> Use <code>--ucalm</code> only for the full individual-level UCALM workflow. For existing summary
+                statistics, use <code>--meta --meta-method 1</code>.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="meta-method-recipes">
+              <h3>Meta Method Recipes</h3>
+              <p>Switch methods by changing only <code>--meta-method</code> and the output prefix.</p>
+              <div class="code"><pre><code># Fixed effect
+mvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 2 --out result/meta_fe
+
+# Random effect
+mvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 3 --out result/meta_re
+
+# MR-MEGA
+mvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 4 --out result/meta_mrmega
+
+# ACAT
+mvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 5 --out result/meta_acat</code></pre></div>
+            </div>
+
+            <div class="doc-subsection" id="subgroup-gwas-meta">
+              <h3>Subgroup GWAS to Meta-analysis</h3>
+              <p>
+                When <code>--pop-class</code> is supplied with GLM or MLM, MVP can run subgroup analyses and then integrate subgroup results
+                through the meta-analysis workflow when the meta module is enabled.
+              </p>
+              <div class="code"><pre><code>mvp --glm \
+    --bfile demo \
+    --pheno demo.phe \
+    --pop-class demo.pop \
+    --out result/subgroup_gwas
+
+mvp --meta \
+    --sumstat result/subgroup1.sumstat,result/subgroup2.sumstat \
+    --meta-method 1 \
+    --out result/subgroup_meta</code></pre></div>
+              <p class="mt-12">
+                Use this pattern when known population labels are available. For input-file details, see <a href="#population-classification-file">Population Classification File</a>.
+              </p>
+              <ul class="text-list">
+                <li>Population labels should match the study design, such as cohort, breed, ancestry group or experimental batch.</li>
+                <li>Do not use <code>--cluster</code> and <code>--pop-class</code> in the same command.</li>
+                <li>If subgroup sample sizes are very small, inspect subgroup association results before interpreting combined meta-analysis output.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="meta-output">
+              <h3>Meta-analysis Output</h3>
+              <p>
+                Meta-analysis writes association output with marker columns and method-specific p-value or effect columns under the selected output prefix.
+              </p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Output component</th><th>Description</th><th>How to inspect it</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Marker columns</td><td><code>SNP</code>, <code>CHR</code>, <code>POS</code>, <code>A1</code>, <code>A2</code>.</td><td>Confirm marker alignment and allele orientation.</td></tr>
+                    <tr><td>Method columns</td><td>Combined statistics generated by the selected meta method.</td><td>Use the p-value column corresponding to the selected method.</td></tr>
+                    <tr><td>Subgroup columns</td><td>When <code>--pop-class</code> is used, subgroup-specific statistics may be included.</td><td>Compare subgroup effects with combined results.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Result review.</strong> Large blocks of missing values usually indicate marker mismatch, allele mismatch or aggressive
+                filtering in one or more cohorts.
               </p>
             </div>
           </section>
 
-          <section class="tutorial-block" id="visualization-output" data-section-title="Visualization & Output">
-            <div class="doc-kicker">Section 4</div>
-            <h2>Visualization & Output</h2>
+          <section class="tutorial-block" id="ucalm" data-section-title="UCALM">
+            <div class="doc-kicker">Section 5</div>
+            <h2>UCALM</h2>
             <p class="tutorial-lead">
-              One of the signature strengths inherited from rMVP is the emphasis on high-quality GWAS visualization and interpretable output.
+              UCALM stands for Unsupervised adaptive Clustering-based Association and Layered Meta integration.
             </p>
+
+            <div class="doc-subsection" id="ucalm-full-workflow">
+              <h3>Individual-level Data Workflow</h3>
+              <p>
+                Use <code>--ucalm</code> when starting from genotype and phenotype files. This path covers clustering, subgroup GWAS and layered integration.
+              </p>
+              <p><strong>Requires:</strong> genotype prefix, phenotype file and optional covariates. See <a href="#genotype-files">Genotype Files</a> and <a href="#phenotype-file">Phenotype File</a>.</p>
+              <div class="code"><pre><code>mvp --ucalm \
+    --bfile demo \
+    --pheno demo.phe \
+    --pheno-pos 2 \
+    --out result/ucalm_full</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> subgroup analysis results plus final UCALM integration output under the selected prefix.</li>
+                <li>Use this path for complex populations when predefined labels are incomplete or too coarse.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="ucalm-summary-workflow">
+              <h3>Summary-statistics Workflow</h3>
+              <p>
+                Use this path when subgroup or cohort summary statistics already exist and only the UCALM integration stage is needed.
+              </p>
+              <p><strong>Requires:</strong> summary statistics prepared as described in <a href="#summary-statistics-input">Summary Statistics Input</a>.</p>
+              <div class="code"><pre><code>mvp --meta \
+    --sumstat pop1.sumstat,pop2.sumstat,pop3.sumstat \
+    --meta-method 1 \
+    --threads 8 \
+    --out result/trait1_ucalm_meta</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> UCALM integration results under the selected <code>--out</code> prefix.</li>
+                <li>Use this path only when grouping and subgroup-level GWAS have already been completed.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="ucalm-output">
+              <h3>UCALM Output and Interpretation</h3>
+              <p>
+                UCALM writes method-specific association results under the selected <code>--out</code> prefix. The forward-facing output column
+                name should be treated as <code>UCALM_PVAL</code>.
+              </p>
+              <ul class="text-list">
+                <li>Sort output by the <code>UCALM_PVAL</code> column to identify top markers.</li>
+                <li><strong>Output:</strong> association result table plus any subgroup-level files produced by the chosen workflow.</li>
+                <li>Check whether top markers have consistent chromosome, position and allele fields across cohorts.</li>
+                <li>Compare component evidence from FE, MR-MEGA and ACAT to classify likely effect patterns.</li>
+              </ul>
+              <p class="tutorial-note">
+                <strong>Interpretation.</strong> Review cohort-level effect direction, sample size and QC before claiming a biologically meaningful UCALM signal.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="ucalm-practical-notes">
+              <h3>Practical Notes</h3>
+              <ul class="text-list">
+                <li>Use consistent genome builds and allele coding across subgroups or cohorts.</li>
+                <li>Keep clustering results, subgroup sample sizes and subgroup GWAS commands together with final UCALM outputs.</li>
+                <li>Check MAF, sample-size filtering and rare-variant behavior before interpreting UCALM results.</li>
+                <li>Small subgroups can reduce the power of subgroup-specific association tests; avoid over-interpreting signals from underpowered clusters.</li>
+                <li>UCALM can detect statistical heterogeneity, but functional interpretation still requires annotation and biological evidence.</li>
+              </ul>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Problem</th><th>Likely cause</th><th>Fix</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Many missing meta results</td><td>Markers do not overlap or are filtered out.</td><td>Check marker IDs, genome build, MAF and sample size.</td></tr>
+                    <tr><td>Unexpected opposite effects</td><td>Effect allele orientation differs across cohorts.</td><td>Harmonize <code>a1</code>, <code>a2</code> and <code>b</code>.</td></tr>
+                    <tr><td>Very strong single-cohort signal only</td><td>Potential cohort-specific artifact or true heterogeneity.</td><td>Inspect cohort QC, phenotype definition and batch effects.</td></tr>
+                    <tr><td>Different top loci across methods</td><td>Methods emphasize different evidence components.</td><td>Compare cohort-level effects and run sensitivity analyses.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="tutorial-block" id="output-visualization-faq" data-section-title="Output, Visualization and FAQ">
+            <div class="doc-kicker">Section 6</div>
+            <h2>Output, Visualization &amp; FAQ</h2>
+            <p class="tutorial-lead">
+              This section summarizes major output files, plotting commands and common troubleshooting notes.
+            </p>
+
+            <div class="doc-subsection" id="association-result-files">
+              <h3>Association Result Files</h3>
+              <p>
+                GLM, MLM and meta-analysis write association results under the <code>--out</code> prefix. Keep the corresponding log file
+                together with result tables for reproducibility.
+              </p>
+              <div class="code"><pre><code>&lt;out-prefix&gt;.assoc.txt</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Column pattern</th><th>Description</th><th>Interpretation</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>SNP</code>, <code>CHR</code>, <code>POS</code></td><td>Marker identity and genomic position.</td><td>Use these fields for annotation and plotting.</td></tr>
+                    <tr><td><code>A1</code>, <code>A2</code>, <code>MAF</code></td><td>Allele coding and minor allele frequency.</td><td>Check allele direction before comparing cohorts.</td></tr>
+                    <tr><td><code>trait_BETA</code></td><td>Estimated marker effect.</td><td>Sign depends on effect allele coding.</td></tr>
+                    <tr><td><code>trait_SE</code></td><td>Standard error of the effect.</td><td>Used with beta to evaluate uncertainty.</td></tr>
+                    <tr><td><code>trait_PVAL</code></td><td>Association p-value.</td><td>Used for Manhattan and Q-Q plots.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="doc-subsection" id="grm-output-files">
+              <h3>GRM Output Files</h3>
+              <p>
+                GRM construction writes binary matrix and ID files that can be reused by <code>--mlm</code> or <code>--pca</code>.
+              </p>
+              <div class="code"><pre><code>result/demo_grm.bin
+result/demo_grm.id</code></pre></div>
+              <ul class="text-list">
+                <li><code>.bin</code> stores the lower triangle of the relationship matrix in binary format.</li>
+                <li><code>.id</code> stores the individual order used by the binary matrix.</li>
+                <li>Always keep <code>.bin</code> and <code>.id</code> together; moving only one file will break reuse.</li>
+                <li>When filtering samples, rebuild or carefully match the GRM to the filtered sample set.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="pca-output-files">
+              <h3>PCA Output Files</h3>
+              <p>
+                PCA writes eigenvalue and eigenvector outputs. Use these files to inspect population structure or to support downstream reports.
+              </p>
+              <div class="code"><pre><code>result/demo_pca.pc
+result/demo_pca.pcp</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>File</th><th>Content</th><th>Use</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>.pc</code></td><td>Individual ID and PC scores.</td><td>Scatter plots, clustering input and population structure inspection.</td></tr>
+                    <tr><td><code>.pcp</code></td><td>Standard deviation, variance proportion and cumulative proportion.</td><td>Decide how many PCs to include in reports or models.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Choosing PCs.</strong> There is no universal number of PCs. Inspect variance proportion and biological grouping, then
+                choose a number appropriate for the dataset.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="clustering-output-files">
+              <h3>Clustering Output Files</h3>
+              <p>
+                Clustering outputs per-sample cluster labels. Noise points may be marked separately depending on the clustering result.
+              </p>
+              <div class="code"><pre><code>result/demo_cluster.cluster.txt
+result/demo_cluster.cluster.para.txt
+result/demo_cluster.cluster.umap.txt</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>File</th><th>Content</th><th>When produced</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>.cluster.txt</code></td><td><code>id</code>, <code>cluster</code> and <code>ambiguity</code>.</td><td>Produced when clustering output is requested.</td></tr>
+                    <tr><td><code>.cluster.para.txt</code></td><td>Candidate MinPts, number of populations and DBCV score.</td><td>Produced during grid-based parameter optimization.</td></tr>
+                    <tr><td><code>.cluster.umap.txt</code></td><td>Sample ID and two-dimensional UMAP coordinates.</td><td>Produced when <code>--use-umap</code> is used.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="doc-subsection" id="meta-analysis-output-files">
+              <h3>Meta-analysis Output Files</h3>
+              <p>
+                Meta-analysis output includes marker metadata and method-specific combined statistics. Check cohort-level inputs when results contain many missing values.
+              </p>
+              <div class="code"><pre><code>result/meta_ucalm.assoc.txt</code></pre></div>
+              <ul class="text-list">
+                <li>Standalone meta-analysis output begins with marker metadata columns.</li>
+                <li>Method-specific columns follow the marker columns and depend on <code>--meta-method</code>.</li>
+                <li>When subgroup GWAS is triggered by <code>--pop-class</code>, output can include subgroup-specific MAF, beta, SE and p-value columns.</li>
+                <li>For reporting, keep the list of cohort summary files and the exact method number together with the output table.</li>
+              </ul>
+            </div>
 
             <div class="doc-subsection" id="manhattan-plot">
               <h3>Manhattan Plot</h3>
               <p>
-                Document how MVP exports association summary statistics and how users can generate or customize Manhattan plots for publication-grade output.
+                Use <code>--plot</code> after GWAS or <code>--plot-only</code> from an existing association file. Manhattan plots use chromosome,
+                position and p-value columns from the association table.
               </p>
+              <div class="code"><pre><code>mvp --plot-only \
+    --plot-input result/glm_demo.assoc.txt \
+    --plot-format png \
+    --plot-thresh 5e-8 \
+    --plot-suggest 1e-5 \
+    --out result/glm_demo_manhattan</code></pre></div>
+              <ul class="text-list">
+                <li>Use <code>--plot-thresh</code> for the genome-wide significance line.</li>
+                <li>Use <code>--plot-suggest</code> for a suggestive threshold line.</li>
+                <li>Use <code>--plot-filter</code> or <code>--no-plot-filter</code> to control SNP downsampling for very large datasets.</li>
+              </ul>
             </div>
 
             <div class="doc-subsection" id="qq-plot">
               <h3>Q-Q Plot</h3>
               <p>
-                Explain the expected input for Q-Q plotting, genomic inflation interpretation and how to compare corrected versus uncorrected results.
+                Q-Q plots include expected and observed p-value distributions and can help diagnose inflation. A strong upward deviation across
+                most markers may indicate population structure, relatedness, batch effects or model misspecification.
+              </p>
+              <ul class="text-list">
+                <li>Compare GLM and MLM Q-Q plots to evaluate whether MLM reduces inflation.</li>
+                <li>Inspect lambda GC when available in the plot output.</li>
+                <li>Do not judge model quality only by the most significant tail; inspect the overall p-value distribution.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="pca-plot">
+              <h3>PCA Plot</h3>
+              <p>
+                PCA plotting summarizes PC scores and variance explained when plotting is enabled for PCA output or plot-only mode.
+              </p>
+              <ul class="text-list">
+                <li>Review PC1 versus PC2 first, then inspect additional PCs if the dataset has complex structure.</li>
+                <li>Use known population labels outside MVP if you need annotated group colors in downstream figures.</li>
+                <li>Large outliers should be checked against sample metadata and genotype QC.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="density-circular-plots">
+              <h3>Density and Circular Plots</h3>
+              <p>
+                MVP supports SNP density plots and circular Manhattan plots when the plotting module is enabled. Use <code>--plot-circular</code>
+                to request circular Manhattan output.
+              </p>
+              <ul class="text-list">
+                <li>Density plots help identify marker coverage differences across chromosomes.</li>
+                <li>Circular Manhattan plots are useful for compact summaries in reports or presentations.</li>
+                <li>Use vector formats such as <code>pdf</code> or <code>svg</code> when the figure will be edited after generation.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="plot-only-mode">
+              <h3>Plot-only Mode</h3>
+              <div class="code"><pre><code>mvp --plot-only \
+    --plot-input result/glm.assoc.txt \
+    --plot-format png \
+    --out result/glm_plot</code></pre></div>
+              <p class="mt-12">
+                Plot-only mode skips association analysis and reads an existing association result file. It is useful when you want to test
+                different plot sizes, themes, thresholds or formats without rerunning GWAS.
+              </p>
+              <p class="tutorial-note">
+                <strong>Input format.</strong> Plot-only mode expects an association table with marker, chromosome, position and p-value columns
+                in the MVP output style.
               </p>
             </div>
 
-            <div class="doc-subsection" id="pca-visualization">
-              <h3>PCA Visualization</h3>
+            <div class="doc-subsection" id="benchmark-output">
+              <h3>Benchmark Output</h3>
               <p>
-                If MVP includes PCA-related utilities or integrates with downstream plotting, this subsection should illustrate recommended use cases
-                for population structure inspection and sample-level diagnostics.
+                Benchmark mode writes <code>&lt;benchmark-out&gt;.timing.json</code> with phase-level timing such as data loading, GRM construction,
+                eigendecomposition, variance estimation and marker scanning.
               </p>
-            </div>
-          </section>
-
-          <section class="tutorial-block" id="faq-support" data-section-title="FAQ & Support">
-            <div class="doc-kicker">Section 5</div>
-            <h2>FAQ & Support</h2>
-            <p class="tutorial-lead">
-              The final section collects troubleshooting guidance and user support links.
-            </p>
-
-            <div class="doc-subsection" id="common-errors">
-              <h3>Common Errors</h3>
-              <p>
-                Summarize typical failure cases such as build errors, malformed input, inconsistent sample order or unsupported platform-specific dependencies.
-              </p>
+              <div class="code"><pre><code>result/demo_mlm_cpu.timing.json</code></pre></div>
+              <ul class="text-list">
+                <li>Use benchmark output to find whether time is spent in loading, GRM construction, eigendecomposition or marker scanning.</li>
+                <li>Use separate benchmark prefixes for CPU and GPU runs.</li>
+                <li>Keep hardware and software environment notes with benchmark JSON files.</li>
+              </ul>
             </div>
 
-            <div class="doc-subsection" id="versioning-updates">
-              <h3>Versioning and Updates</h3>
-              <p>
-                Explain where users should check release notes, API changes, parameter updates and compatibility notices between rMVP and the new C++ version.
-              </p>
+            <div class="doc-subsection" id="common-input-errors">
+              <h3>Common Input Errors</h3>
+              <ul class="text-list">
+                <li>Phenotype IDs do not match genotype IDs.</li>
+                <li><code>--bfile</code> or <code>--pfile</code> is supplied with a file extension instead of a prefix.</li>
+                <li>Phenotype column positions are counted incorrectly.</li>
+                <li>Missing values are not encoded as <code>NA</code>.</li>
+                <li>Summary statistics files use inconsistent allele coding across cohorts.</li>
+              </ul>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Error pattern</th><th>Likely cause</th><th>Fix</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>No individuals left after filtering</td><td>Phenotype, genotype and filter IDs do not overlap.</td><td>Compare ID columns before running MVP.</td></tr>
+                    <tr><td>Cannot open genotype files</td><td>Prefix or directory is wrong.</td><td>Use <code>--bfile prefix</code> or <code>--pfile prefix</code>, not a single file name.</td></tr>
+                    <tr><td>Wrong trait analyzed</td><td>Column position counted incorrectly.</td><td>Count from 1, with the ID column as column 1.</td></tr>
+                    <tr><td>Meta-analysis gives many missing values</td><td>Marker IDs or alleles do not match across cohorts.</td><td>Harmonize summary statistics before running <code>--meta</code>.</td></tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
-            <div class="doc-subsection" id="issue-reporting">
-              <h3>Issue Reporting</h3>
+            <div class="doc-subsection" id="common-runtime-errors">
+              <h3>Common Runtime Errors</h3>
+              <ul class="text-list">
+                <li>Using <code>--bfile</code> and <code>--pfile</code> together is not allowed.</li>
+                <li>Using <code>--keep</code> and <code>--remove</code> together is not allowed.</li>
+                <li>Using <code>--extract</code> and <code>--exclude</code> together is not allowed.</li>
+                <li><code>--pc</code> is intended for standalone clustering input, not ordinary GLM or MLM correction.</li>
+                <li>Optional flags may be unavailable if clustering, meta-analysis or plotting modules are disabled at build time.</li>
+              </ul>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Invalid combination</th><th>Why it fails</th><th>Use instead</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>--bfile</code> with <code>--pfile</code></td><td>MVP accepts one genotype backend per command.</td><td>Choose either PLINK 1 or PGEN input.</td></tr>
+                    <tr><td><code>--keep</code> with <code>--remove</code></td><td>Include and exclude sample filters conflict.</td><td>Prepare one sample list for the intended action.</td></tr>
+                    <tr><td><code>--extract</code> with <code>--exclude</code></td><td>Include and exclude marker filters conflict.</td><td>Use one marker filter mode.</td></tr>
+                    <tr><td><code>--window-file</code> with <code>--window-bp</code></td><td>Custom and fixed windows conflict.</td><td>Use only one window definition.</td></tr>
+                    <tr><td><code>--grid</code> with <code>--use-umap</code></td><td>These clustering optimization paths are mutually exclusive.</td><td>Run separate clustering tests.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="doc-subsection" id="versioning-support">
+              <h3>Versioning and Support</h3>
               <p>
-                For bugs and feature requests, direct users to
-                <a href="https://github.com/mvp-cpp/mvp/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>.
-                You can also add a project contact email here for academic or collaboration inquiries.
+                Use <code>mvp --version</code> and keep the full command line in reports. For bugs and feature requests, use
+                <a href="https://github.com/hyacz/himvp/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a>.
               </p>
+              <ul class="text-list">
+                <li>Include MVP version, operating system, compiler or release package information when reporting a problem.</li>
+                <li>Include the full command line and a minimal reproducible input description.</li>
+                <li>For build problems, include CMake options and the optional modules you intended to enable.</li>
+                <li>For numerical or result questions, include enough output columns to identify marker, allele, beta, SE and p-value fields.</li>
+              </ul>
+              <div class="code"><pre><code>mvp --version
+mvp --help</code></pre></div>
             </div>
           </section>
         </article>
