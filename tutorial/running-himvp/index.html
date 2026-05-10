@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HIMVP | Running HIMVP</title>
+  <meta name="description" content="HIMVP tutorial: Common GLM, MLM, PCA, GRM, clustering, GPU, benchmark and plotting workflows." />
+  <link rel="canonical" href="https://mvp-cpp.github.io/tutorial/running-himvp/" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+
+  <style>
+    /* tutorial page self-contained layout fix */
+    .tutorial-layout{
+      display:grid;
+      grid-template-columns:220px minmax(0, 1fr) 220px;
+      gap:22px;
+      align-items:start;
+    }
+    .tutorial-sidebar{
+      padding:0;
+      position:sticky;
+      top:98px;
+      max-height:calc(100vh - 118px);
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:var(--panel, rgba(255,255,255,0.06));
+      box-shadow:var(--shadow, 0 22px 60px rgba(0,0,0,0.28));
+      backdrop-filter: blur(14px);
+    }
+    .tutorial-sidebar-inner{padding:22px 18px}
+    .tutorial-content{
+      min-width:0;
+      padding:30px 34px;
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:var(--panel, rgba(255,255,255,0.06));
+      box-shadow:var(--shadow, 0 22px 60px rgba(0,0,0,0.28));
+      backdrop-filter: blur(14px);
+    }
+    .toc-heading{
+      font-size:.82rem; letter-spacing:.12em; text-transform:uppercase;
+      font-weight:800; color:var(--blue,#69b7ff); margin-bottom:10px;
+    }
+    .toc-section-label{
+      font-size:.96rem; font-weight:700; color:var(--text,#eaf2ff);
+      margin-bottom:12px; line-height:1.45;
+    }
+    .tutorial-search{
+      margin-bottom:16px;
+    }
+    .tutorial-search-box{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      min-height:38px;
+      padding:0 8px 0 12px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:12px;
+      background:rgba(255,255,255,.05);
+    }
+    .tutorial-search-input{
+      min-width:0;
+      flex:1;
+      border:0;
+      outline:0;
+      background:transparent;
+      color:var(--text,#eef6ff);
+      font:inherit;
+      font-size:.92rem;
+    }
+    .tutorial-search-input::placeholder{
+      color:var(--muted,#9fb5d6);
+      opacity:.76;
+    }
+    .tutorial-search-clear{
+      width:24px;
+      height:24px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:0;
+      border-radius:8px;
+      background:transparent;
+      color:var(--muted,#9fb5d6);
+      cursor:pointer;
+      font:inherit;
+      font-size:1rem;
+      line-height:1;
+      visibility:hidden;
+    }
+    .tutorial-search-clear:hover{
+      color:var(--text,#eef6ff);
+      background:rgba(255,255,255,.08);
+    }
+    .tutorial-search.has-query .tutorial-search-clear{
+      visibility:visible;
+    }
+    .tutorial-search-status{
+      min-height:18px;
+      margin-top:6px;
+      color:var(--muted,#9fb5d6);
+      font-size:.78rem;
+      line-height:1.35;
+    }
+    .tutorial-search-nav{
+      display:none;
+      gap:6px;
+      margin-top:8px;
+    }
+    .tutorial-search.has-query .tutorial-search-nav{
+      display:flex;
+    }
+    .tutorial-search-nav button{
+      width:30px;
+      height:28px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:9px;
+      background:rgba(255,255,255,.05);
+      color:var(--text,#eef6ff);
+      cursor:pointer;
+      font:inherit;
+      line-height:1;
+    }
+    .tutorial-search-nav button:disabled{
+      cursor:not-allowed;
+      opacity:.45;
+    }
+    .tutorial-search-mark{
+      padding:0 .12em;
+      border-radius:3px;
+      background:rgba(255,183,106,.42);
+      color:inherit;
+    }
+    .tutorial-search-mark.is-current{
+      background:rgba(105,183,255,.62);
+      box-shadow:0 0 0 2px rgba(105,183,255,.20);
+    }
+    .toc-nav{display:flex; flex-direction:column; gap:8px}
+    .toc-link{
+      display:block; padding:9px 12px; border-radius:12px; color:var(--muted,#9fb5d6);
+      border:1px solid transparent; transition:.18s ease; line-height:1.4;
+    }
+    .toc-link:hover{
+      text-decoration:none; color:var(--text,#eef6ff);
+      background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.08);
+    }
+    .toc-link.active{
+      color:var(--text,#ffffff);
+      background:linear-gradient(135deg, rgba(105,183,255,.18), rgba(76,224,210,.10));
+      border-color:rgba(139,200,255,.22);
+    }
+    .toc-link-primary{font-weight:700}
+    .toc-link-secondary{font-size:.95rem; padding-left:14px}
+    .tutorial-block + .tutorial-block{
+      margin-top:48px; padding-top:12px; border-top:1px solid rgba(255,255,255,.08);
+    }
+    .tutorial-block h2{margin:8px 0 10px; font-size:2rem}
+    .tutorial-lead{color:var(--muted,#9fb5d6); font-size:1.03rem; margin:0 0 20px}
+    .doc-kicker{
+      color:var(--blue,#7ec0ff); font-size:.78rem; text-transform:uppercase;
+      letter-spacing:.14em; font-weight:800;
+    }
+    .doc-subsection{scroll-margin-top:110px; margin-top:24px}
+    .doc-subsection h3{scroll-margin-top:110px; margin-bottom:10px; font-size:1.22rem}
+    .tutorial-note{
+      margin:14px 0 0;
+      padding:14px 16px;
+      border:1px solid rgba(126,192,255,.24);
+      border-radius:14px;
+      background:rgba(105,183,255,.08);
+      color:var(--muted,#9fb5d6);
+    }
+    .tutorial-note strong{color:var(--text,#eef6ff)}
+    .table-wrap{overflow-x:auto; margin-top:14px}
+    .tutorial-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:.94rem;
+      line-height:1.5;
+      color:var(--muted,#9fb5d6);
+    }
+    .tutorial-table th,
+    .tutorial-table td{
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.10);
+      text-align:left;
+      vertical-align:top;
+    }
+    .tutorial-table th{
+      color:var(--text,#eef6ff);
+      background:rgba(255,255,255,.05);
+      font-weight:800;
+    }
+    .tutorial-table code{white-space:nowrap}
+    @media (max-width:1180px){
+      .tutorial-layout{grid-template-columns:210px minmax(0, 1fr)}
+      .tutorial-sidebar-right{display:none}
+    }
+    @media (max-width:860px){
+      .tutorial-layout{grid-template-columns:1fr}
+      .tutorial-sidebar{position:static; max-height:none}
+      .tutorial-content{padding:24px 20px}
+    }
+    @media (prefers-color-scheme: light){
+      .tutorial-sidebar, .tutorial-content{
+        background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(249,252,255,.86));
+      }
+      .toc-section-label{color:#28425f}
+      .toc-link:hover{
+        color:#143250; background:rgba(30,100,216,.06); border-color:rgba(30,100,216,.10);
+      }
+      .toc-link.active{
+        color:#0f1c2f;
+        background:linear-gradient(135deg, rgba(47,124,255,.12), rgba(28,199,182,.08));
+        border-color:rgba(30,100,216,.12);
+      }
+      .tutorial-search-box{
+        background:rgba(255,255,255,.72);
+        border-color:rgba(20,50,90,.12);
+      }
+      .tutorial-search-input{
+        color:#143250;
+      }
+      .tutorial-search-clear:hover{
+        color:#143250;
+        background:rgba(30,100,216,.08);
+      }
+      .tutorial-block + .tutorial-block{
+        border-top:1px solid rgba(20,50,90,.08);
+      }
+      .tutorial-note{
+        background:rgba(30,100,216,.06);
+        border-color:rgba(30,100,216,.14);
+      }
+      .tutorial-note strong{color:#143250}
+      .tutorial-table th,
+      .tutorial-table td{
+        border-color:rgba(20,50,90,.12);
+      }
+      .tutorial-table th{
+        color:#143250;
+        background:rgba(30,100,216,.06);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand brand-text-only" href="/home/">
+        <div>
+          <strong>HIMVP</strong>
+        </div>
+      </a>
+      <nav class="site-nav">
+        <a href="/home/">Home</a>
+        <a href="/download/">Download</a>
+        <a href="/tutorial/" class="active">Tutorial</a>
+        <a href="/contact/">Contact Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Tutorial</h2>
+        <p>Common GLM, MLM, PCA, GRM, clustering, GPU, benchmark and plotting workflows.</p>
+      </div>
+
+      <div class="tutorial-layout">
+        <aside class="tutorial-sidebar tutorial-sidebar-left panel">
+          <div class="tutorial-sidebar-inner">
+            <div class="tutorial-search" id="tutorialSearch">
+              <div class="tutorial-search-box">
+                <input class="tutorial-search-input" id="tutorialSearchInput" type="search" autocomplete="off" placeholder="Search this chapter" aria-label="Search this chapter" />
+                <button class="tutorial-search-clear" id="tutorialSearchClear" type="button" aria-label="Clear tutorial search">x</button>
+              </div>
+              <div class="tutorial-search-nav" aria-label="Search result navigation">
+                <button id="tutorialSearchPrev" type="button" aria-label="Previous match">↑</button>
+                <button id="tutorialSearchNext" type="button" aria-label="Next match">↓</button>
+              </div>
+              <div class="tutorial-search-status" id="tutorialSearchStatus" aria-live="polite"></div>
+            </div>
+            <nav class="toc-nav toc-nav-primary" id="primaryToc">
+              <a href="/tutorial/introduction/" class="toc-link toc-link-primary" data-target="introduction">Introduction</a>
+              <a href="/tutorial/input-file-formats/" class="toc-link toc-link-primary" data-target="input-file-formats">Input File Formats</a>
+              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary active" data-target="running-mvp">Running HIMVP</a>
+              <a href="/tutorial/meta-analysis/" class="toc-link toc-link-primary" data-target="meta-analysis">Meta-analysis</a>
+              <a href="/tutorial/ucalm/" class="toc-link toc-link-primary" data-target="ucalm">UCALM</a>
+              <a href="/tutorial/output-visualization-faq/" class="toc-link toc-link-primary" data-target="output-visualization-faq">Output, Visualization & FAQ</a>
+            </nav>
+          </div>
+        </aside>
+
+        <article class="tutorial-content panel" id="tutorialContent">
+          <section class="tutorial-block" id="running-mvp" data-section-title="Running HIMVP">
+            <div class="doc-kicker">Section 3</div>
+            <h2>Running HIMVP</h2>
+            <p class="tutorial-lead">
+              This section lists common HIMVP workflows. Use one analysis mode per command unless the workflow explicitly supports automatic clustering inside GLM or MLM.
+            </p>
+
+            <div class="doc-subsection" id="quick-start">
+              <h3>Quick Start</h3>
+              <p>
+                Start with a small and explicit command before launching a full analysis. The examples below assume that genotype files use the
+                prefix <code>data/geno</code>, the phenotype file is <code>data/pheno.txt</code>, and output files will be written under
+                <code>result/</code>.
+              </p>
+              <div class="code"><pre><code># GLM GWAS
+himvp --glm --bfile data/geno --pheno data/pheno.txt --out result/glm
+
+# MLM GWAS
+himvp --mlm --bfile data/geno --pheno data/pheno.txt --out result/mlm
+
+# PCA
+himvp --pca --bfile data/geno --npc 5 --out result/pca
+
+# GRM construction
+himvp --make-grm --bfile data/geno --out result/grm</code></pre></div>
+              <ul class="text-list">
+                <li>Use <code>--glm</code> first to verify basic phenotype, genotype and covariate formatting.</li>
+                <li>Use <code>--mlm</code> when relatedness or population structure needs stronger control.</li>
+                <li>Use <code>--pca</code> or <code>--make-grm</code> separately when you want to inspect intermediate files.</li>
+                <li>Use a fresh <code>--out</code> prefix for each run to avoid overwriting previous output.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="output-prefix-threads">
+              <h3>Output Prefix and Threads</h3>
+              <p>
+                Use <code>--out</code> to set the output prefix and <code>--threads</code> to set the number of CPU threads. This rule applies
+                across GLM, MLM, PCA, GRM, clustering, meta-analysis and plotting workflows.
+              </p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Option</th><th>Purpose</th><th>Recommendation</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>--out</code></td><td>Prefix for result tables, figures and logs.</td><td>Use a directory plus a descriptive prefix, for example <code>result/trait1_glm</code>.</td></tr>
+                    <tr><td><code>--threads</code></td><td>Number of CPU threads.</td><td>Use a value that leaves resources for the operating system and other jobs.</td></tr>
+                    <tr><td><code>--step</code></td><td>Number of markers loaded into RAM at a time.</td><td>Increase for speed when memory is sufficient; decrease when memory is tight.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Output prefix rule.</strong> HIMVP appends suffixes such as <code>.assoc.txt</code> or plot file extensions to the prefix.
+                The prefix itself should not include those suffixes.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="glm-analysis">
+              <h3>GLM Analysis</h3>
+              <p>
+                Use <code>--glm</code> as the first GWAS scan to verify phenotype, genotype, covariate and association-output formatting.
+              </p>
+              <p><strong>Requires:</strong> phenotype file and one genotype prefix. See <a href="/tutorial/input-file-formats/#phenotype-file">Phenotype File</a> and <a href="/tutorial/input-file-formats/#genotype-files">Genotype Files</a>.</p>
+              <div class="code"><pre><code>himvp --glm \
+    --bfile demo \
+    --pheno demo.phe \
+    --pheno-pos 2 \
+    --dcovar 4,5 \
+    --qcovar 6 \
+    --maf 0.01 \
+    --out result/glm_demo</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> association table under the selected <code>--out</code> prefix.</li>
+                <li>Use <code>--add</code> for additive genetic effect or <code>--dom</code> for dominant effect. If neither is supplied, additive effect is used.</li>
+                <li>Add covariates only after confirming their column positions and data types in the input-format section.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="mlm-analysis">
+              <h3>MLM Analysis</h3>
+              <p>
+                Use <code>--mlm</code> when population structure or kinship may inflate GLM statistics. If no <code>--grm</code> is provided,
+                HIMVP can construct the relationship matrix from genotype data.
+              </p>
+              <p><strong>Requires:</strong> phenotype file, genotype prefix and optionally a GRM prefix. See <a href="/tutorial/input-file-formats/#relationship-matrix-file">Relationship Matrix File</a>.</p>
+              <div class="code"><pre><code>himvp --mlm \
+    --bfile demo \
+    --pheno demo.phe \
+    --pheno-pos 2 \
+    --npc 3 \
+    --out result/mlm_demo</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> association table and model logs under the selected <code>--out</code> prefix.</li>
+                <li><code>--npc</code> adds principal components to the fixed-effect part of the GWAS model.</li>
+                <li><code>--max-iter</code> controls the maximum number of variance component iterations.</li>
+                <li><code>--mlm-path mkm</code> uses marker-by-marker variance handling for full MLM scans; <code>--mlm-path emmax</code> estimates variance once and reuses it for faster approximate scans.</li>
+                <li>For production MLM runs, keep the GRM prefix, version and command line together with the output.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="multi-trait-analysis">
+              <h3>Multi-trait Analysis</h3>
+              <p>
+                Pass multiple phenotype columns to analyze several traits in one command.
+              </p>
+              <p><strong>Requires:</strong> one phenotype file whose selected trait columns share the same individual ID column.</p>
+              <div class="code"><pre><code>himvp --mlm \
+    --bfile demo \
+    --pheno demo.phe \
+    --pheno-pos 2,3,4 \
+    --out result/mlm_multi_trait</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> trait-specific columns in the association result table.</li>
+                <li>Each selected trait may have missing values encoded as <code>NA</code>.</li>
+                <li>If <code>--vg</code> and <code>--ve</code> are supplied, provide one value per selected trait in the same order as <code>--pheno-pos</code>.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="pca">
+              <h3>PCA</h3>
+              <p>
+                Use <code>--pca</code> with genotype data or a pre-computed GRM to inspect population structure.
+              </p>
+              <p><strong>Requires:</strong> genotype prefix or GRM prefix, plus the requested number of PCs.</p>
+              <div class="code"><pre><code>himvp --pca --bfile demo --npc 5 --out result/pca
+himvp --pca --grm demo_grm --npc 5 --out result/pca_from_grm</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> PC scores and variance summary files.</li>
+                <li>Use PCA output for structure review, plotting and clustering input.</li>
+              </ul>
+              <p class="tutorial-note">
+                <strong>Model correction.</strong> For GLM or MLM, specify <code>--npc</code> in the association command rather than passing a
+                PC file with <code>--pc</code>.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="grm-construction">
+              <h3>GRM Construction</h3>
+              <p>
+                Use <code>--make-grm</code> to construct reusable genomic relationship matrix files.
+              </p>
+              <p><strong>Requires:</strong> genotype prefix. The resulting GRM can be reused by MLM, PCA and clustering workflows.</p>
+              <div class="code"><pre><code>himvp --make-grm \
+    --bfile demo \
+    --grm-method 1 \
+    --out result/demo_grm</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> GRM binary matrix and ID files under the selected prefix.</li>
+                <li><code>--grm-method</code> selects the relationship-matrix construction method.</li>
+                <li>Use <code>--bitwise-grm</code> for BED-based raw additive GRM construction when that optimized path is appropriate.</li>
+                <li>Use <code>--float-prec</code> if you need lower memory use for matrix-heavy steps.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="population-clustering">
+              <h3>Population Clustering</h3>
+              <p>
+                Use <code>--cluster</code> or <code>--auto-cluster</code> for HDBSCAN-based clustering from genotype, GRM or PC input.
+              </p>
+              <p><strong>Requires:</strong> one structure input source. See <a href="/tutorial/input-file-formats/#principal-component-file">Principal Component File</a> and <a href="/tutorial/input-file-formats/#relationship-matrix-file">Relationship Matrix File</a>.</p>
+              <div class="code"><pre><code>himvp --cluster --bfile demo --npc-cluster 3 --out result/cluster
+himvp --cluster --pc demo.pc --npc 3 --out result/cluster_from_pc</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> cluster labels and optional parameter/embedding files.</li>
+                <li>Use clustering when known population labels are unavailable or need cross-checking.</li>
+                <li>When clustering from genotype data, HIMVP first derives the requested number of PCs for clustering.</li>
+                <li>Use <code>--npc-cluster</code> for the number of PCs used in clustering from genotype or GRM input.</li>
+                <li><code>--use-umap</code> can add UMAP before clustering; tune <code>--umap-nn</code> and <code>--umap-md</code> only after the basic command works.</li>
+                <li><code>--use-kdtree</code> can reduce memory cost for clustering neighborhood queries.</li>
+              </ul>
+              <div class="code"><pre><code>himvp --auto-cluster \
+    --bfile demo \
+    --npc-cluster 10 \
+    --use-umap \
+    --umap-nn 15 \
+    --umap-md 0.1 \
+    --out result/cluster_umap</code></pre></div>
+              <p class="tutorial-note">
+                <strong>Parameter compatibility.</strong> Do not combine <code>--grid</code> with <code>--use-umap</code>. Grid optimization is
+                for the automatic clustering workflow without UMAP.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="gpu-acceleration">
+              <h3>GPU Acceleration</h3>
+              <p>
+                GPU options are available only when HIMVP is built with CUDA support. Use GPU acceleration mainly for computationally intensive
+                MLM workflows and benchmark CPU versus GPU results on a representative subset before running a full dataset.
+              </p>
+              <p><strong>Requires:</strong> CUDA-enabled HIMVP build and a working CUDA runtime.</p>
+              <div class="code"><pre><code>himvp --mlm \
+    --bfile demo \
+    --pheno demo.phe \
+    --device cuda \
+    --gpus 0,1 \
+    --evd-method mg \
+    --out result/mlm_gpu</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Option</th><th>Values</th><th>Use</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>--device</code></td><td><code>auto</code>, <code>cpu</code>, <code>cuda</code></td><td>Selects compute device.</td></tr>
+                    <tr><td><code>--gpus</code></td><td>Comma-separated IDs</td><td>Selects GPU devices, for example <code>0,1</code>.</td></tr>
+                    <tr><td><code>--evd-method</code></td><td><code>auto</code>, <code>dc</code>, <code>mg</code>, <code>cs</code>, <code>bk</code>, <code>jacobi</code>, <code>qr</code>, <code>r3</code>, <code>svd_z</code></td><td>Controls eigendecomposition path accepted by current runtime validation.</td></tr>
+                    <tr><td><code>--mlm-var</code></td><td><code>auto</code>, <code>cpu</code>, <code>gpu</code></td><td>Selects whether MLM variance estimation runs automatically, on CPU or on GPU.</td></tr>
+                    <tr><td><code>--mlm-var-method</code></td><td><code>ai</code>, <code>he</code>, <code>hi</code></td><td>Controls variance estimation strategy.</td></tr>
+                    <tr><td><code>--mlm-path</code></td><td><code>mkm</code>, <code>emmax</code></td><td>Selects MLM algorithmic path.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Runtime validation.</strong> The current source tree still has a few differences between CLI help text and later parameter
+                validation. This table lists values that pass the current runtime checks.
+              </p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Setting</th><th>Practical meaning</th><th>When to use it</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>--mlm-var-method ai</code></td><td>AI-REML variance estimation.</td><td>Default choice for standard MLM runs.</td></tr>
+                    <tr><td><code>--mlm-var-method he</code></td><td>HE regression without REML iteration.</td><td>Fast exploratory runs or rough variance estimates.</td></tr>
+                    <tr><td><code>--mlm-var-method hi</code></td><td>HE initialization followed by AI-REML refinement.</td><td>Use when HE initialization may help convergence.</td></tr>
+                    <tr><td><code>--mlm-var auto</code></td><td>Let HIMVP choose the variance-estimation placement.</td><td>Recommended unless benchmarking CPU/GPU behavior.</td></tr>
+                    <tr><td><code>--mlm-var cpu</code></td><td>Run variance estimation on CPU.</td><td>Conservative choice for reproducible production runs.</td></tr>
+                    <tr><td><code>--mlm-var gpu</code></td><td>Request GPU variance estimation.</td><td>Experimental in the current source tree; verify logs before relying on it.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="doc-subsection" id="benchmark-mode">
+              <h3>Benchmark Mode</h3>
+              <p>
+                Use benchmark mode to write phase-level timing information. This is useful when comparing CPU and GPU settings, tuning
+                <code>--step</code>, or preparing a performance report for a release.
+              </p>
+              <p><strong>Requires:</strong> any valid analysis command plus benchmark output options.</p>
+              <div class="code"><pre><code>himvp --mlm \
+    --bfile demo \
+    --pheno demo.phe \
+    --benchmark \
+    --benchmark-out result/mlm_benchmark \
+    --out result/mlm</code></pre></div>
+              <p class="mt-12">
+                HIMVP writes <code>&lt;benchmark-out&gt;.timing.json</code>. Keep this JSON file with the association output so runtime comparisons
+                can be reproduced later.
+              </p>
+              <ul class="text-list">
+                <li>Run benchmark commands on an otherwise quiet machine when possible.</li>
+                <li>Use the same input files and model options when comparing two devices.</li>
+                <li>Record CPU model, GPU model, memory size and HIMVP version together with the timing file.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="plot-generation">
+              <h3>Plot Generation During Analysis</h3>
+              <p>
+                When the plotting module is enabled, add <code>--plot</code> to generate figures after analysis. This is convenient for routine
+                GWAS runs because association tables and plots are generated from the same command and output prefix.
+              </p>
+              <p><strong>Requires:</strong> a plotting-enabled HIMVP build and an analysis that produces plot-ready output.</p>
+              <div class="code"><pre><code>himvp --glm \
+    --bfile demo \
+    --pheno demo.phe \
+    --plot \
+    --plot-theme nature \
+    --out result/glm_plot</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> association table plus figures under the selected prefix.</li>
+                <li>Use <code>--plot-only</code> from an existing result file when you only need to regenerate figures.</li>
+              </ul>
+            </div>
+          </section>
+        </article>
+
+        <aside class="tutorial-sidebar tutorial-sidebar-right panel">
+          <div class="tutorial-sidebar-inner">
+            <nav class="toc-nav toc-nav-secondary" id="secondaryToc"></nav>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer footer-site">
+  <div class="container footer-site-grid">
+    <section class="footer-site-col">
+      <div class="footer-site-heading">Sitemap</div>
+      <div class="footer-site-links">
+        <a href="/home/">Home</a>
+        <a href="/download/">Download</a>
+        <a href="/tutorial/">Tutorial</a>
+        <a href="/contact/">Contact Us</a>
+      </div>
+    </section>
+
+    <section class="footer-site-col">
+      <div class="footer-site-heading">Other Tools</div>
+      <div class="footer-site-links">
+        <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
+        <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
+        <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
+        <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
+      </div>
+    </section>
+
+    <section class="footer-site-col footer-site-right">
+      <div class="footer-site-copy">
+        Copyright © 2026–present. All rights reserved.
+      </div>
+      <div class="footer-site-copy">
+        No commercial use without authorization.
+      </div>
+    </section>
+  </div>
+</footer>
+
+  <script src="/assets/js/tutorial.js"></script>
+  <script src="/assets/js/site.js"></script>
+</body></html>

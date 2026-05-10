@@ -35,6 +35,6 @@
       <line x1="622" y1="99" x2="622" y2="141"/>
     </g>
   </g>
-  <text x="82" y="94" fill="url(#mvpl)" font-size="92" font-family="Georgia, Times, serif" font-weight="700" letter-spacing="6">MVP</text>
+  <text x="82" y="94" fill="url(#mvpl)" font-size="76" font-family="Georgia, Times, serif" font-weight="700" letter-spacing="3">HIMVP</text>
   <text x="86" y="202" fill="#9FB7D9" font-size="18" font-family="Inter, Arial, sans-serif" letter-spacing="1.8">Memory-efficient • Visualization-enhanced • Parallel-accelerated</text>
 </svg>
