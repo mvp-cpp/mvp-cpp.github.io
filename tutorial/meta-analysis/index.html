@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HIMVP | Meta-analysis</title>
+  <meta name="description" content="HIMVP tutorial: Summary statistics input, method selection, recipes, subgroup GWAS and meta output." />
+  <link rel="canonical" href="https://mvp-cpp.github.io/tutorial/meta-analysis/" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+
+  <style>
+    /* tutorial page self-contained layout fix */
+    .tutorial-layout{
+      display:grid;
+      grid-template-columns:220px minmax(0, 1fr) 220px;
+      gap:22px;
+      align-items:start;
+    }
+    .tutorial-sidebar{
+      padding:0;
+      position:sticky;
+      top:98px;
+      max-height:calc(100vh - 118px);
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:var(--panel, rgba(255,255,255,0.06));
+      box-shadow:var(--shadow, 0 22px 60px rgba(0,0,0,0.28));
+      backdrop-filter: blur(14px);
+    }
+    .tutorial-sidebar-inner{padding:22px 18px}
+    .tutorial-content{
+      min-width:0;
+      padding:30px 34px;
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:var(--panel, rgba(255,255,255,0.06));
+      box-shadow:var(--shadow, 0 22px 60px rgba(0,0,0,0.28));
+      backdrop-filter: blur(14px);
+    }
+    .toc-heading{
+      font-size:.82rem; letter-spacing:.12em; text-transform:uppercase;
+      font-weight:800; color:var(--blue,#69b7ff); margin-bottom:10px;
+    }
+    .toc-section-label{
+      font-size:.96rem; font-weight:700; color:var(--text,#eaf2ff);
+      margin-bottom:12px; line-height:1.45;
+    }
+    .tutorial-search{
+      margin-bottom:16px;
+    }
+    .tutorial-search-box{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      min-height:38px;
+      padding:0 8px 0 12px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:12px;
+      background:rgba(255,255,255,.05);
+    }
+    .tutorial-search-input{
+      min-width:0;
+      flex:1;
+      border:0;
+      outline:0;
+      background:transparent;
+      color:var(--text,#eef6ff);
+      font:inherit;
+      font-size:.92rem;
+    }
+    .tutorial-search-input::placeholder{
+      color:var(--muted,#9fb5d6);
+      opacity:.76;
+    }
+    .tutorial-search-clear{
+      width:24px;
+      height:24px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:0;
+      border-radius:8px;
+      background:transparent;
+      color:var(--muted,#9fb5d6);
+      cursor:pointer;
+      font:inherit;
+      font-size:1rem;
+      line-height:1;
+      visibility:hidden;
+    }
+    .tutorial-search-clear:hover{
+      color:var(--text,#eef6ff);
+      background:rgba(255,255,255,.08);
+    }
+    .tutorial-search.has-query .tutorial-search-clear{
+      visibility:visible;
+    }
+    .tutorial-search-status{
+      min-height:18px;
+      margin-top:6px;
+      color:var(--muted,#9fb5d6);
+      font-size:.78rem;
+      line-height:1.35;
+    }
+    .tutorial-search-nav{
+      display:none;
+      gap:6px;
+      margin-top:8px;
+    }
+    .tutorial-search.has-query .tutorial-search-nav{
+      display:flex;
+    }
+    .tutorial-search-nav button{
+      width:30px;
+      height:28px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:9px;
+      background:rgba(255,255,255,.05);
+      color:var(--text,#eef6ff);
+      cursor:pointer;
+      font:inherit;
+      line-height:1;
+    }
+    .tutorial-search-nav button:disabled{
+      cursor:not-allowed;
+      opacity:.45;
+    }
+    .tutorial-search-mark{
+      padding:0 .12em;
+      border-radius:3px;
+      background:rgba(255,183,106,.42);
+      color:inherit;
+    }
+    .tutorial-search-mark.is-current{
+      background:rgba(105,183,255,.62);
+      box-shadow:0 0 0 2px rgba(105,183,255,.20);
+    }
+    .toc-nav{display:flex; flex-direction:column; gap:8px}
+    .toc-link{
+      display:block; padding:9px 12px; border-radius:12px; color:var(--muted,#9fb5d6);
+      border:1px solid transparent; transition:.18s ease; line-height:1.4;
+    }
+    .toc-link:hover{
+      text-decoration:none; color:var(--text,#eef6ff);
+      background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.08);
+    }
+    .toc-link.active{
+      color:var(--text,#ffffff);
+      background:linear-gradient(135deg, rgba(105,183,255,.18), rgba(76,224,210,.10));
+      border-color:rgba(139,200,255,.22);
+    }
+    .toc-link-primary{font-weight:700}
+    .toc-link-secondary{font-size:.95rem; padding-left:14px}
+    .tutorial-block + .tutorial-block{
+      margin-top:48px; padding-top:12px; border-top:1px solid rgba(255,255,255,.08);
+    }
+    .tutorial-block h2{margin:8px 0 10px; font-size:2rem}
+    .tutorial-lead{color:var(--muted,#9fb5d6); font-size:1.03rem; margin:0 0 20px}
+    .doc-kicker{
+      color:var(--blue,#7ec0ff); font-size:.78rem; text-transform:uppercase;
+      letter-spacing:.14em; font-weight:800;
+    }
+    .doc-subsection{scroll-margin-top:110px; margin-top:24px}
+    .doc-subsection h3{scroll-margin-top:110px; margin-bottom:10px; font-size:1.22rem}
+    .tutorial-note{
+      margin:14px 0 0;
+      padding:14px 16px;
+      border:1px solid rgba(126,192,255,.24);
+      border-radius:14px;
+      background:rgba(105,183,255,.08);
+      color:var(--muted,#9fb5d6);
+    }
+    .tutorial-note strong{color:var(--text,#eef6ff)}
+    .table-wrap{overflow-x:auto; margin-top:14px}
+    .tutorial-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:.94rem;
+      line-height:1.5;
+      color:var(--muted,#9fb5d6);
+    }
+    .tutorial-table th,
+    .tutorial-table td{
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.10);
+      text-align:left;
+      vertical-align:top;
+    }
+    .tutorial-table th{
+      color:var(--text,#eef6ff);
+      background:rgba(255,255,255,.05);
+      font-weight:800;
+    }
+    .tutorial-table code{white-space:nowrap}
+    @media (max-width:1180px){
+      .tutorial-layout{grid-template-columns:210px minmax(0, 1fr)}
+      .tutorial-sidebar-right{display:none}
+    }
+    @media (max-width:860px){
+      .tutorial-layout{grid-template-columns:1fr}
+      .tutorial-sidebar{position:static; max-height:none}
+      .tutorial-content{padding:24px 20px}
+    }
+    @media (prefers-color-scheme: light){
+      .tutorial-sidebar, .tutorial-content{
+        background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(249,252,255,.86));
+      }
+      .toc-section-label{color:#28425f}
+      .toc-link:hover{
+        color:#143250; background:rgba(30,100,216,.06); border-color:rgba(30,100,216,.10);
+      }
+      .toc-link.active{
+        color:#0f1c2f;
+        background:linear-gradient(135deg, rgba(47,124,255,.12), rgba(28,199,182,.08));
+        border-color:rgba(30,100,216,.12);
+      }
+      .tutorial-search-box{
+        background:rgba(255,255,255,.72);
+        border-color:rgba(20,50,90,.12);
+      }
+      .tutorial-search-input{
+        color:#143250;
+      }
+      .tutorial-search-clear:hover{
+        color:#143250;
+        background:rgba(30,100,216,.08);
+      }
+      .tutorial-block + .tutorial-block{
+        border-top:1px solid rgba(20,50,90,.08);
+      }
+      .tutorial-note{
+        background:rgba(30,100,216,.06);
+        border-color:rgba(30,100,216,.14);
+      }
+      .tutorial-note strong{color:#143250}
+      .tutorial-table th,
+      .tutorial-table td{
+        border-color:rgba(20,50,90,.12);
+      }
+      .tutorial-table th{
+        color:#143250;
+        background:rgba(30,100,216,.06);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand brand-text-only" href="/home/">
+        <div>
+          <strong>HIMVP</strong>
+        </div>
+      </a>
+      <nav class="site-nav">
+        <a href="/home/">Home</a>
+        <a href="/download/">Download</a>
+        <a href="/tutorial/" class="active">Tutorial</a>
+        <a href="/contact/">Contact Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Tutorial</h2>
+        <p>Summary statistics input, method selection, recipes, subgroup GWAS and meta output.</p>
+      </div>
+
+      <div class="tutorial-layout">
+        <aside class="tutorial-sidebar tutorial-sidebar-left panel">
+          <div class="tutorial-sidebar-inner">
+            <div class="tutorial-search" id="tutorialSearch">
+              <div class="tutorial-search-box">
+                <input class="tutorial-search-input" id="tutorialSearchInput" type="search" autocomplete="off" placeholder="Search this chapter" aria-label="Search this chapter" />
+                <button class="tutorial-search-clear" id="tutorialSearchClear" type="button" aria-label="Clear tutorial search">x</button>
+              </div>
+              <div class="tutorial-search-nav" aria-label="Search result navigation">
+                <button id="tutorialSearchPrev" type="button" aria-label="Previous match">↑</button>
+                <button id="tutorialSearchNext" type="button" aria-label="Next match">↓</button>
+              </div>
+              <div class="tutorial-search-status" id="tutorialSearchStatus" aria-live="polite"></div>
+            </div>
+            <nav class="toc-nav toc-nav-primary" id="primaryToc">
+              <a href="/tutorial/introduction/" class="toc-link toc-link-primary" data-target="introduction">Introduction</a>
+              <a href="/tutorial/input-file-formats/" class="toc-link toc-link-primary" data-target="input-file-formats">Input File Formats</a>
+              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary" data-target="running-mvp">Running HIMVP</a>
+              <a href="/tutorial/meta-analysis/" class="toc-link toc-link-primary active" data-target="meta-analysis">Meta-analysis</a>
+              <a href="/tutorial/ucalm/" class="toc-link toc-link-primary" data-target="ucalm">UCALM</a>
+              <a href="/tutorial/output-visualization-faq/" class="toc-link toc-link-primary" data-target="output-visualization-faq">Output, Visualization & FAQ</a>
+            </nav>
+          </div>
+        </aside>
+
+        <article class="tutorial-content panel" id="tutorialContent">
+          <section class="tutorial-block" id="meta-analysis" data-section-title="Meta-analysis">
+            <div class="doc-kicker">Section 4</div>
+            <h2>Meta-analysis</h2>
+            <p class="tutorial-lead">
+              HIMVP can combine GWAS summary statistics from multiple cohorts or populations. The standalone mode uses <code>--meta</code> and
+              <code>--sumstat</code>.
+            </p>
+
+            <div class="doc-subsection" id="meta-overview">
+              <h3>Overview</h3>
+              <p>
+                Meta-analysis starts from existing GWAS summary statistics. Use this workflow when each cohort or population has already been
+                analyzed separately.
+              </p>
+              <p><strong>Requires:</strong> at least two summary statistics files. See <a href="/tutorial/input-file-formats/#summary-statistics-file">GWAS Summary Statistics File</a>.</p>
+              <div class="code"><pre><code>himvp --meta \
+    --sumstat cohort1.sumstat,cohort2.sumstat,cohort3.sumstat \
+    --meta-method 1 \
+    --maf 0.01 \
+    --out result/meta_demo</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> combined association results under the selected <code>--out</code> prefix.</li>
+                <li>Use comma-separated paths in <code>--sumstat</code>; do not insert spaces around commas.</li>
+                <li>Use <code>--maf</code> to remove low-frequency markers before combining evidence.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="summary-statistics-input">
+              <h3>Summary Statistics Input</h3>
+              <p>
+                The file format is defined once in <a href="/tutorial/input-file-formats/#summary-statistics-file">GWAS Summary Statistics File</a>. In meta-analysis
+                commands, pass multiple summary files as a comma-separated list.
+              </p>
+              <div class="code"><pre><code>--sumstat cohort1.sumstat,cohort2.sumstat,cohort3.sumstat</code></pre></div>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Pre-check</th><th>Reason</th><th>Recommended action</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Genome build</td><td>Position mismatches create false marker alignment.</td><td>Convert all cohorts to the same build before meta-analysis.</td></tr>
+                    <tr><td>Allele orientation</td><td>Effect directions depend on <code>a1</code> and <code>a2</code>.</td><td>Harmonize effect alleles and frequencies across cohorts.</td></tr>
+                    <tr><td>Sample size</td><td>Fixed and random effects depend on reliable standard errors and sample sizes.</td><td>Use cohort-specific numeric <code>n</code> values.</td></tr>
+                    <tr><td>P-value range</td><td>Invalid p-values break p-value aggregation methods.</td><td>Ensure <code>0 &lt; p &lt;= 1</code> whenever possible.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Pre-check.</strong> Harmonize marker IDs, genome build, allele orientation and sample-size columns before combining cohorts.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="meta-method-selection">
+              <h3>Meta Method Selection</h3>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Selector</th><th>Method</th><th>Use when</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>--meta-method 1</code></td><td>UCALM</td><td>Summary-statistics integration for heterogeneous populations.</td></tr>
+                    <tr><td><code>--meta-method 2</code></td><td>Fixed effect</td><td>Cohorts are similar and effect directions are expected to match.</td></tr>
+                    <tr><td><code>--meta-method 3</code></td><td>Random effect</td><td>Effect sizes may vary across cohorts.</td></tr>
+                    <tr><td><code>--meta-method 4</code></td><td>MR-MEGA</td><td>Allele-frequency structure should be modeled across populations.</td></tr>
+                    <tr><td><code>--meta-method 5</code></td><td>ACAT</td><td>Signals may appear in only a subset of cohorts.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>UCALM shortcut.</strong> Use <code>--ucalm</code> only for the full individual-level UCALM workflow. For existing summary
+                statistics, use <code>--meta --meta-method 1</code>.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="meta-method-recipes">
+              <h3>Meta Method Recipes</h3>
+              <p>Switch methods by changing only <code>--meta-method</code> and the output prefix.</p>
+              <div class="code"><pre><code># Fixed effect
+himvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 2 --out result/meta_fe
+
+# Random effect
+himvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 3 --out result/meta_re
+
+# MR-MEGA
+himvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 4 --out result/meta_mrmega
+
+# ACAT
+himvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 5 --out result/meta_acat</code></pre></div>
+            </div>
+
+            <div class="doc-subsection" id="subgroup-gwas-meta">
+              <h3>Subgroup GWAS to Meta-analysis</h3>
+              <p>
+                When <code>--pop-class</code> is supplied with GLM or MLM, HIMVP can run subgroup analyses and then integrate subgroup results
+                through the meta-analysis workflow when the meta module is enabled.
+              </p>
+              <div class="code"><pre><code>himvp --glm \
+    --bfile demo \
+    --pheno demo.phe \
+    --pop-class demo.pop \
+    --out result/subgroup_gwas
+
+himvp --meta \
+    --sumstat result/subgroup1.sumstat,result/subgroup2.sumstat \
+    --meta-method 1 \
+    --out result/subgroup_meta</code></pre></div>
+              <p class="mt-12">
+                Use this pattern when known population labels are available. For input-file details, see <a href="/tutorial/input-file-formats/#population-classification-file">Population Classification File</a>.
+              </p>
+              <ul class="text-list">
+                <li>Population labels should match the study design, such as cohort, breed, ancestry group or experimental batch.</li>
+                <li>Do not use <code>--cluster</code> and <code>--pop-class</code> in the same command.</li>
+                <li>If subgroup sample sizes are very small, inspect subgroup association results before interpreting combined meta-analysis output.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="meta-output">
+              <h3>Meta-analysis Output</h3>
+              <p>
+                Meta-analysis writes association output with marker columns and method-specific p-value or effect columns under the selected output prefix.
+              </p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Output component</th><th>Description</th><th>How to inspect it</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Marker columns</td><td><code>SNP</code>, <code>CHR</code>, <code>POS</code>, <code>A1</code>, <code>A2</code>.</td><td>Confirm marker alignment and allele orientation.</td></tr>
+                    <tr><td>Method columns</td><td>Combined statistics generated by the selected meta method.</td><td>Use the p-value column corresponding to the selected method.</td></tr>
+                    <tr><td>Subgroup columns</td><td>When <code>--pop-class</code> is used, subgroup-specific statistics may be included.</td><td>Compare subgroup effects with combined results.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <strong>Result review.</strong> Large blocks of missing values usually indicate marker mismatch, allele mismatch or aggressive
+                filtering in one or more cohorts.
+              </p>
+            </div>
+          </section>
+        </article>
+
+        <aside class="tutorial-sidebar tutorial-sidebar-right panel">
+          <div class="tutorial-sidebar-inner">
+            <nav class="toc-nav toc-nav-secondary" id="secondaryToc"></nav>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer footer-site">
+  <div class="container footer-site-grid">
+    <section class="footer-site-col">
+      <div class="footer-site-heading">Sitemap</div>
+      <div class="footer-site-links">
+        <a href="/home/">Home</a>
+        <a href="/download/">Download</a>
+        <a href="/tutorial/">Tutorial</a>
+        <a href="/contact/">Contact Us</a>
+      </div>
+    </section>
+
+    <section class="footer-site-col">
+      <div class="footer-site-heading">Other Tools</div>
+      <div class="footer-site-links">
+        <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
+        <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
+        <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
+        <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
+      </div>
+    </section>
+
+    <section class="footer-site-col footer-site-right">
+      <div class="footer-site-copy">
+        Copyright © 2026–present. All rights reserved.
+      </div>
+      <div class="footer-site-copy">
+        No commercial use without authorization.
+      </div>
+    </section>
+  </div>
+</footer>
+
+  <script src="/assets/js/tutorial.js"></script>
+  <script src="/assets/js/site.js"></script>
+</body></html>

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HIMVP | Tutorial</title>
-  <meta name="description" content="HIMVP tutorial overview with links to input formats, workflows, meta-analysis, UCALM and output documentation." />
-  <link rel="canonical" href="https://mvp-cpp.github.io/tutorial/" />
+  <title>HIMVP | UCALM</title>
+  <meta name="description" content="HIMVP tutorial: Individual-level and summary-statistics UCALM workflows, outputs and practical notes." />
+  <link rel="canonical" href="https://mvp-cpp.github.io/tutorial/ucalm/" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 
   <style>
@@ -269,46 +269,124 @@
     <div class="container">
       <div class="section-title">
         <h2>Tutorial</h2>
-        <p>Practical command-line guide for HIMVP input formats, analysis workflows, meta-analysis, UCALM and visualization.</p>
+        <p>Individual-level and summary-statistics UCALM workflows, outputs and practical notes.</p>
       </div>
 
-      <section class="tutorial-overview panel">
-        <div class="doc-kicker">Tutorial Overview</div>
-        <h2>Choose a Chapter</h2>
-        <p class="tutorial-lead">The tutorial is split into focused chapters so each page stays scannable. New users can start with Introduction, then move through input formats, analysis workflows and result interpretation.</p>
-      </section>
+      <div class="tutorial-layout">
+        <aside class="tutorial-sidebar tutorial-sidebar-left panel">
+          <div class="tutorial-sidebar-inner">
+            <div class="tutorial-search" id="tutorialSearch">
+              <div class="tutorial-search-box">
+                <input class="tutorial-search-input" id="tutorialSearchInput" type="search" autocomplete="off" placeholder="Search this chapter" aria-label="Search this chapter" />
+                <button class="tutorial-search-clear" id="tutorialSearchClear" type="button" aria-label="Clear tutorial search">x</button>
+              </div>
+              <div class="tutorial-search-nav" aria-label="Search result navigation">
+                <button id="tutorialSearchPrev" type="button" aria-label="Previous match">↑</button>
+                <button id="tutorialSearchNext" type="button" aria-label="Next match">↓</button>
+              </div>
+              <div class="tutorial-search-status" id="tutorialSearchStatus" aria-live="polite"></div>
+            </div>
+            <nav class="toc-nav toc-nav-primary" id="primaryToc">
+              <a href="/tutorial/introduction/" class="toc-link toc-link-primary" data-target="introduction">Introduction</a>
+              <a href="/tutorial/input-file-formats/" class="toc-link toc-link-primary" data-target="input-file-formats">Input File Formats</a>
+              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary" data-target="running-mvp">Running HIMVP</a>
+              <a href="/tutorial/meta-analysis/" class="toc-link toc-link-primary" data-target="meta-analysis">Meta-analysis</a>
+              <a href="/tutorial/ucalm/" class="toc-link toc-link-primary active" data-target="ucalm">UCALM</a>
+              <a href="/tutorial/output-visualization-faq/" class="toc-link toc-link-primary" data-target="output-visualization-faq">Output, Visualization & FAQ</a>
+            </nav>
+          </div>
+        </aside>
 
-      <div class="tutorial-overview-grid">
-        <a class="tutorial-overview-card panel" href="/tutorial/introduction/">
-              <span class="doc-kicker">Section 1</span>
-              <strong>Introduction</strong>
-              <span>Core concepts, first run, feature map, command structure, version and help checks.</span>
-            </a>
-<a class="tutorial-overview-card panel" href="/tutorial/input-file-formats/">
-              <span class="doc-kicker">Section 2</span>
-              <strong>Input File Formats</strong>
-              <span>Phenotype, genotype, covariate, PC, population, GRM, summary statistic and filter files.</span>
-            </a>
-<a class="tutorial-overview-card panel" href="/tutorial/running-himvp/">
-              <span class="doc-kicker">Section 3</span>
-              <strong>Running HIMVP</strong>
-              <span>Common GLM, MLM, PCA, GRM, clustering, GPU, benchmark and plotting workflows.</span>
-            </a>
-<a class="tutorial-overview-card panel" href="/tutorial/meta-analysis/">
-              <span class="doc-kicker">Section 4</span>
-              <strong>Meta-analysis</strong>
-              <span>Summary statistics input, method selection, recipes, subgroup GWAS and meta output.</span>
-            </a>
-<a class="tutorial-overview-card panel" href="/tutorial/ucalm/">
-              <span class="doc-kicker">Section 5</span>
-              <strong>UCALM</strong>
-              <span>Individual-level and summary-statistics UCALM workflows, outputs and practical notes.</span>
-            </a>
-<a class="tutorial-overview-card panel" href="/tutorial/output-visualization-faq/">
-              <span class="doc-kicker">Section 6</span>
-              <strong>Output, Visualization & FAQ</strong>
-              <span>Association outputs, GRM/PCA/cluster files, plots, benchmarks and troubleshooting.</span>
-            </a>
+        <article class="tutorial-content panel" id="tutorialContent">
+          <section class="tutorial-block" id="ucalm" data-section-title="UCALM">
+            <div class="doc-kicker">Section 5</div>
+            <h2>UCALM</h2>
+            <p class="tutorial-lead">
+              UCALM stands for Unsupervised adaptive Clustering-based Association and Layered Meta integration.
+            </p>
+
+            <div class="doc-subsection" id="ucalm-full-workflow">
+              <h3>Individual-level Data Workflow</h3>
+              <p>
+                Use <code>--ucalm</code> when starting from genotype and phenotype files. This path covers clustering, subgroup GWAS and layered integration.
+              </p>
+              <p><strong>Requires:</strong> genotype prefix, phenotype file and optional covariates. See <a href="/tutorial/input-file-formats/#genotype-files">Genotype Files</a> and <a href="/tutorial/input-file-formats/#phenotype-file">Phenotype File</a>.</p>
+              <div class="code"><pre><code>himvp --ucalm \
+    --bfile demo \
+    --pheno demo.phe \
+    --pheno-pos 2 \
+    --out result/ucalm_full</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> subgroup analysis results plus final UCALM integration output under the selected prefix.</li>
+                <li>Use this path for complex populations when predefined labels are incomplete or too coarse.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="ucalm-summary-workflow">
+              <h3>Summary-statistics Workflow</h3>
+              <p>
+                Use this path when subgroup or cohort summary statistics already exist and only the UCALM integration stage is needed.
+              </p>
+              <p><strong>Requires:</strong> summary statistics prepared as described in <a href="/tutorial/meta-analysis/#summary-statistics-input">Summary Statistics Input</a>.</p>
+              <div class="code"><pre><code>himvp --meta \
+    --sumstat pop1.sumstat,pop2.sumstat,pop3.sumstat \
+    --meta-method 1 \
+    --threads 8 \
+    --out result/trait1_ucalm_meta</code></pre></div>
+              <ul class="text-list">
+                <li><strong>Output:</strong> UCALM integration results under the selected <code>--out</code> prefix.</li>
+                <li>Use this path only when grouping and subgroup-level GWAS have already been completed.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="ucalm-output">
+              <h3>UCALM Output and Interpretation</h3>
+              <p>
+                UCALM writes method-specific association results under the selected <code>--out</code> prefix. The forward-facing output column
+                name should be treated as <code>UCALM_PVAL</code>.
+              </p>
+              <ul class="text-list">
+                <li>Sort output by the <code>UCALM_PVAL</code> column to identify top markers.</li>
+                <li><strong>Output:</strong> association result table plus any subgroup-level files produced by the chosen workflow.</li>
+                <li>Check whether top markers have consistent chromosome, position and allele fields across cohorts.</li>
+                <li>Compare component evidence from FE, MR-MEGA and ACAT to classify likely effect patterns.</li>
+              </ul>
+              <p class="tutorial-note">
+                <strong>Interpretation.</strong> Review cohort-level effect direction, sample size and QC before claiming a biologically meaningful UCALM signal.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="ucalm-practical-notes">
+              <h3>Practical Notes</h3>
+              <ul class="text-list">
+                <li>Use consistent genome builds and allele coding across subgroups or cohorts.</li>
+                <li>Keep clustering results, subgroup sample sizes and subgroup GWAS commands together with final UCALM outputs.</li>
+                <li>Check MAF, sample-size filtering and rare-variant behavior before interpreting UCALM results.</li>
+                <li>Small subgroups can reduce the power of subgroup-specific association tests; avoid over-interpreting signals from underpowered clusters.</li>
+                <li>UCALM can detect statistical heterogeneity, but functional interpretation still requires annotation and biological evidence.</li>
+              </ul>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Problem</th><th>Likely cause</th><th>Fix</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Many missing meta results</td><td>Markers do not overlap or are filtered out.</td><td>Check marker IDs, genome build, MAF and sample size.</td></tr>
+                    <tr><td>Unexpected opposite effects</td><td>Effect allele orientation differs across cohorts.</td><td>Harmonize <code>a1</code>, <code>a2</code> and <code>b</code>.</td></tr>
+                    <tr><td>Very strong single-cohort signal only</td><td>Potential cohort-specific artifact or true heterogeneity.</td><td>Inspect cohort QC, phenotype definition and batch effects.</td></tr>
+                    <tr><td>Different top loci across methods</td><td>Methods emphasize different evidence components.</td><td>Compare cohort-level effects and run sensitivity analyses.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </article>
+
+        <aside class="tutorial-sidebar tutorial-sidebar-right panel">
+          <div class="tutorial-sidebar-inner">
+            <nav class="toc-nav toc-nav-secondary" id="secondaryToc"></nav>
+          </div>
+        </aside>
       </div>
     </div>
   </main>
@@ -347,72 +425,6 @@
   </div>
 </footer>
 
-  <script>
-    (function () {
-      const redirects = {
-        "introduction": "/tutorial/introduction/#introduction",
-        "what-is-mvp": "/tutorial/introduction/#what-is-mvp",
-        "before-you-start": "/tutorial/introduction/#before-you-start",
-        "first-run": "/tutorial/introduction/#first-run",
-        "main-features": "/tutorial/introduction/#main-features",
-        "command-structure": "/tutorial/introduction/#command-structure",
-        "check-version-help": "/tutorial/introduction/#check-version-help",
-        "input-file-formats": "/tutorial/input-file-formats/#input-file-formats",
-        "phenotype-file": "/tutorial/input-file-formats/#phenotype-file",
-        "genotype-files": "/tutorial/input-file-formats/#genotype-files",
-        "covariates-in-phenotype": "/tutorial/input-file-formats/#covariates-in-phenotype",
-        "principal-component-file": "/tutorial/input-file-formats/#principal-component-file",
-        "population-classification-file": "/tutorial/input-file-formats/#population-classification-file",
-        "relationship-matrix-file": "/tutorial/input-file-formats/#relationship-matrix-file",
-        "summary-statistics-file": "/tutorial/input-file-formats/#summary-statistics-file",
-        "genome-window-file": "/tutorial/input-file-formats/#genome-window-file",
-        "sample-marker-filter-files": "/tutorial/input-file-formats/#sample-marker-filter-files",
-        "quality-control": "/tutorial/input-file-formats/#quality-control",
-        "running-mvp": "/tutorial/running-himvp/#running-mvp",
-        "quick-start": "/tutorial/running-himvp/#quick-start",
-        "output-prefix-threads": "/tutorial/running-himvp/#output-prefix-threads",
-        "glm-analysis": "/tutorial/running-himvp/#glm-analysis",
-        "mlm-analysis": "/tutorial/running-himvp/#mlm-analysis",
-        "multi-trait-analysis": "/tutorial/running-himvp/#multi-trait-analysis",
-        "pca": "/tutorial/running-himvp/#pca",
-        "grm-construction": "/tutorial/running-himvp/#grm-construction",
-        "population-clustering": "/tutorial/running-himvp/#population-clustering",
-        "gpu-acceleration": "/tutorial/running-himvp/#gpu-acceleration",
-        "benchmark-mode": "/tutorial/running-himvp/#benchmark-mode",
-        "plot-generation": "/tutorial/running-himvp/#plot-generation",
-        "meta-analysis": "/tutorial/meta-analysis/#meta-analysis",
-        "meta-overview": "/tutorial/meta-analysis/#meta-overview",
-        "summary-statistics-input": "/tutorial/meta-analysis/#summary-statistics-input",
-        "meta-method-selection": "/tutorial/meta-analysis/#meta-method-selection",
-        "meta-method-recipes": "/tutorial/meta-analysis/#meta-method-recipes",
-        "subgroup-gwas-meta": "/tutorial/meta-analysis/#subgroup-gwas-meta",
-        "meta-output": "/tutorial/meta-analysis/#meta-output",
-        "ucalm": "/tutorial/ucalm/#ucalm",
-        "ucalm-full-workflow": "/tutorial/ucalm/#ucalm-full-workflow",
-        "ucalm-summary-workflow": "/tutorial/ucalm/#ucalm-summary-workflow",
-        "ucalm-output": "/tutorial/ucalm/#ucalm-output",
-        "ucalm-practical-notes": "/tutorial/ucalm/#ucalm-practical-notes",
-        "output-visualization-faq": "/tutorial/output-visualization-faq/#output-visualization-faq",
-        "association-result-files": "/tutorial/output-visualization-faq/#association-result-files",
-        "grm-output-files": "/tutorial/output-visualization-faq/#grm-output-files",
-        "pca-output-files": "/tutorial/output-visualization-faq/#pca-output-files",
-        "clustering-output-files": "/tutorial/output-visualization-faq/#clustering-output-files",
-        "meta-analysis-output-files": "/tutorial/output-visualization-faq/#meta-analysis-output-files",
-        "manhattan-plot": "/tutorial/output-visualization-faq/#manhattan-plot",
-        "qq-plot": "/tutorial/output-visualization-faq/#qq-plot",
-        "pca-plot": "/tutorial/output-visualization-faq/#pca-plot",
-        "density-circular-plots": "/tutorial/output-visualization-faq/#density-circular-plots",
-        "plot-only-mode": "/tutorial/output-visualization-faq/#plot-only-mode",
-        "benchmark-output": "/tutorial/output-visualization-faq/#benchmark-output",
-        "common-input-errors": "/tutorial/output-visualization-faq/#common-input-errors",
-        "common-runtime-errors": "/tutorial/output-visualization-faq/#common-runtime-errors",
-        "versioning-support": "/tutorial/output-visualization-faq/#versioning-support"
-};
-      const key = window.location.hash.replace(/^#/, '');
-      if (key && redirects[key]) {
-        window.location.replace(redirects[key]);
-      }
-    })();
-  </script>
+  <script src="/assets/js/tutorial.js"></script>
   <script src="/assets/js/site.js"></script>
 </body></html>
