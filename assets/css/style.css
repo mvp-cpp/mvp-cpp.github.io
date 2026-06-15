@@ -58,7 +58,7 @@ img{max-width:100%;display:block}
   font-weight:700;font-size:.9rem
 }
 .hero h1{
-  font-size:clamp(2.6rem, 5vw, 4.4rem);
+  font-size:clamp(3.25rem, 6.2vw, 5.2rem);
   line-height:1.04;margin:18px 0 18px;letter-spacing:-0.03em
 }
 .hero p{font-size:1.08rem;color:var(--muted);max-width:730px;margin:0 0 26px}
@@ -1114,6 +1114,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
   .container,
   .narrow{
     width: min(100%, calc(100% - 24px)) !important;
+  }
+  .hero h1{
+    font-size:clamp(3.7rem, 14vw, 5rem);
   }
   .tutorial-layout{
     grid-template-columns: 1fr !important;
