@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HIMVP | UCALM</title>
-  <meta name="description" content="HIMVP tutorial: Individual-level and summary-statistics UCALM workflows, outputs and practical notes." />
+  <meta name="description" content="HIMVP tutorial: individual-level and summary-level UCALM paths, outputs and practical notes." />
   <link rel="canonical" href="https://mvp-cpp.github.io/tutorial/ucalm/" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 
@@ -269,7 +269,7 @@
     <div class="container">
       <div class="section-title">
         <h2>Tutorial</h2>
-        <p>Individual-level and summary-statistics UCALM workflows, outputs and practical notes.</p>
+        <p>Individual-level and summary-level UCALM paths, outputs and practical notes.</p>
       </div>
 
       <div class="tutorial-layout">
@@ -302,79 +302,201 @@
             <div class="doc-kicker">Section 5</div>
             <h2>UCALM</h2>
             <p class="tutorial-lead">
-              UCALM stands for Unsupervised adaptive Clustering-based Association and Layered Meta integration.
+              UCALM: Unsupervised adaptive Clustering-based Association and Layered Meta-integration. It is designed for GWAS in
+              heterogeneous populations where hidden population structure can dilute association signals or create residual confounding.
             </p>
 
-            <div class="doc-subsection" id="ucalm-full-workflow">
-              <h3>Individual-level Data Workflow</h3>
+            <div class="doc-subsection" id="ucalm-overview">
+              <h3>Overview</h3>
               <p>
-                Use <code>--ucalm</code> when starting from genotype and phenotype files. This path covers clustering, subgroup GWAS and layered integration.
+                UCALM combines three steps in one framework: unsupervised subgroup inference, subgroup-specific GWAS and layered meta-integration.
+                The first step infers genetically homogeneous subgroups directly from genotype data. The second step runs association testing
+                within each inferred subgroup. The final step integrates subgroup-level association evidence so that shared, ancestry-correlated and
+                population-specific signals can all contribute to the final result.
               </p>
-              <p><strong>Requires:</strong> genotype prefix, phenotype file and optional covariates. See <a href="/tutorial/input-file-formats/#genotype-files">Genotype Files</a> and <a href="/tutorial/input-file-formats/#phenotype-file">Phenotype File</a>.</p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Problem in heterogeneous cohorts</th><th>UCALM strategy</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Pooled GWAS can estimate an average genetic effect across heterogeneous samples, attenuating or masking subgroup-specific association signals.</td><td>Perform subgroup-specific GWAS within inferred genetically homogeneous subgroups.</td></tr>
+                    <tr><td>Predefined population labels are sometimes unavailable, often subjectively defined, and may not accurately reflect the underlying genetic structure.</td><td>Infer subgroups directly from genotype data without requiring predefined labels.</td></tr>
+                    <tr><td>A single meta-analysis model may have limited ability to accommodate multiple complex effect architectures simultaneously, reducing sensitivity to heterogeneous association signals.</td><td>Combine fixed-effect, MR-MEGA and ACAT components into a final UCALM P-value.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="doc-subsection" id="when-ucalm-helps">
+              <h3>When UCALM Helps</h3>
+              <p>
+                Use UCALM when the study cohort is genetically heterogeneous and the subgroup structure is not fully captured by existing
+                metadata. It is most useful when samples come from multiple ancestries, breeds, breeding lines, companies, regions or admixed
+                backgrounds, or when conventional GWAS shows inflation, masked peaks or inconsistent signals across known groups.
+              </p>
+              <ul class="text-list">
+                <li>Use the individual-level data path when HIMVP needs to infer latent population structure and run association testing within inferred subgroups.</li>
+                <li>Use the summary-level data path when subgroup GWAS has already been run and you only need the UCALM layered integration step.</li>
+                <li>Use conventional pooled GLM or MLM when the cohort is genetically homogeneous and subgroup-specific effects are not expected.</li>
+              </ul>
+            </div>
+
+            <div class="doc-subsection" id="ucalm-genotype-phenotype-workflow">
+              <h3>Path 1: Individual-level Data</h3>
+              <p>
+                Use <code>--ucalm</code> for the full individual-level data path. This command starts from PLINK genotype files
+                and phenotype records, infers subgroups and then performs subgroup GWAS followed by UCALM integration.
+              </p>
+              <p>
+                <strong>Input:</strong> PLINK 1 binary dataset prefix with <code>--bfile</code> (.bed/.bim/.fam) or PLINK 2 PGEN
+                dataset prefix with <code>--pfile</code> (.pgen/.pvar/.psam), a phenotype file with <code>--pheno</code>, the target
+                trait column with <code>--pheno-pos</code>, and optional covariates, MAF, thread and clustering parameters. See <a href="/tutorial/input-file-formats/#genotype-files">Genotype Files</a>,
+                <a href="/tutorial/input-file-formats/#phenotype-file">Phenotype File</a> and
+                <a href="/tutorial/input-file-formats/#covariates-in-phenotype">Covariates in Phenotype File</a>.
+              </p>
               <div class="code"><pre><code>himvp --ucalm \
     --bfile demo \
     --pheno demo.phe \
     --pheno-pos 2 \
-    --out result/ucalm_full</code></pre></div>
+    --npc-cluster 10 \
+    --use-umap \
+    --use-kdtree \
+    --threads 32 \
+    --out demo</code></pre></div>
               <ul class="text-list">
-                <li><strong>Output:</strong> subgroup analysis results plus final UCALM integration output under the selected prefix.</li>
-                <li>Use this path for complex populations when predefined labels are incomplete or too coarse.</li>
+                <li><strong>Analysis steps:</strong> genomic relationship matrix (GRM) construction, eigendecomposition of the GRM to derive PCs, variance-weighted PCs, UMAP, AutoHDBSCAN, subgroup GWAS and UCALM layered integration.</li>
+                <li><strong>Clustering parameters:</strong> set the number of PCs used for clustering (<code>--npc-cluster</code>), use a KD tree for nearest neighbor search (<code>--use-kdtree</code>), and adjust the UMAP neighborhood size (<code>--umap-nn</code>) and minimum distance parameter (<code>--umap-md</code>) to control the local and global structure and the compactness of the embedding.</li>
+                <li><strong>Output:</strong> the individual-level data path writes cluster assignments, UMAP coordinates, subgroup variance summaries and a final association table. See <a href="#ucalm-output-interpretation">Outputs</a> for the file list.</li>
               </ul>
             </div>
 
             <div class="doc-subsection" id="ucalm-summary-workflow">
-              <h3>Summary-statistics Workflow</h3>
+              <h3>Path 2: Summary-level Data</h3>
               <p>
-                Use this path when subgroup or cohort summary statistics already exist and only the UCALM integration stage is needed.
+                Use the summary-level data path when subgroup GWAS summary statistics have already been generated. In this path, UCALM skips
+                genotype clustering and directly performs layered meta-integration across population-level summary statistics.
+              </p>
+              <p>
+                <strong>Input:</strong> at least two harmonized summary statistics files. Each file must include a header and the columns
+                <code>SNP CHR POS A1 A2 MAF BETA SE PVAL N</code>. Marker IDs, chromosome and position, effect allele coding, reference genome build
+                and sample-size definitions must be consistent across files.
               </p>
               <p><strong>Requires:</strong> summary statistics prepared as described in <a href="/tutorial/meta-analysis/#summary-statistics-input">Summary Statistics Input</a>.</p>
               <div class="code"><pre><code>himvp --meta \
     --sumstat pop1.sumstat,pop2.sumstat,pop3.sumstat \
     --meta-method 1 \
-    --threads 8 \
-    --out result/trait1_ucalm_meta</code></pre></div>
+    --threads 32 \
+    --out demo</code></pre></div>
               <ul class="text-list">
-                <li><strong>Output:</strong> UCALM integration results under the selected <code>--out</code> prefix.</li>
-                <li>Use this path only when grouping and subgroup-level GWAS have already been completed.</li>
+                <li><strong>Analysis steps:</strong> HIMVP keeps SNPs shared across the summary statistics files, checks chromosome, position and allele coding against the first file, flips frequency and beta when A1/A2 are reversed, applies missing-value, MAF and minor allele count filters, and then performs UCALM layered integration.</li>
+                <li><strong>Default:</strong> UCALM uses a 1 Mb window by default to provide local allele frequency structure for the ancestry-correlated component.</li>
+                <li><strong>Output:</strong> <em><code>demo.assoc.txt</code></em> columns: <code>SNP</code>, <code>CHR</code>, <code>POS</code>, <code>A1</code>, <code>A2</code>, subgroup <code>MAF</code> columns, subgroup <code>BETA</code>, <code>SE</code> and <code>PVAL</code> columns, plus the final <code>UCALM_PVAL</code> column.</li>
               </ul>
             </div>
 
-            <div class="doc-subsection" id="ucalm-output">
-              <h3>UCALM Output and Interpretation</h3>
+            <div class="doc-subsection" id="ucalm-algorithm-acceleration">
+              <h3>Computational Acceleration</h3>
               <p>
-                UCALM writes method-specific association results under the selected <code>--out</code> prefix. The forward-facing output column
-                name should be treated as <code>UCALM_PVAL</code>.
+                To improve computational efficiency, UCALM uses several acceleration strategies during clustering. The table below lists
+                the main strategies and the parameters that control them.
               </p>
-              <ul class="text-list">
-                <li>Sort output by the <code>UCALM_PVAL</code> column to identify top markers.</li>
-                <li><strong>Output:</strong> association result table plus any subgroup-level files produced by the chosen workflow.</li>
-                <li>Check whether top markers have consistent chromosome, position and allele fields across cohorts.</li>
-                <li>Compare component evidence from FE, MR-MEGA and ACAT to classify likely effect patterns.</li>
-              </ul>
-              <p class="tutorial-note">
-                <strong>Interpretation.</strong> Review cohort-level effect direction, sample size and QC before claiming a biologically meaningful UCALM signal.
-              </p>
-            </div>
-
-            <div class="doc-subsection" id="ucalm-practical-notes">
-              <h3>Practical Notes</h3>
-              <ul class="text-list">
-                <li>Use consistent genome builds and allele coding across subgroups or cohorts.</li>
-                <li>Keep clustering results, subgroup sample sizes and subgroup GWAS commands together with final UCALM outputs.</li>
-                <li>Check MAF, sample-size filtering and rare-variant behavior before interpreting UCALM results.</li>
-                <li>Small subgroups can reduce the power of subgroup-specific association tests; avoid over-interpreting signals from underpowered clusters.</li>
-                <li>UCALM can detect statistical heterogeneity, but functional interpretation still requires annotation and biological evidence.</li>
-              </ul>
               <div class="table-wrap">
                 <table class="tutorial-table">
                   <thead>
-                    <tr><th>Problem</th><th>Likely cause</th><th>Fix</th></tr>
+                    <tr><th>Scenario</th><th>Strategy</th><th>Parameter</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td>Many missing meta results</td><td>Markers do not overlap or are filtered out.</td><td>Check marker IDs, genome build, MAF and sample size.</td></tr>
-                    <tr><td>Unexpected opposite effects</td><td>Effect allele orientation differs across cohorts.</td><td>Harmonize <code>a1</code>, <code>a2</code> and <code>b</code>.</td></tr>
-                    <tr><td>Very strong single-cohort signal only</td><td>Potential cohort-specific artifact or true heterogeneity.</td><td>Inspect cohort QC, phenotype definition and batch effects.</td></tr>
-                    <tr><td>Different top loci across methods</td><td>Methods emphasize different evidence components.</td><td>Compare cohort-level effects and run sensitivity analyses.</td></tr>
+                    <tr><td>PCs calculation</td><td>Compute only the leading k PCs from the GRM with truncated eigendecomposition via <a href="https://spectralib.org" target="_blank" rel="noopener noreferrer">Spectra</a> rather than a full decomposition.</td><td>Set k with <code>--npc-cluster</code>; the default is 10 in the tutorial examples.</td></tr>
+                    <tr><td>UMAP neighbor graph</td><td>Build the UMAP graph from variance weighted PCs. Use HNSW when the retained PC feature dimension is greater than 50; otherwise use VP-tree with Euclidean distance.</td><td>The neighbor search backend is selected automatically from the retained PC feature dimension.</td></tr>
+                    <tr><td>HDBSCAN nearest neighbor search</td><td>Use a KD tree to compute core distances and support nearest neighbor queries on the UMAP embedding during density based clustering.</td><td>Enable with <code>--use-kdtree</code> in the individual-level path.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="doc-subsection" id="ucalm-output-interpretation">
+              <h3>Outputs</h3>
+              <p>
+                Several files will be generated in the work directory:
+              </p>
+              <p><em><code>demo.cluster.txt</code></em>: the cluster results for all individuals. In the <code>ambiguity</code> column, <code>0</code> indicates a core sample and <code>1</code> indicates an ambiguous reassigned sample.</p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>id</th><th>cluster</th><th>ambiguity</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>IND1</td><td>c1</td><td>0</td></tr>
+                    <tr><td>IND2</td><td>c1</td><td>0</td></tr>
+                    <tr><td>IND3</td><td>c2</td><td>0</td></tr>
+                    <tr><td>IND4</td><td>c2</td><td>1</td></tr>
+                    <tr><td>IND5</td><td>c3</td><td>0</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><em><code>demo.cluster.umap.txt</code></em>: the UMAP results for all individuals.</p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>id</th><th>u1</th><th>u2</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>IND1</td><td>-11.6093</td><td>-13.7700</td></tr>
+                    <tr><td>IND2</td><td>-11.3111</td><td>-13.8723</td></tr>
+                    <tr><td>IND3</td><td>-11.6836</td><td>-13.7768</td></tr>
+                    <tr><td>IND4</td><td>-11.4300</td><td>-14.0521</td></tr>
+                    <tr><td>IND5</td><td>-10.9065</td><td>-14.1600</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><em><code>demo.c*.vars.txt</code></em>: the estimated variance and heritability of all random effects in each subgroup.</p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Trait</th><th>VarG</th><th>VarG_SE</th><th>VarE</th><th>VarE_SE</th><th>h2</th><th>h2_SE</th><th>Convergence</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>trait1</td><td>0.982122</td><td>0.0701002</td><td>1.18056</td><td>0.0315849</td><td>0.454123</td><td>0.0214886</td><td>TRUE</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p><em><code>demo.assoc.txt</code></em>: the UCALM association results.</p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>SNP</th><th>CHR</th><th>POS</th><th>A1</th><th>A2</th><th>c1_MAF</th><th>c2_MAF</th><th>c3_MAF</th><th>c1_BETA</th><th>c1_SE</th><th>c1_PVAL</th><th>c2_BETA</th><th>c2_SE</th><th>c2_PVAL</th><th>c3_BETA</th><th>c3_SE</th><th>c3_PVAL</th><th>UCALM_PVAL</th><th>DOMINANT</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>SNP1</td><td>1</td><td>112</td><td>T</td><td>C</td><td>0.119588</td><td>0.026840</td><td>0.000362</td><td>-0.051802</td><td>0.069109</td><td>0.453549</td><td>0.207191</td><td>0.336108</td><td>0.537821</td><td>-0.083324</td><td>0.683110</td><td>0.416479</td><td>0.446716</td><td>homogeneous</td></tr>
+                    <tr><td>SNP2</td><td>1</td><td>370</td><td>A</td><td>G</td><td>0.432343</td><td>0.409509</td><td>0.343677</td><td>-0.050887</td><td>0.051815</td><td>0.326102</td><td>0.152516</td><td>0.118324</td><td>0.197870</td><td>0.005187</td><td>0.200672</td><td>0.244406</td><td>0.463292</td><td>ancestry-correlated</td></tr>
+                    <tr><td>SNP3</td><td>2</td><td>482</td><td>C</td><td>T</td><td>0.017861</td><td>0.001534</td><td>0.005715</td><td>0.040391</td><td>0.136479</td><td>0.767278</td><td>-2.063310</td><td>1.375000</td><td>0.133952</td><td>-0.040607</td><td>0.052340</td><td>0.187197</td><td>0.765387</td><td>population-specific</td></tr>
+                    <tr><td>SNP4</td><td>3</td><td>827</td><td>G</td><td>A</td><td>0.119588</td><td>0.051881</td><td>0.019908</td><td>-0.051802</td><td>0.069109</td><td>0.453549</td><td>-0.555076</td><td>0.336108</td><td>0.537821</td><td>0.779909</td><td>0.472023</td><td>0.412295</td><td>0.446716</td><td>ancestry-correlated</td></tr>
+                    <tr><td>SNP5</td><td>5</td><td>1550</td><td>G</td><td>C</td><td>0.123328</td><td>0.109231</td><td>0.106686</td><td>0.040391</td><td>0.136479</td><td>0.767278</td><td>0.207191</td><td>0.336108</td><td>0.537821</td><td>0.059925</td><td>0.163459</td><td>0.265092</td><td>0.201753</td><td>homogeneous</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="tutorial-note">
+                <code>UCALM_PVAL</code> is the final layered meta-integration P-value. <code>DOMINANT</code> reports the dominant
+                UCALM component label for the marker: homogeneous, ancestry-correlated or population-specific.
+              </p>
+            </div>
+
+            <div class="doc-subsection" id="ucalm-practical-checks">
+              <h3>Result Checks</h3>
+              <p>
+                Use the checks below before interpreting UCALM outputs.
+              </p>
+              <div class="table-wrap">
+                <table class="tutorial-table">
+                  <thead>
+                    <tr><th>Check</th><th>Why it matters</th><th>Action</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Genome build and position</td><td>Position mismatches can refer to different loci across builds.</td><td>Lift all genotype and summary files to the same reference genome build.</td></tr>
+                    <tr><td>Allele harmonization</td><td>Reversed <code>A1</code>/<code>A2</code> labels flip beta signs and allele frequency.</td><td>Harmonize <code>A1</code>, <code>A2</code>, allele frequency and <code>BETA</code> before summary integration.</td></tr>
+                    <tr><td>Subgroup sample size</td><td>Very small subgroups reduce power and can make estimates unstable.</td><td>Inspect subgroup counts and interpret sparse subgroup signals cautiously.</td></tr>
+                    <tr><td>Missing final results</td><td>Markers may be absent from one file or fail MAF or sample-size filters.</td><td>Check marker IDs, allele coding, MAF, sample size and shared marker overlap.</td></tr>
                   </tbody>
                 </table>
               </div>

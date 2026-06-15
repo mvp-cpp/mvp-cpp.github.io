@@ -315,7 +315,7 @@
               <p><strong>Requires:</strong> at least two summary statistics files. See <a href="/tutorial/input-file-formats/#summary-statistics-file">GWAS Summary Statistics File</a>.</p>
               <div class="code"><pre><code>himvp --meta \
     --sumstat cohort1.sumstat,cohort2.sumstat,cohort3.sumstat \
-    --meta-method 1 \
+    --meta-method 2 \
     --maf 0.01 \
     --out result/meta_demo</code></pre></div>
               <ul class="text-list">
@@ -358,7 +358,7 @@
                     <tr><th>Selector</th><th>Method</th><th>Use when</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td><code>--meta-method 1</code></td><td>UCALM</td><td>Summary-statistics integration for heterogeneous populations.</td></tr>
+                    <tr><td><code>--meta-method 1</code></td><td>UCALM</td><td>Summary-level layered integration for heterogeneous populations.</td></tr>
                     <tr><td><code>--meta-method 2</code></td><td>Fixed effect</td><td>Cohorts are similar and effect directions are expected to match.</td></tr>
                     <tr><td><code>--meta-method 3</code></td><td>Random effect</td><td>Effect sizes may vary across cohorts.</td></tr>
                     <tr><td><code>--meta-method 4</code></td><td>MR-MEGA</td><td>Allele-frequency structure should be modeled across populations.</td></tr>
@@ -367,7 +367,7 @@
                 </table>
               </div>
               <p class="tutorial-note">
-                <strong>UCALM shortcut.</strong> Use <code>--ucalm</code> only for the full individual-level UCALM workflow. For existing summary
+                <strong>UCALM shortcut.</strong> Use <code>--ucalm</code> for the full individual-level UCALM workflow. For existing summary
                 statistics, use <code>--meta --meta-method 1</code>.
               </p>
             </div>
