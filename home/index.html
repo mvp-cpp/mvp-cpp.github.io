@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HIMVP | Home</title>
-  <meta name="description" content="HIMVP is a modern C++ toolkit for scalable GWAS, structure analysis and publication-ready genomic reporting." />
+  <title>MVP | Home</title>
+  <meta name="description" content="MVP is a modern C++ toolkit for scalable GWAS, structure analysis and publication-ready genomic reporting." />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
-<body>
+<body class="home-page">
 <header class="site-header">
   <div class="container nav-wrap">
     <a class="brand brand-text-only" href="/home/">
       <div>
-        <strong>HIMVP</strong>
+        <strong>MVP</strong>
       </div>
     </a>
     <nav class="site-nav">
@@ -28,199 +28,105 @@
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <h1><span class="highlight">HIMVP</span></h1>
-        <h2>A modern C++ toolkit for scalable GWAS, structure analysis and publication-ready genomic reporting.</h2>
+        <h1><span class="highlight">MVP</span></h1>
+        <h2>A C++ toolkit for scalable GWAS, structure analysis and publication-ready genomic reporting.</h2>
         <p>
-          HIMVP carries forward the core philosophy of rMVP while rebuilding the workflow in C++ for better portability, cleaner engineering and a more practical path from raw genotype input to association results, structure analysis and figures.
+          MVP carries forward the core philosophy of rMVP while rebuilding the workflow in C++ for better portability, cleaner engineering and a more practical path from raw genotype input to association results, structure analysis and figures.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="/download/">Get HIMVP</a>
-          <a class="btn btn-secondary" href="#quick-start">Quick Start</a>
-          <a class="btn btn-secondary" href="https://github.com/hyacz/himvp" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </div>
-        <div class="chip-row">
-          <div class="chip">Memory-efficient</div>
-          <div class="chip">Visualization-enhanced</div>
-          <div class="chip">Parallel-accelerated</div>
-          <div class="chip">CPU/GPU computing</div>
+          <a class="btn btn-primary" href="/download/">Download</a>
+          <a class="btn btn-secondary" href="/tutorial/">Tutorial</a>
+          <a class="btn btn-secondary" href="/contact/">Issues</a>
         </div>
       </div>
 
-      <div class="panel hero-visual">
-        <div class="hero-logo-band">
-          <img class="hero-logo" src="/assets/svg/mvp-logo-wide.svg" alt="HIMVP wordmark" />
-        </div>
-        <div class="hero-dashboard-frame" aria-label="GWAS dashboard illustration with Manhattan, Q-Q and circular genomic plot visuals">
-          <img class="hero-dashboard" src="/assets/img/hero-gwas-dashboard-v2.png" alt="" />
-        </div>
-        <div class="hero-stats">
-          <div class="stat"><strong>GWAS</strong><span>GLM, MLM and high-throughput association workflows for large cohorts</span></div>
-          <div class="stat"><strong>C++</strong><span>Reengineered for portability, performance and long-term extensibility</span></div>
-          <div class="stat"><strong>Plots</strong><span>Manhattan, Q-Q, PCA and result views prepared for interpretation</span></div>
-        </div>
-        <div class="small-note">Designed for researchers who need scalable association analysis and publication-ready outputs in one workflow.</div>
-      </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
       <div class="section-title">
-        <h2>What HIMVP Can Do</h2>
+        <h2>The features of MVP</h2>
         <p>A complete C++ workflow for genotype input, association modeling, population-aware analysis and publication-ready reporting.</p>
       </div>
       <div class="capability-layout">
         <div class="capability-grid">
           <div class="panel capability-item">
-            <div class="kicker">Association</div>
-            <h3>Run scalable GWAS</h3>
-            <p>Analyze single or multiple traits with GLM and MLM workflows built for large genotype cohorts.</p>
+            <div class="kicker capability-title">Memory-efficient</div>
+            <div class="capability-logo" aria-hidden="true">
+              <svg viewBox="0 0 160 160" role="img">
+                <rect x="10" y="40" width="82" height="72" rx="10"></rect>
+                <ellipse cx="51" cy="40" rx="41" ry="10"></ellipse>
+                <path d="M23 58h56M23 91h56M23 101h36"></path>
+                <text x="27" y="78">A</text>
+                <text x="42" y="78">T</text>
+                <text x="57" y="78">C</text>
+                <text x="72" y="78">G</text>
+                <circle cx="51" cy="96" r="4"></circle>
+                <path d="M92 76h17M102 69l9 7-9 7"></path>
+                <text x="117" y="72">0</text>
+                <text x="130" y="72">1</text>
+                <text x="143" y="72">2</text>
+                <path d="M118 84h29M118 92h20M118 100h29"></path>
+              </svg>
+            </div>
+            <p>By the aid of <strong>Memory-mapping</strong> <strong>and Mixed precision</strong> <strong>operation</strong> technology, MVP can access values from local disk directly, rather than loading all the genotype data into memory at one time, MVP requires less computational resources.</p>
             <div class="capability-tags">
-              <span>GLM</span>
-              <span>MLM</span>
-              <span>Multi-trait</span>
+              <span>Memory-mapping</span>
+              <span>Mixed precision</span>
+              <span>Low resource</span>
             </div>
           </div>
           <div class="panel capability-item">
-            <div class="kicker">Structure</div>
-            <h3>Control population structure</h3>
-            <p>Use PCA, GRM and clustering outputs to inspect relatedness, subgroup patterns and model inflation.</p>
-            <div class="capability-tags">
-              <span>PCA</span>
-              <span>GRM</span>
-              <span>Clustering</span>
+            <div class="kicker capability-title">Visualization-enhanced</div>
+            <div class="capability-logo" aria-hidden="true">
+              <svg viewBox="0 0 160 160" role="img">
+                <path d="M24 132h120M24 132V28"></path>
+                <circle cx="34" cy="116" r="3.5"></circle>
+                <circle cx="44" cy="108" r="3.5"></circle>
+                <circle cx="54" cy="119" r="3.5"></circle>
+                <circle cx="67" cy="91" r="3.5"></circle>
+                <circle cx="77" cy="111" r="3.5"></circle>
+                <circle cx="88" cy="76" r="3.5"></circle>
+                <circle cx="99" cy="104" r="3.5"></circle>
+                <circle cx="110" cy="48" r="5"></circle>
+                <circle cx="120" cy="89" r="3.5"></circle>
+                <circle cx="131" cy="112" r="3.5"></circle>
+                <path d="M47 132v5M78 132v5M109 132v5M140 132v5"></path>
+              </svg>
             </div>
-          </div>
-          <div class="panel capability-item">
-            <div class="kicker">Integration</div>
-            <h3>Integrate complex cohorts</h3>
-            <p>Combine subgroup or cohort-level evidence with UCALM and meta-analysis workflows for heterogeneous populations.</p>
-            <div class="capability-tags">
-              <span>UCALM</span>
-              <span>Meta-analysis</span>
-              <span>Subgroup GWAS</span>
-            </div>
-          </div>
-          <div class="panel capability-item">
-            <div class="kicker">Reporting</div>
-            <h3>Produce interpretable results</h3>
-            <p>Generate association tables and visual summaries such as Manhattan, Q-Q, PCA, density and circular views.</p>
+            <p>MVP provides comprehensive and high-quality visualization capabilities for genome-wide association studies (GWAS), enabling the rapid generation of key analytical plots, including phenotype distribution plots, SNP marker density maps, Manhattan plots, and quantile–quantile (Q–Q) plots. All visual outputs are optimized to achieve publication-ready quality.</p>
             <div class="capability-tags">
               <span>Manhattan</span>
               <span>Q-Q</span>
-              <span>PCA plots</span>
+              <span>Density maps</span>
+            </div>
+          </div>
+          <div class="panel capability-item">
+            <div class="kicker capability-title">Parallel-accelerated</div>
+            <div class="capability-logo capability-logo-parallel" aria-hidden="true">
+              <svg viewBox="0 0 160 160" role="img">
+                <rect x="14" y="36" width="52" height="52" rx="8"></rect>
+                <rect x="30" y="52" width="20" height="20" rx="3"></rect>
+                <text x="25" y="105">CPU</text>
+                <rect x="94" y="36" width="52" height="52" rx="8"></rect>
+                <path d="M105 49h30M105 61h30M105 73h30M113 43v36M125 43v36"></path>
+                <text x="105" y="105">GPU</text>
+                <path d="M68 55h18M78 50l8 5-8 5"></path>
+                <path d="M86 69H68M76 64l-8 5 8 5"></path>
+              </svg>
+            </div>
+            <p>MVP is accelerated by multiple threads computing, including <strong>High-performance math library (Intel MKL, Kunpeng[鲲鹏] KML, OpenBLAS, and Apple Accelerate) and OpenMP technic</strong>, making MVP super fast to handle big genomic data.</p>
+            <div class="capability-tags">
+              <span>Intel MKL</span>
+              <span>OpenMP</span>
+              <span>OpenBLAS</span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-
-  <section class="section" id="quick-start">
-    <div class="container">
-      <div class="section-title">
-        <h2>Quick Start</h2>
-        <p>The shortest path from repository clone to local build and a first analysis command.</p>
-      </div>
-      <div class="split">
-        <div class="panel card">
-          <div class="kicker">Quick Start</div>
-          <h3>Build locally and connect the docs to current source behavior</h3>
-          <p>
-            The website is maintained in the Pages repository, but the software source of truth lives in
-            <a href="https://github.com/hyacz/himvp" target="_blank" rel="noopener noreferrer">hyacz/himvp</a>.
-            Clone the source, build it locally and use the Tutorial page for input requirements, workflow recipes and output interpretation.
-          </p>
-          <ul class="text-list">
-            <li>Clone the current source repository from GitHub.</li>
-            <li>Build <code>himvp</code> in your local environment.</li>
-            <li>Prepare phenotype, genotype and covariate inputs.</li>
-            <li>Run GWAS, inspect PCA or continue into meta-analysis.</li>
-          </ul>
-        </div>
-        <div class="code">
-<pre><code>git clone https://github.com/hyacz/himvp.git
-cd himvp
-
-cmake -S . -B build
-cmake --build build -j
-
-./build/himvp --help</code></pre>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-title">
-        <h2>Workflow</h2>
-        <p>A compact view of how HIMVP fits into a practical genomic analysis pipeline.</p>
-      </div>
-      <div class="metric-strip">
-        <div class="metric">
-          <strong>1. Prepare input</strong>
-          <span>Load phenotype, covariate and genotype files from PLINK 1 or PLINK 2 style datasets.</span>
-        </div>
-        <div class="metric">
-          <strong>2. Run analysis</strong>
-          <span>Launch GLM or MLM depending on study design, population structure and model needs.</span>
-        </div>
-        <div class="metric">
-          <strong>3. Inspect structure</strong>
-          <span>Review PCA, GRM and clustering outputs to understand the genetic background of the cohort.</span>
-        </div>
-        <div class="metric">
-          <strong>4. Export figures</strong>
-          <span>Summarize with Manhattan, Q-Q and downstream reporting assets for interpretation and publication.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-title">
-        <h2>Visualization Showcase</h2>
-        <p>Representative result views already used throughout GWAS interpretation and reporting.</p>
-      </div>
-      <div class="grid grid-3 showcase-grid">
-        <div class="panel image-card">
-          <div class="showcase-image-frame">
-            <img src="/assets/img/manhattan.jpg" alt="Example Manhattan plot output" />
-          </div>
-          <div class="image-caption">Manhattan plot views highlight association peaks across the genome and help prioritize candidate regions.</div>
-        </div>
-        <div class="panel image-card">
-          <div class="showcase-image-frame showcase-image-frame-square">
-            <img src="/assets/img/qqplot.jpg" alt="Example Q-Q plot output" />
-          </div>
-          <div class="image-caption">Q-Q plot summaries help separate genomic signal from inflation and provide a fast quality check of association results.</div>
-        </div>
-        <div class="panel image-card">
-          <div class="showcase-image-frame">
-            <img src="/assets/img/pca.jpg" alt="Example PCA visualization output" />
-          </div>
-          <div class="image-caption">PCA visualization makes cohort structure, subgroup patterns and potential outliers easier to inspect.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-  <div class="container">
-    <div class="section-title">
-      <h2>Visitor Map</h2>
-      <p>Real-time visitor map powered by ClustrMaps / MapMyVisitors.</p>
-    </div>
-
-    <div class="visitor-map-single panel card">
-      <div class="visitor-map-embed">
-        <script type="text/javascript" id="mapmyvisitors" src="https://mapmyvisitors.com/map.js?cl=080808&w=a&t=n&d=2rfHNS93XyXlQmlme84_dsxd-UcdGJfx4Kr1baizhBU&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
-      </div>
-    </div>
-  </div>
-</section>
 </main>
 
 <footer class="footer footer-site">
@@ -240,6 +146,7 @@ cmake --build build -j
       <div class="footer-site-links">
         <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
         <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://www.hiblup.com" target="_blank" rel="noopener noreferrer">hiblup</a>
         <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
         <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
         <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
@@ -252,6 +159,9 @@ cmake --build build -j
       </div>
       <div class="footer-site-copy">
         No commercial use without authorization.
+      </div>
+      <div class="footer-site-copy footer-hits-row">
+        <img alt="Hits" src="https://hits.sh/mvp-cpp.github.io.svg?view=today-total&label=Today%2FTotal%20Visitors&color=007ec6&labelColor=ffffff"/>
       </div>
     </section>
   </div>

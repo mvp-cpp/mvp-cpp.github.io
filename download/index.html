@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HIMVP | Download</title>
-  <meta name="description" content="Download HIMVP releases, clone the source repository, and review basic build requirements." />
+  <title>MVP | Download</title>
+  <meta name="description" content="Download MVP releases, clone the source repository, and review basic build requirements." />
   <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
@@ -12,7 +12,7 @@
   <div class="container nav-wrap">
     <a class="brand brand-text-only" href="/home/">
       <div>
-        <strong>HIMVP</strong>
+        <strong>MVP</strong>
       </div>
     </a>
     <nav class="site-nav">
@@ -24,75 +24,110 @@
   </div>
 </header>
 
-<main class="section">
+<main class="download-page section">
   <div class="narrow">
-    <div class="section-title">
-      <h2>Download HIMVP</h2>
-      <p>Get the latest release, clone the source tree, and prepare a local build environment.</p>
-    </div>
+    <header class="download-intro">
+      <div>
+        <div class="kicker">MVP releases</div>
+        <h1>Download the right build for your workflow.</h1>
+        <p>Choose a CPU or GPU distribution, download the package, then run MVP directly from your Terminal.</p>
+      </div>
+    </header>
 
-    <div class="grid grid-2">
-      <div class="panel card">
-        <div class="kicker">Recommended</div>
-        <h3>Stable releases</h3>
-        <p>Download packaged releases, review release notes, and choose the version that matches your environment and deployment plan.</p>
-        <a class="btn btn-primary" href="https://github.com/hyacz/himvp/releases" target="_blank" rel="noopener noreferrer">Open Releases</a>
+    <section class="download-section" aria-labelledby="download-builds-title">
+      <div class="download-section-heading">
+        <div>
+          <div class="kicker">01 / Software downloads</div>
+          <h2 id="download-builds-title">Choose your compute target</h2>
+        </div>
+        <span class="download-status"><span></span> Latest builds</span>
       </div>
 
-      <div class="panel card">
-        <div class="kicker">Developers</div>
-        <h3>Source repository</h3>
-        <p>Clone the active C++ repository for local compilation, debugging, benchmarking and source-level inspection.</p>
-        <a class="btn btn-secondary" href="https://github.com/hyacz/himvp" target="_blank" rel="noopener noreferrer">Open Repository</a>
+      <div class="download-groups">
+        <section class="download-group panel float-in" aria-labelledby="cpu-title">
+          <div class="download-group-header">
+            <div class="compute-mark compute-mark-cpu">CPU</div>
+            <div>
+              <h3 id="cpu-title">CPU builds</h3>
+              <p>Portable builds for standard desktop and server workflows.</p>
+            </div>
+          </div>
+          <div class="platform-list">
+            <article class="platform-row">
+              <div class="platform-icon">WIN</div>
+              <div class="platform-copy"><h4>Windows</h4><p>Windows 10 / 11 · x64</p></div>
+              <span class="platform-version">v0.1.0</span>
+              <a class="btn btn-primary btn-small" href="#replace-windows-cpu-link">Download</a>
+            </article>
+            <article class="platform-row">
+              <div class="platform-icon">LIN</div>
+              <div class="platform-copy"><h4>Linux</h4><p>Ubuntu 22.04+ · x86_64</p></div>
+              <span class="platform-version">v0.1.0</span>
+              <a class="btn btn-primary btn-small" href="#replace-linux-cpu-link">Download</a>
+            </article>
+            <article class="platform-row">
+              <div class="platform-icon">MAC</div>
+              <div class="platform-copy"><h4>macOS</h4><p>macOS 13+ · Apple Silicon / Intel</p></div>
+              <span class="platform-version">v0.1.0</span>
+              <a class="btn btn-primary btn-small" href="#replace-macos-cpu-link">Download</a>
+            </article>
+          </div>
+          <p class="download-note">Replace each placeholder link and version when a CPU package is published.</p>
+        </section>
+
+        <section class="download-group panel float-in" aria-labelledby="gpu-title">
+          <div class="download-group-header">
+            <div class="compute-mark compute-mark-gpu">GPU</div>
+            <div>
+              <h3 id="gpu-title">GPU builds</h3>
+              <p>CUDA-enabled Linux build for accelerated GWAS workloads.</p>
+            </div>
+          </div>
+          <div class="platform-list">
+            <article class="platform-row">
+              <div class="platform-icon platform-icon-gpu">LIN</div>
+              <div class="platform-copy"><h4>Linux + CUDA</h4><p>Ubuntu 22.04+ · NVIDIA GPU · CUDA 12+</p></div>
+              <span class="platform-version">v0.1.0</span>
+              <a class="btn btn-primary btn-small" href="#replace-linux-gpu-link">Download</a>
+            </article>
+          </div>
+          <div class="gpu-requirements"><strong>Before you install</strong><span>NVIDIA driver and CUDA Toolkit are required. Check the compatibility notes in the tutorial.</span></div>
+          <p class="download-note">The GPU section is ready for additional CUDA variants or packages later.</p>
+        </section>
       </div>
-    </div>
+    </section>
 
-    <div class="panel card mt-20">
-      <h3>Get the source</h3>
-      <div class="code"><pre><code>git clone https://github.com/hyacz/himvp.git
-cd himvp</code></pre></div>
-      <p class="mt-12">Use the Tutorial page for command-level guidance after cloning or downloading a release package.</p>
-    </div>
-
-    <div class="grid grid-2 mt-20">
-      <div class="panel card">
-        <h3>Build requirements</h3>
-        <ul class="text-list">
-          <li>C++17-compatible compiler</li>
-          <li>CMake environment for source builds</li>
-          <li>Enough CPU, memory and storage for target GWAS workloads</li>
-          <li>Optional CUDA environment when GPU-enabled builds are needed</li>
-        </ul>
+    <section class="download-section changelog-section" aria-labelledby="changelog-title">
+      <div class="download-section-heading">
+        <div>
+          <div class="kicker">02 / Release history</div>
+          <h2 id="changelog-title">What changed in each release</h2>
+        </div>
+        <span class="download-history-label">Newest first</span>
       </div>
 
-      <div class="panel card">
-        <h3>Release notes and version tracking</h3>
-        <ul class="text-list">
-          <li>Check tagged releases before updating production workflows.</li>
-          <li>Keep the exact release tag or commit hash in benchmark and manuscript records.</li>
-          <li>Review compatibility notes when build options or CLI behavior change.</li>
-        </ul>
+      <div class="release-timeline">
+        <article class="release-entry">
+          <div class="release-date"><strong>2026.07.22</strong><span>v0.1.0 · Current</span></div>
+          <div class="release-body">
+            <h3>Initial public framework</h3>
+            <p class="release-summary">First structured release of MVP for platform testing and tutorial-driven workflows.</p>
+            <div class="release-columns">
+              <div><h4>Added</h4><ul><li>CPU builds for Windows, Linux and macOS</li><li>GPU build for Linux with CUDA support</li><li>Initial GWAS and structure-analysis workflow</li></ul></div>
+              <div><h4>Notes</h4><ul><li>Replace this entry with the final release scope</li><li>Add benchmark and compatibility details here</li></ul></div>
+            </div>
+          </div>
+        </article>
+        <article class="release-entry">
+          <div class="release-date"><strong>YYYY.MM.DD</strong><span>vX.Y.Z</span></div>
+          <div class="release-body">
+            <h3>Next release title</h3>
+            <p class="release-summary">Duplicate this release block for every new version and keep the newest entry at the top.</p>
+            <div class="release-columns"><div><h4>Added</h4><ul><li>New feature or module</li><li>New supported input or output format</li></ul></div><div><h4>Fixed / Changed</h4><ul><li>Bug fixes, performance work or compatibility changes</li></ul></div></div>
+          </div>
+        </article>
       </div>
-    </div>
-
-    <div class="panel card mt-20">
-      <h3>Basic source build</h3>
-      <div class="code"><pre><code>mkdir -p build
-cd build
-cmake ..
-cmake --build . -j</code></pre></div>
-      <p class="mt-12">Detailed module options, runtime commands and input-file requirements are documented in <a href="/tutorial/">Tutorial</a>.</p>
-    </div>
-
-    <div class="panel card mt-20">
-      <h3>What to publish in each release</h3>
-      <ul class="text-list">
-        <li>Tagged source snapshot or source package</li>
-        <li>Platform-specific binaries when they are officially supported</li>
-        <li>Release notes, installation updates and compatibility notes</li>
-        <li>Optional benchmark summaries or performance comparison notes</li>
-      </ul>
-    </div>
+    </section>
   </div>
 </main>
 
@@ -113,6 +148,7 @@ cmake --build . -j</code></pre></div>
       <div class="footer-site-links">
         <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
         <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://www.hiblup.com" target="_blank" rel="noopener noreferrer">hiblup</a>
         <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
         <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
         <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
@@ -125,6 +161,9 @@ cmake --build . -j</code></pre></div>
       </div>
       <div class="footer-site-copy">
         No commercial use without authorization.
+      </div>
+      <div class="footer-site-copy footer-hits-row">
+        <img alt="Hits" src="https://hits.sh/mvp-cpp.github.io.svg?view=today-total&label=Today%2FTotal%20Visitors&color=007ec6&labelColor=ffffff"/>
       </div>
     </section>
   </div>

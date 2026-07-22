@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HIMVP | Meta-analysis</title>
-  <meta name="description" content="HIMVP tutorial: Summary statistics input, method selection, recipes, subgroup GWAS and meta output." />
+  <title>MVP | Meta-analysis</title>
+  <meta name="description" content="MVP tutorial: Summary statistics input, method selection, recipes, subgroup GWAS and meta output." />
   <link rel="canonical" href="https://mvp-cpp.github.io/tutorial/meta-analysis/" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 
@@ -253,7 +253,7 @@
     <div class="container nav-wrap">
       <a class="brand brand-text-only" href="/home/">
         <div>
-          <strong>HIMVP</strong>
+          <strong>MVP</strong>
         </div>
       </a>
       <nav class="site-nav">
@@ -289,20 +289,20 @@
             <nav class="toc-nav toc-nav-primary" id="primaryToc">
               <a href="/tutorial/introduction/" class="toc-link toc-link-primary" data-target="introduction">Introduction</a>
               <a href="/tutorial/input-file-formats/" class="toc-link toc-link-primary" data-target="input-file-formats">Input File Formats</a>
-              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary" data-target="running-mvp">Running HIMVP</a>
+              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary" data-target="running-mvp">Running GWAS</a>
+              <a href="/tutorial/running-himvp/#population-clustering" class="toc-link toc-link-primary" data-target="population-clustering">Population clustering</a>
               <a href="/tutorial/meta-analysis/" class="toc-link toc-link-primary active" data-target="meta-analysis">Meta-analysis</a>
               <a href="/tutorial/ucalm/" class="toc-link toc-link-primary" data-target="ucalm">UCALM</a>
-              <a href="/tutorial/output-visualization-faq/" class="toc-link toc-link-primary" data-target="output-visualization-faq">Output, Visualization & FAQ</a>
             </nav>
           </div>
         </aside>
 
         <article class="tutorial-content panel" id="tutorialContent">
           <section class="tutorial-block" id="meta-analysis" data-section-title="Meta-analysis">
-            <div class="doc-kicker">Section 4</div>
+            <div class="doc-kicker">Section 5</div>
             <h2>Meta-analysis</h2>
             <p class="tutorial-lead">
-              HIMVP can combine GWAS summary statistics from multiple cohorts or populations. The standalone mode uses <code>--meta</code> and
+              MVP can combine GWAS summary statistics from multiple cohorts or populations. The standalone mode uses <code>--meta</code> and
               <code>--sumstat</code>.
             </p>
 
@@ -313,7 +313,7 @@
                 analyzed separately.
               </p>
               <p><strong>Requires:</strong> at least two summary statistics files. See <a href="/tutorial/input-file-formats/#summary-statistics-file">GWAS Summary Statistics File</a>.</p>
-              <div class="code"><pre><code>himvp --meta \
+              <div class="code"><pre><code>mvp --meta \
     --sumstat cohort1.sumstat,cohort2.sumstat,cohort3.sumstat \
     --meta-method 2 \
     --maf 0.01 \
@@ -376,31 +376,31 @@
               <h3>Meta Method Recipes</h3>
               <p>Switch methods by changing only <code>--meta-method</code> and the output prefix.</p>
               <div class="code"><pre><code># Fixed effect
-himvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 2 --out result/meta_fe
+mvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 2 --out result/meta_fe
 
 # Random effect
-himvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 3 --out result/meta_re
+mvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 3 --out result/meta_re
 
 # MR-MEGA
-himvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 4 --out result/meta_mrmega
+mvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 4 --out result/meta_mrmega
 
 # ACAT
-himvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 5 --out result/meta_acat</code></pre></div>
+mvp --meta --sumstat cohort1.sumstat,cohort2.sumstat --meta-method 5 --out result/meta_acat</code></pre></div>
             </div>
 
             <div class="doc-subsection" id="subgroup-gwas-meta">
               <h3>Subgroup GWAS to Meta-analysis</h3>
               <p>
-                When <code>--pop-class</code> is supplied with GLM or MLM, HIMVP can run subgroup analyses and then integrate subgroup results
+                When <code>--pop-class</code> is supplied with GLM or MLM, MVP can run subgroup analyses and then integrate subgroup results
                 through the meta-analysis workflow when the meta module is enabled.
               </p>
-              <div class="code"><pre><code>himvp --glm \
+              <div class="code"><pre><code>mvp --glm \
     --bfile demo \
     --pheno demo.phe \
     --pop-class demo.pop \
     --out result/subgroup_gwas
 
-himvp --meta \
+mvp --meta \
     --sumstat result/subgroup1.sumstat,result/subgroup2.sumstat \
     --meta-method 1 \
     --out result/subgroup_meta</code></pre></div>
@@ -465,6 +465,7 @@ himvp --meta \
       <div class="footer-site-links">
         <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
         <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://www.hiblup.com" target="_blank" rel="noopener noreferrer">hiblup</a>
         <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
         <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
         <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
@@ -477,6 +478,9 @@ himvp --meta \
       </div>
       <div class="footer-site-copy">
         No commercial use without authorization.
+      </div>
+      <div class="footer-site-copy footer-hits-row">
+        <img alt="Hits" src="https://hits.sh/mvp-cpp.github.io.svg?view=today-total&label=Today%2FTotal%20Visitors&color=007ec6&labelColor=ffffff"/>
       </div>
     </section>
   </div>

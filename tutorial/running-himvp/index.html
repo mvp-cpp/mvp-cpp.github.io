@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HIMVP | Running HIMVP</title>
-  <meta name="description" content="HIMVP tutorial: Common GLM, MLM, PCA, GRM, clustering, GPU, benchmark and plotting workflows." />
+  <title>MVP | Running GWAS</title>
+  <meta name="description" content="MVP tutorial: Common GLM, MLM, PCA, GRM, clustering, GPU, benchmark and plotting workflows." />
   <link rel="canonical" href="https://mvp-cpp.github.io/tutorial/running-himvp/" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 
@@ -253,7 +253,7 @@
     <div class="container nav-wrap">
       <a class="brand brand-text-only" href="/home/">
         <div>
-          <strong>HIMVP</strong>
+          <strong>MVP</strong>
         </div>
       </a>
       <nav class="site-nav">
@@ -289,20 +289,20 @@
             <nav class="toc-nav toc-nav-primary" id="primaryToc">
               <a href="/tutorial/introduction/" class="toc-link toc-link-primary" data-target="introduction">Introduction</a>
               <a href="/tutorial/input-file-formats/" class="toc-link toc-link-primary" data-target="input-file-formats">Input File Formats</a>
-              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary active" data-target="running-mvp">Running HIMVP</a>
+              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary active" data-target="running-mvp">Running GWAS</a>
+              <a href="/tutorial/running-himvp/#population-clustering" class="toc-link toc-link-primary" data-target="population-clustering">Population clustering</a>
               <a href="/tutorial/meta-analysis/" class="toc-link toc-link-primary" data-target="meta-analysis">Meta-analysis</a>
               <a href="/tutorial/ucalm/" class="toc-link toc-link-primary" data-target="ucalm">UCALM</a>
-              <a href="/tutorial/output-visualization-faq/" class="toc-link toc-link-primary" data-target="output-visualization-faq">Output, Visualization & FAQ</a>
             </nav>
           </div>
         </aside>
 
         <article class="tutorial-content panel" id="tutorialContent">
-          <section class="tutorial-block" id="running-mvp" data-section-title="Running HIMVP">
+          <section class="tutorial-block" id="running-mvp" data-section-title="Running GWAS">
             <div class="doc-kicker">Section 3</div>
-            <h2>Running HIMVP</h2>
+            <h2>Running GWAS</h2>
             <p class="tutorial-lead">
-              This section lists common HIMVP workflows. Use one analysis mode per command unless the workflow explicitly supports automatic clustering inside GLM or MLM.
+              This section lists common MVP workflows. Use one analysis mode per command unless the workflow explicitly supports automatic clustering inside GLM or MLM.
             </p>
 
             <div class="doc-subsection" id="quick-start">
@@ -313,16 +313,16 @@
                 <code>result/</code>.
               </p>
               <div class="code"><pre><code># GLM GWAS
-himvp --glm --bfile data/geno --pheno data/pheno.txt --out result/glm
+mvp --glm --bfile data/geno --pheno data/pheno.txt --out result/glm
 
 # MLM GWAS
-himvp --mlm --bfile data/geno --pheno data/pheno.txt --out result/mlm
+mvp --mlm --bfile data/geno --pheno data/pheno.txt --out result/mlm
 
 # PCA
-himvp --pca --bfile data/geno --npc 5 --out result/pca
+mvp --pca --bfile data/geno --npc 5 --out result/pca
 
 # GRM construction
-himvp --make-grm --bfile data/geno --out result/grm</code></pre></div>
+mvp --make-grm --bfile data/geno --out result/grm</code></pre></div>
               <ul class="text-list">
                 <li>Use <code>--glm</code> first to verify basic phenotype, genotype and covariate formatting.</li>
                 <li>Use <code>--mlm</code> when relatedness or population structure needs stronger control.</li>
@@ -350,7 +350,7 @@ himvp --make-grm --bfile data/geno --out result/grm</code></pre></div>
                 </table>
               </div>
               <p class="tutorial-note">
-                <strong>Output prefix rule.</strong> HIMVP appends suffixes such as <code>.assoc.txt</code> or plot file extensions to the prefix.
+                <strong>Output prefix rule.</strong> MVP appends suffixes such as <code>.assoc.txt</code> or plot file extensions to the prefix.
                 The prefix itself should not include those suffixes.
               </p>
             </div>
@@ -361,7 +361,7 @@ himvp --make-grm --bfile data/geno --out result/grm</code></pre></div>
                 Use <code>--glm</code> as the first GWAS scan to verify phenotype, genotype, covariate and association-output formatting.
               </p>
               <p><strong>Requires:</strong> phenotype file and one genotype prefix. See <a href="/tutorial/input-file-formats/#phenotype-file">Phenotype File</a> and <a href="/tutorial/input-file-formats/#genotype-files">Genotype Files</a>.</p>
-              <div class="code"><pre><code>himvp --glm \
+              <div class="code"><pre><code>mvp --glm \
     --bfile demo \
     --pheno demo.phe \
     --pheno-pos 2 \
@@ -380,10 +380,10 @@ himvp --make-grm --bfile data/geno --out result/grm</code></pre></div>
               <h3>MLM Analysis</h3>
               <p>
                 Use <code>--mlm</code> when population structure or kinship may inflate GLM statistics. If no <code>--grm</code> is provided,
-                HIMVP can construct the relationship matrix from genotype data.
+                MVP can construct the relationship matrix from genotype data.
               </p>
               <p><strong>Requires:</strong> phenotype file, genotype prefix and optionally a GRM prefix. See <a href="/tutorial/input-file-formats/#relationship-matrix-file">Relationship Matrix File</a>.</p>
-              <div class="code"><pre><code>himvp --mlm \
+              <div class="code"><pre><code>mvp --mlm \
     --bfile demo \
     --pheno demo.phe \
     --pheno-pos 2 \
@@ -404,7 +404,7 @@ himvp --make-grm --bfile data/geno --out result/grm</code></pre></div>
                 Pass multiple phenotype columns to analyze several traits in one command.
               </p>
               <p><strong>Requires:</strong> one phenotype file whose selected trait columns share the same individual ID column.</p>
-              <div class="code"><pre><code>himvp --mlm \
+              <div class="code"><pre><code>mvp --mlm \
     --bfile demo \
     --pheno demo.phe \
     --pheno-pos 2,3,4 \
@@ -422,8 +422,8 @@ himvp --make-grm --bfile data/geno --out result/grm</code></pre></div>
                 Use <code>--pca</code> with genotype data or a pre-computed GRM to inspect population structure.
               </p>
               <p><strong>Requires:</strong> genotype prefix or GRM prefix, plus the requested number of PCs.</p>
-              <div class="code"><pre><code>himvp --pca --bfile demo --npc 5 --out result/pca
-himvp --pca --grm demo_grm --npc 5 --out result/pca_from_grm</code></pre></div>
+              <div class="code"><pre><code>mvp --pca --bfile demo --npc 5 --out result/pca
+mvp --pca --grm demo_grm --npc 5 --out result/pca_from_grm</code></pre></div>
               <ul class="text-list">
                 <li><strong>Output:</strong> PC scores and variance summary files.</li>
                 <li>Use PCA output for structure review, plotting and clustering input.</li>
@@ -440,7 +440,7 @@ himvp --pca --grm demo_grm --npc 5 --out result/pca_from_grm</code></pre></div>
                 Use <code>--make-grm</code> to construct reusable genomic relationship matrix files.
               </p>
               <p><strong>Requires:</strong> genotype prefix. The resulting GRM can be reused by MLM, PCA and clustering workflows.</p>
-              <div class="code"><pre><code>himvp --make-grm \
+              <div class="code"><pre><code>mvp --make-grm \
     --bfile demo \
     --grm-method 1 \
     --out result/demo_grm</code></pre></div>
@@ -458,17 +458,17 @@ himvp --pca --grm demo_grm --npc 5 --out result/pca_from_grm</code></pre></div>
                 Use <code>--cluster</code> or <code>--auto-cluster</code> for HDBSCAN-based clustering from genotype, GRM or PC input.
               </p>
               <p><strong>Requires:</strong> one structure input source. See <a href="/tutorial/input-file-formats/#principal-component-file">Principal Component File</a> and <a href="/tutorial/input-file-formats/#relationship-matrix-file">Relationship Matrix File</a>.</p>
-              <div class="code"><pre><code>himvp --cluster --bfile demo --npc-cluster 3 --out result/cluster
-himvp --cluster --pc demo.pc --npc 3 --out result/cluster_from_pc</code></pre></div>
+              <div class="code"><pre><code>mvp --cluster --bfile demo --npc-cluster 3 --out result/cluster
+mvp --cluster --pc demo.pc --npc 3 --out result/cluster_from_pc</code></pre></div>
               <ul class="text-list">
                 <li><strong>Output:</strong> cluster labels and optional parameter/embedding files.</li>
                 <li>Use clustering when known population labels are unavailable or need cross-checking.</li>
-                <li>When clustering from genotype data, HIMVP first derives the requested number of PCs for clustering.</li>
+                <li>When clustering from genotype data, MVP first derives the requested number of PCs for clustering.</li>
                 <li>Use <code>--npc-cluster</code> for the number of PCs used in clustering from genotype or GRM input.</li>
                 <li><code>--use-umap</code> can add UMAP before clustering; tune <code>--umap-nn</code> and <code>--umap-md</code> only after the basic command works.</li>
                 <li><code>--use-kdtree</code> can reduce memory cost for clustering neighborhood queries.</li>
               </ul>
-              <div class="code"><pre><code>himvp --auto-cluster \
+              <div class="code"><pre><code>mvp --auto-cluster \
     --bfile demo \
     --npc-cluster 10 \
     --use-umap \
@@ -484,11 +484,11 @@ himvp --cluster --pc demo.pc --npc 3 --out result/cluster_from_pc</code></pre></
             <div class="doc-subsection" id="gpu-acceleration">
               <h3>GPU Acceleration</h3>
               <p>
-                GPU options are available only when HIMVP is built with CUDA support. Use GPU acceleration mainly for computationally intensive
+                GPU options are available only when MVP is built with CUDA support. Use GPU acceleration mainly for computationally intensive
                 MLM workflows and benchmark CPU versus GPU results on a representative subset before running a full dataset.
               </p>
-              <p><strong>Requires:</strong> CUDA-enabled HIMVP build and a working CUDA runtime.</p>
-              <div class="code"><pre><code>himvp --mlm \
+              <p><strong>Requires:</strong> CUDA-enabled MVP build and a working CUDA runtime.</p>
+              <div class="code"><pre><code>mvp --mlm \
     --bfile demo \
     --pheno demo.phe \
     --device cuda \
@@ -523,7 +523,7 @@ himvp --cluster --pc demo.pc --npc 3 --out result/cluster_from_pc</code></pre></
                     <tr><td><code>--mlm-var-method ai</code></td><td>AI-REML variance estimation.</td><td>Default choice for standard MLM runs.</td></tr>
                     <tr><td><code>--mlm-var-method he</code></td><td>HE regression without REML iteration.</td><td>Fast exploratory runs or rough variance estimates.</td></tr>
                     <tr><td><code>--mlm-var-method hi</code></td><td>HE initialization followed by AI-REML refinement.</td><td>Use when HE initialization may help convergence.</td></tr>
-                    <tr><td><code>--mlm-var auto</code></td><td>Let HIMVP choose the variance-estimation placement.</td><td>Recommended unless benchmarking CPU/GPU behavior.</td></tr>
+                    <tr><td><code>--mlm-var auto</code></td><td>Let MVP choose the variance-estimation placement.</td><td>Recommended unless benchmarking CPU/GPU behavior.</td></tr>
                     <tr><td><code>--mlm-var cpu</code></td><td>Run variance estimation on CPU.</td><td>Conservative choice for reproducible production runs.</td></tr>
                     <tr><td><code>--mlm-var gpu</code></td><td>Request GPU variance estimation.</td><td>Experimental in the current source tree; verify logs before relying on it.</td></tr>
                   </tbody>
@@ -538,20 +538,20 @@ himvp --cluster --pc demo.pc --npc 3 --out result/cluster_from_pc</code></pre></
                 <code>--step</code>, or preparing a performance report for a release.
               </p>
               <p><strong>Requires:</strong> any valid analysis command plus benchmark output options.</p>
-              <div class="code"><pre><code>himvp --mlm \
+              <div class="code"><pre><code>mvp --mlm \
     --bfile demo \
     --pheno demo.phe \
     --benchmark \
     --benchmark-out result/mlm_benchmark \
     --out result/mlm</code></pre></div>
               <p class="mt-12">
-                HIMVP writes <code>&lt;benchmark-out&gt;.timing.json</code>. Keep this JSON file with the association output so runtime comparisons
+                MVP writes <code>&lt;benchmark-out&gt;.timing.json</code>. Keep this JSON file with the association output so runtime comparisons
                 can be reproduced later.
               </p>
               <ul class="text-list">
                 <li>Run benchmark commands on an otherwise quiet machine when possible.</li>
                 <li>Use the same input files and model options when comparing two devices.</li>
-                <li>Record CPU model, GPU model, memory size and HIMVP version together with the timing file.</li>
+                <li>Record CPU model, GPU model, memory size and MVP version together with the timing file.</li>
               </ul>
             </div>
 
@@ -561,8 +561,8 @@ himvp --cluster --pc demo.pc --npc 3 --out result/cluster_from_pc</code></pre></
                 When the plotting module is enabled, add <code>--plot</code> to generate figures after analysis. This is convenient for routine
                 GWAS runs because association tables and plots are generated from the same command and output prefix.
               </p>
-              <p><strong>Requires:</strong> a plotting-enabled HIMVP build and an analysis that produces plot-ready output.</p>
-              <div class="code"><pre><code>himvp --glm \
+              <p><strong>Requires:</strong> a plotting-enabled MVP build and an analysis that produces plot-ready output.</p>
+              <div class="code"><pre><code>mvp --glm \
     --bfile demo \
     --pheno demo.phe \
     --plot \
@@ -602,6 +602,7 @@ himvp --cluster --pc demo.pc --npc 3 --out result/cluster_from_pc</code></pre></
       <div class="footer-site-links">
         <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
         <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://www.hiblup.com" target="_blank" rel="noopener noreferrer">hiblup</a>
         <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
         <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
         <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
@@ -614,6 +615,9 @@ himvp --cluster --pc demo.pc --npc 3 --out result/cluster_from_pc</code></pre></
       </div>
       <div class="footer-site-copy">
         No commercial use without authorization.
+      </div>
+      <div class="footer-site-copy footer-hits-row">
+        <img alt="Hits" src="https://hits.sh/mvp-cpp.github.io.svg?view=today-total&label=Today%2FTotal%20Visitors&color=007ec6&labelColor=ffffff"/>
       </div>
     </section>
   </div>

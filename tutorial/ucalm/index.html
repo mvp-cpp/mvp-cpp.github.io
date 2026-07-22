@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HIMVP | UCALM</title>
-  <meta name="description" content="HIMVP tutorial: individual-level and summary-level UCALM paths, outputs and practical notes." />
+  <title>MVP | UCALM</title>
+  <meta name="description" content="MVP tutorial: individual-level and summary-level UCALM paths, outputs and practical notes." />
   <link rel="canonical" href="https://mvp-cpp.github.io/tutorial/ucalm/" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 
@@ -253,7 +253,7 @@
     <div class="container nav-wrap">
       <a class="brand brand-text-only" href="/home/">
         <div>
-          <strong>HIMVP</strong>
+          <strong>MVP</strong>
         </div>
       </a>
       <nav class="site-nav">
@@ -289,17 +289,17 @@
             <nav class="toc-nav toc-nav-primary" id="primaryToc">
               <a href="/tutorial/introduction/" class="toc-link toc-link-primary" data-target="introduction">Introduction</a>
               <a href="/tutorial/input-file-formats/" class="toc-link toc-link-primary" data-target="input-file-formats">Input File Formats</a>
-              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary" data-target="running-mvp">Running HIMVP</a>
+              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary" data-target="running-mvp">Running GWAS</a>
+              <a href="/tutorial/running-himvp/#population-clustering" class="toc-link toc-link-primary" data-target="population-clustering">Population clustering</a>
               <a href="/tutorial/meta-analysis/" class="toc-link toc-link-primary" data-target="meta-analysis">Meta-analysis</a>
               <a href="/tutorial/ucalm/" class="toc-link toc-link-primary active" data-target="ucalm">UCALM</a>
-              <a href="/tutorial/output-visualization-faq/" class="toc-link toc-link-primary" data-target="output-visualization-faq">Output, Visualization & FAQ</a>
             </nav>
           </div>
         </aside>
 
         <article class="tutorial-content panel" id="tutorialContent">
           <section class="tutorial-block" id="ucalm" data-section-title="UCALM">
-            <div class="doc-kicker">Section 5</div>
+            <div class="doc-kicker">Section 6</div>
             <h2>UCALM</h2>
             <p class="tutorial-lead">
               UCALM: Unsupervised adaptive Clustering-based Association and Layered Meta-integration. It is designed for GWAS in
@@ -336,7 +336,7 @@
                 backgrounds, or when conventional GWAS shows inflation, masked peaks or inconsistent signals across known groups.
               </p>
               <ul class="text-list">
-                <li>Use the individual-level data path when HIMVP needs to infer latent population structure and run association testing within inferred subgroups.</li>
+                <li>Use the individual-level data path when MVP needs to infer latent population structure and run association testing within inferred subgroups.</li>
                 <li>Use the summary-level data path when subgroup GWAS has already been run and you only need the UCALM layered integration step.</li>
                 <li>Use conventional pooled GLM or MLM when the cohort is genetically homogeneous and subgroup-specific effects are not expected.</li>
               </ul>
@@ -355,7 +355,7 @@
                 <a href="/tutorial/input-file-formats/#phenotype-file">Phenotype File</a> and
                 <a href="/tutorial/input-file-formats/#covariates-in-phenotype">Covariates in Phenotype File</a>.
               </p>
-              <div class="code"><pre><code>himvp --ucalm \
+              <div class="code"><pre><code>mvp --ucalm \
     --bfile demo \
     --pheno demo.phe \
     --pheno-pos 2 \
@@ -383,13 +383,13 @@
                 and sample-size definitions must be consistent across files.
               </p>
               <p><strong>Requires:</strong> summary statistics prepared as described in <a href="/tutorial/meta-analysis/#summary-statistics-input">Summary Statistics Input</a>.</p>
-              <div class="code"><pre><code>himvp --meta \
+              <div class="code"><pre><code>mvp --meta \
     --sumstat pop1.sumstat,pop2.sumstat,pop3.sumstat \
     --meta-method 1 \
     --threads 32 \
     --out demo</code></pre></div>
               <ul class="text-list">
-                <li><strong>Analysis steps:</strong> HIMVP keeps SNPs shared across the summary statistics files, checks chromosome, position and allele coding against the first file, flips frequency and beta when A1/A2 are reversed, applies missing-value, MAF and minor allele count filters, and then performs UCALM layered integration.</li>
+                <li><strong>Analysis steps:</strong> MVP keeps SNPs shared across the summary statistics files, checks chromosome, position and allele coding against the first file, flips frequency and beta when A1/A2 are reversed, applies missing-value, MAF and minor allele count filters, and then performs UCALM layered integration.</li>
                 <li><strong>Default:</strong> UCALM uses a 1 Mb window by default to provide local allele frequency structure for the ancestry-correlated component.</li>
                 <li><strong>Output:</strong> <em><code>demo.assoc.txt</code></em> columns: <code>SNP</code>, <code>CHR</code>, <code>POS</code>, <code>A1</code>, <code>A2</code>, subgroup <code>MAF</code> columns, subgroup <code>BETA</code>, <code>SE</code> and <code>PVAL</code> columns, plus the final <code>UCALM_PVAL</code> column.</li>
               </ul>
@@ -530,6 +530,7 @@
       <div class="footer-site-links">
         <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
         <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://www.hiblup.com" target="_blank" rel="noopener noreferrer">hiblup</a>
         <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
         <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
         <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
@@ -542,6 +543,9 @@
       </div>
       <div class="footer-site-copy">
         No commercial use without authorization.
+      </div>
+      <div class="footer-site-copy footer-hits-row">
+        <img alt="Hits" src="https://hits.sh/mvp-cpp.github.io.svg?view=today-total&label=Today%2FTotal%20Visitors&color=007ec6&labelColor=ffffff"/>
       </div>
     </section>
   </div>

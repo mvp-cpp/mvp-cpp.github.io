@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HIMVP | Input File Formats</title>
-  <meta name="description" content="HIMVP tutorial: Phenotype, genotype, covariate, PC, population, GRM, summary statistic and filter files." />
+  <title>MVP | Input File Formats</title>
+  <meta name="description" content="MVP tutorial: Phenotype, genotype, covariate, PC, population, GRM, summary statistic and filter files." />
   <link rel="canonical" href="https://mvp-cpp.github.io/tutorial/input-file-formats/" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 
@@ -253,7 +253,7 @@
     <div class="container nav-wrap">
       <a class="brand brand-text-only" href="/home/">
         <div>
-          <strong>HIMVP</strong>
+          <strong>MVP</strong>
         </div>
       </a>
       <nav class="site-nav">
@@ -289,10 +289,10 @@
             <nav class="toc-nav toc-nav-primary" id="primaryToc">
               <a href="/tutorial/introduction/" class="toc-link toc-link-primary" data-target="introduction">Introduction</a>
               <a href="/tutorial/input-file-formats/" class="toc-link toc-link-primary active" data-target="input-file-formats">Input File Formats</a>
-              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary" data-target="running-mvp">Running HIMVP</a>
+              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary" data-target="running-mvp">Running GWAS</a>
+              <a href="/tutorial/running-himvp/#population-clustering" class="toc-link toc-link-primary" data-target="population-clustering">Population clustering</a>
               <a href="/tutorial/meta-analysis/" class="toc-link toc-link-primary" data-target="meta-analysis">Meta-analysis</a>
               <a href="/tutorial/ucalm/" class="toc-link toc-link-primary" data-target="ucalm">UCALM</a>
-              <a href="/tutorial/output-visualization-faq/" class="toc-link toc-link-primary" data-target="output-visualization-faq">Output, Visualization & FAQ</a>
             </nav>
           </div>
         </aside>
@@ -302,7 +302,7 @@
             <div class="doc-kicker">Section 2</div>
             <h2>Input File Formats</h2>
             <p class="tutorial-lead">
-              HIMVP follows HIBLUP-compatible data organization. Keep individual IDs consistent across phenotype, genotype, PC, GRM and population files.
+              MVP follows HIBLUP-compatible data organization. Keep individual IDs consistent across phenotype, genotype, PC, GRM and population files.
             </p>
 
             <div class="doc-subsection" id="phenotype-file">
@@ -323,7 +323,7 @@ ID003 10.9 8.4 F 2026 162</code></pre></div>
               <div class="table-wrap">
                 <table class="tutorial-table">
                   <thead>
-                    <tr><th>Column</th><th>Meaning</th><th>How HIMVP uses it</th></tr>
+                    <tr><th>Column</th><th>Meaning</th><th>How MVP uses it</th></tr>
                   </thead>
                   <tbody>
                     <tr><td>Column 1</td><td>Individual ID</td><td>Used to match genotype, PC, population and GRM IDs.</td></tr>
@@ -334,7 +334,7 @@ ID003 10.9 8.4 F 2026 162</code></pre></div>
                 </table>
               </div>
               <p class="tutorial-note">
-                <strong>Column numbering.</strong> HIMVP follows user-facing 1-based column positions. Because the first column is reserved for
+                <strong>Column numbering.</strong> MVP follows user-facing 1-based column positions. Because the first column is reserved for
                 IDs, phenotype positions must be larger than 1.
               </p>
             </div>
@@ -342,7 +342,7 @@ ID003 10.9 8.4 F 2026 162</code></pre></div>
             <div class="doc-subsection" id="genotype-files">
               <h3>Genotype Files: PLINK BED and PLINK2 PGEN</h3>
               <p>
-                HIMVP supports both PLINK 1 binary files and PLINK 2 PGEN files. Provide the file prefix, not the file name with extension.
+                MVP supports both PLINK 1 binary files and PLINK 2 PGEN files. Provide the file prefix, not the file name with extension.
                 The sample IDs in genotype files should match the IDs in the phenotype file after any keep/remove filters are applied.
               </p>
               <div class="code"><pre><code># PLINK 1 binary prefix
@@ -359,7 +359,7 @@ demo.psam
               <div class="table-wrap">
                 <table class="tutorial-table">
                   <thead>
-                    <tr><th>Input type</th><th>Required files</th><th>HIMVP option</th><th>Common mistake</th></tr>
+                    <tr><th>Input type</th><th>Required files</th><th>MVP option</th><th>Common mistake</th></tr>
                   </thead>
                   <tbody>
                     <tr><td>PLINK 1 binary</td><td><code>.bed</code>, <code>.bim</code>, <code>.fam</code></td><td><code>--bfile demo</code></td><td>Using <code>--bfile demo.bed</code> instead of the prefix.</td></tr>
@@ -372,7 +372,7 @@ demo.psam
             <div class="doc-subsection" id="covariates-in-phenotype">
               <h3>Covariates in Phenotype File</h3>
               <p>
-                HIMVP reads covariates from the phenotype file by column position. Use <code>--dcovar</code> for discrete covariates and
+                MVP reads covariates from the phenotype file by column position. Use <code>--dcovar</code> for discrete covariates and
                 <code>--qcovar</code> for quantitative covariates.
               </p>
               <div class="code"><pre><code># column 4 = sex, column 5 = year, column 6 = height
@@ -382,7 +382,7 @@ demo.psam
                 <li>Discrete covariates are converted to model terms suitable for categorical variables.</li>
                 <li>Quantitative covariates are treated as numeric columns and should not contain text labels.</li>
                 <li>Do not include the phenotype column itself in <code>--dcovar</code> or <code>--qcovar</code>.</li>
-                <li>When a covariate has many missing values, remove or impute those records before running HIMVP.</li>
+                <li>When a covariate has many missing values, remove or impute those records before running MVP.</li>
               </ul>
             </div>
 
@@ -404,7 +404,7 @@ ID003 -0.006 0.041 -0.017</code></pre></div>
 --cluster --pc result/demo_pca.pc --npc 3</code></pre></div>
               <p class="tutorial-note">
                 <strong>Important.</strong> <code>--pc</code> is for standalone clustering input. For GLM or MLM correction, use
-                <code>--npc</code> so HIMVP can add principal components to the model.
+                <code>--npc</code> so MVP can add principal components to the model.
               </p>
             </div>
 
@@ -417,7 +417,7 @@ ID003 -0.006 0.041 -0.017</code></pre></div>
 ID002 POP_B
 ID003 POP_A</code></pre></div>
               <p class="mt-12">
-                When this file is supplied with <code>--glm</code> or <code>--mlm</code>, HIMVP can run population-specific association scans and
+                When this file is supplied with <code>--glm</code> or <code>--mlm</code>, MVP can run population-specific association scans and
                 then combine subgroup evidence through the meta-analysis workflow if the meta module is available.
               </p>
               <ul class="text-list">
@@ -431,7 +431,7 @@ ID003 POP_A</code></pre></div>
             <div class="doc-subsection" id="relationship-matrix-file">
               <h3>Relationship Matrix File</h3>
               <p>
-                Use <code>--grm</code> with the prefix of pre-computed relationship matrix files. HIMVP expects paired binary and ID files. A GRM
+                Use <code>--grm</code> with the prefix of pre-computed relationship matrix files. MVP expects paired binary and ID files. A GRM
                 can be reused by MLM and PCA, which is useful when several traits share the same genotype data.
               </p>
               <div class="code"><pre><code>demo_grm.bin
@@ -486,15 +486,15 @@ rs002 1 12940 C T 0.18 -0.024 0.012 0.0450 1200</code></pre></div>
 2 1 1000000</code></pre></div>
               <p class="mt-12">Window options are mutually exclusive:</p>
               <div class="code"><pre><code># Fixed physical window size
-himvp --meta --sumstat c1.sumstat,c2.sumstat --window-bp 1000000 --out result/meta_bp
+mvp --meta --sumstat c1.sumstat,c2.sumstat --window-bp 1000000 --out result/meta_bp
 
 # Fixed number of SNPs per window
-himvp --meta --sumstat c1.sumstat,c2.sumstat --window-num 500 --out result/meta_num
+mvp --meta --sumstat c1.sumstat,c2.sumstat --window-num 500 --out result/meta_num
 
 # User-defined window file
-himvp --meta --sumstat c1.sumstat,c2.sumstat --window-file windows.txt --out result/meta_windows</code></pre></div>
+mvp --meta --sumstat c1.sumstat,c2.sumstat --window-file windows.txt --out result/meta_windows</code></pre></div>
               <ul class="text-list">
-                <li>If no window option is supplied, HIMVP uses a default fixed base-pair window.</li>
+                <li>If no window option is supplied, MVP uses a default fixed base-pair window.</li>
                 <li>Do not use <code>--window-bp</code> and <code>--window-num</code> together.</li>
                 <li>Do not provide fixed window settings when <code>--window-file</code> is used.</li>
               </ul>
@@ -570,6 +570,7 @@ himvp --meta --sumstat c1.sumstat,c2.sumstat --window-file windows.txt --out res
       <div class="footer-site-links">
         <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
         <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://www.hiblup.com" target="_blank" rel="noopener noreferrer">hiblup</a>
         <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
         <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
         <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
@@ -582,6 +583,9 @@ himvp --meta --sumstat c1.sumstat,c2.sumstat --window-file windows.txt --out res
       </div>
       <div class="footer-site-copy">
         No commercial use without authorization.
+      </div>
+      <div class="footer-site-copy footer-hits-row">
+        <img alt="Hits" src="https://hits.sh/mvp-cpp.github.io.svg?view=today-total&label=Today%2FTotal%20Visitors&color=007ec6&labelColor=ffffff"/>
       </div>
     </section>
   </div>

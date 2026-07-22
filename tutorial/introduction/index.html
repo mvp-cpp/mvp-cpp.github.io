@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HIMVP | Introduction</title>
-  <meta name="description" content="HIMVP tutorial: Core concepts, first run, feature map, command structure, version and help checks." />
+  <title>MVP | Introduction</title>
+  <meta name="description" content="MVP tutorial: Core concepts, first run, feature map, command structure, version and help checks." />
   <link rel="canonical" href="https://mvp-cpp.github.io/tutorial/introduction/" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 
@@ -253,7 +253,7 @@
     <div class="container nav-wrap">
       <a class="brand brand-text-only" href="/home/">
         <div>
-          <strong>HIMVP</strong>
+          <strong>MVP</strong>
         </div>
       </a>
       <nav class="site-nav">
@@ -289,10 +289,10 @@
             <nav class="toc-nav toc-nav-primary" id="primaryToc">
               <a href="/tutorial/introduction/" class="toc-link toc-link-primary active" data-target="introduction">Introduction</a>
               <a href="/tutorial/input-file-formats/" class="toc-link toc-link-primary" data-target="input-file-formats">Input File Formats</a>
-              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary" data-target="running-mvp">Running HIMVP</a>
+              <a href="/tutorial/running-himvp/" class="toc-link toc-link-primary" data-target="running-mvp">Running GWAS</a>
+              <a href="/tutorial/running-himvp/#population-clustering" class="toc-link toc-link-primary" data-target="population-clustering">Population clustering</a>
               <a href="/tutorial/meta-analysis/" class="toc-link toc-link-primary" data-target="meta-analysis">Meta-analysis</a>
               <a href="/tutorial/ucalm/" class="toc-link toc-link-primary" data-target="ucalm">UCALM</a>
-              <a href="/tutorial/output-visualization-faq/" class="toc-link toc-link-primary" data-target="output-visualization-faq">Output, Visualization & FAQ</a>
             </nav>
           </div>
         </aside>
@@ -302,14 +302,14 @@
             <div class="doc-kicker">Section 1</div>
             <h2>Introduction</h2>
             <p class="tutorial-lead">
-              HIMVP is a memory-efficient, visualization-enhanced and parallel-accelerated command-line tool for genome-wide association study.
-              This tutorial follows the style of a practical software manual: prepare input files, select an analysis mode, run HIMVP, then inspect outputs.
+              MVP is a memory-efficient, visualization-enhanced and parallel-accelerated command-line tool for genome-wide association study.
+              This tutorial follows the style of a practical software manual: prepare input files, select an analysis mode, run MVP, then inspect outputs.
             </p>
 
             <div class="doc-subsection" id="what-is-mvp">
-              <h3>What is HIMVP</h3>
+              <h3>What is MVP</h3>
               <p>
-                HIMVP is implemented in C++17 for scalable GWAS workflows. It is designed as a command-line program: each run starts from one
+                MVP is implemented in C++17 for scalable GWAS workflows. It is designed as a command-line program: each run starts from one
                 major function flag, reads well-defined input files, and writes analysis tables or plots under the output prefix. The same
                 phenotype and genotype files can be reused across GLM, MLM, PCA, GRM construction and downstream population-aware workflows.
               </p>
@@ -335,19 +335,19 @@
                 <li><strong>GWAS</strong> scans the genome for statistical associations between genetic markers and measured traits.</li>
                 <li><strong>Population structure</strong> can create false signals; PCA, GRM and MLM help control relatedness and subgroup effects.</li>
                 <li><strong>Manhattan and Q-Q plots</strong> help review association peaks, background inflation and possible model issues.</li>
-                <li><strong>HIMVP workflow</strong> usually starts from phenotype and genotype files, then moves through GLM, MLM, PCA, GRM, meta-analysis or plotting as needed.</li>
+                <li><strong>MVP workflow</strong> usually starts from phenotype and genotype files, then moves through GLM, MLM, PCA, GRM, meta-analysis or plotting as needed.</li>
               </ul>
             </div>
 
             <div class="doc-subsection" id="first-run">
               <h3>First Run</h3>
               <p>
-                Use a small GLM command as your first end-to-end check. This verifies that HIMVP starts correctly, your input prefixes are valid,
+                Use a small GLM command as your first end-to-end check. This verifies that MVP starts correctly, your input prefixes are valid,
                 and the output path is writable.
               </p>
-              <div class="code"><pre><code>himvp --help
+              <div class="code"><pre><code>mvp --help
 
-himvp --glm \
+mvp --glm \
     --bfile data/geno \
     --pheno data/pheno.txt \
     --pheno-pos 2 \
@@ -362,7 +362,7 @@ himvp --glm \
             <div class="doc-subsection" id="main-features">
               <h3>Main Features</h3>
               <ul class="text-list">
-                <li>HIMVP accepts PLINK 1 binary genotype prefixes with <code>--bfile</code> and PLINK 2 PGEN prefixes with <code>--pfile</code>.</li>
+                <li>MVP accepts PLINK 1 binary genotype prefixes with <code>--bfile</code> and PLINK 2 PGEN prefixes with <code>--pfile</code>.</li>
                 <li>Multi-trait phenotype analysis with comma-separated phenotype columns.</li>
                 <li>CPU execution by default, optional CUDA acceleration for supported builds.</li>
                 <li>Automatic plot generation for association and PCA outputs when plotting is enabled.</li>
@@ -387,12 +387,12 @@ himvp --glm \
             <div class="doc-subsection" id="command-structure">
               <h3>Command Structure</h3>
               <p>
-                HIMVP uses one main function flag followed by input, model, runtime and output options. In most cases, use only one function
+                MVP uses one main function flag followed by input, model, runtime and output options. In most cases, use only one function
                 flag in a command. For example, do not run <code>--pca</code> and <code>--make-grm</code> in the same command.
               </p>
-              <div class="code"><pre><code>himvp [Function] [Option]</code></pre></div>
+              <div class="code"><pre><code>mvp [Function] [Option]</code></pre></div>
               <p class="mt-12">For example:</p>
-              <div class="code"><pre><code>himvp --glm --bfile data/geno --pheno data/pheno.txt --out result/glm</code></pre></div>
+              <div class="code"><pre><code>mvp --glm --bfile data/geno --pheno data/pheno.txt --out result/glm</code></pre></div>
               <div class="table-wrap">
                 <table class="tutorial-table">
                   <thead>
@@ -411,15 +411,15 @@ himvp --glm \
 
             <div class="doc-subsection" id="check-version-help">
               <h3>Check Version and Help</h3>
-              <div class="code"><pre><code>himvp --version
-himvp --help</code></pre></div>
+              <div class="code"><pre><code>mvp --version
+mvp --help</code></pre></div>
               <p class="mt-12">
                 Use <code>--help</code> before starting a new analysis to confirm which optional modules are available in your build. If a flag
-                shown in this tutorial is missing from the help message, rebuild HIMVP with the corresponding module enabled or use a release
+                shown in this tutorial is missing from the help message, rebuild MVP with the corresponding module enabled or use a release
                 binary that includes that feature.
               </p>
               <p class="tutorial-note">
-                <strong>Reproducibility tip.</strong> Save the output of <code>himvp --version</code>, the full command line and the input file
+                <strong>Reproducibility tip.</strong> Save the output of <code>mvp --version</code>, the full command line and the input file
                 prefixes together with your result files.
               </p>
             </div>
@@ -452,6 +452,7 @@ himvp --help</code></pre></div>
       <div class="footer-site-links">
         <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
         <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://www.hiblup.com" target="_blank" rel="noopener noreferrer">hiblup</a>
         <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
         <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
         <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
@@ -464,6 +465,9 @@ himvp --help</code></pre></div>
       </div>
       <div class="footer-site-copy">
         No commercial use without authorization.
+      </div>
+      <div class="footer-site-copy footer-hits-row">
+        <img alt="Hits" src="https://hits.sh/mvp-cpp.github.io.svg?view=today-total&label=Today%2FTotal%20Visitors&color=007ec6&labelColor=ffffff"/>
       </div>
     </section>
   </div>
