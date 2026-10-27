@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="MVP homepage design preview: memory-efficient, visualization-enhanced and parallel-accelerated GWAS.">
+  <title>MVP | Homepage preview</title>
+  <script src="/design-preview/theme.js"></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/design-preview/style.css">
+</head>
+<body class="design-page">
+  <div class="preview-toolbar" aria-label="首页预览设置"><div class="wrap preview-toolbar-inner">
+    <a class="preview-label" href="/home/">首页设计预览 <span>对比原版 ↗</span></a>
+    <div class="theme-preview"><span id="theme-status" aria-live="polite">跟随系统</span><div class="theme-switch" role="group" aria-label="预览明暗模式"><button type="button" data-theme-mode="auto" aria-pressed="true">跟随系统</button><button type="button" data-theme-mode="light" aria-pressed="false">日间</button><button type="button" data-theme-mode="dark" aria-pressed="false">夜间</button></div></div>
+  </div></div>
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand brand-text-only" href="/home/">
+      <div>
+        <strong>MVP</strong>
+      </div>
+    </a>
+    <nav class="site-nav">
+      <a href="/home/" class="active">Home</a>
+      <a href="/download/">Download</a>
+      <a href="/tutorial/">Tutorial</a>
+      <a href="/contact/">Contact Us</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <svg class="hero-landscape" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="hero-ridge-fade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="currentColor" stop-opacity=".12"/><stop offset="1" stop-color="currentColor" stop-opacity=".02"/></linearGradient></defs>
+      <path class="ridge-back" d="M0 400C120 390 180 334 330 340S620 377 770 266 974 91 1080 132 1260 367 1440 400Z"/>
+      <path class="ridge-front" d="M0 400C94 246 185 168 298 221S502 358 694 366 1065 379 1440 400Z"/>
+      <path class="ridge-line" d="M0 400C94 246 185 168 298 221S502 358 694 366 1065 379 1440 400"/>
+    </svg>
+    <div class="wrap hero-layout">
+      <div class="hero-copy">
+        <h1 id="hero-title"><span class="highlight">MVP</span></h1>
+        <p class="hero-summary"><strong>MVP</strong> is a C++ toolkit for GWAS, population structure analysis, meta-analysis, high-dimensional phenotype analysis, and visualization. CPU parallelism and optional GPU acceleration enable efficient analysis of large genomic datasets.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/download/">Download</a>
+          <a class="btn btn-secondary" href="/tutorial/">Tutorial</a>
+          <a class="btn btn-secondary" href="/contact/">Issues</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="qualities" aria-label="MVP principles"><div class="wrap quality-grid">
+    <a href="#memory"><span class="quality-initial">M</span><strong>Memory-efficient</strong></a>
+    <a href="#visualization"><span class="quality-initial">V</span><strong>Visualization-enhanced</strong></a>
+    <a href="#parallel"><span class="quality-initial">P</span><strong>Parallel-accelerated</strong></a>
+  </div></section>
+
+  <section id="memory" class="section memory-section" aria-labelledby="memory-title"><div class="wrap">
+    <div class="section-heading"><span class="section-number">01 / M — Memory-efficient</span><h2 id="memory-title">A smaller memory footprint for genomic analysis.</h2></div>
+    <div class="memory-layout">
+      <div class="memory-copy">
+        <ul class="feature-list"><li><span>01</span><div><strong>Memory-mapped access</strong><p>Access compact genotype data directly from disk through memory mapping, without loading the entire genotype dataset into RAM at once.</p></div></li><li><span>02</span><div><strong>Block-wise genotype processing</strong><p>Process genotype data in blocks, limiting the amount of decoded data held in working memory.</p></div></li><li><span>03</span><div><strong>Mixed-precision computation</strong><p>Use single- and double-precision computation to balance memory use and numerical precision.</p></div></li></ul>
+        <a class="text-link" href="/tutorial/introduction/#main-features">Data guide <span aria-hidden="true">↗</span></a>
+      </div>
+      <figure class="memory-figure" aria-labelledby="memory-diagram-title"><figcaption id="memory-diagram-title">From disk to computation</figcaption>
+        <div class="memory-diagram"><div class="disk-block"><div class="diagram-icon genotype-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="11" width="50" height="42" rx="7"/><path d="M7 25h50M7 39h50M24 11v42M41 11v42"/><g fill="currentColor" stroke="none"><rect x="10" y="14" width="11" height="8" rx="2"/><rect x="27" y="14" width="11" height="8" rx="2"/><rect x="44" y="14" width="10" height="8" rx="2"/><rect x="10" y="28" width="11" height="8" rx="2"/><rect x="27" y="28" width="11" height="8" rx="2"/><rect x="44" y="28" width="10" height="8" rx="2"/><rect x="10" y="42" width="11" height="8" rx="2"/><rect x="27" y="42" width="11" height="8" rx="2"/><rect x="44" y="42" width="10" height="8" rx="2"/></g></svg></div><strong>Genotype data</strong><span>Compact binary storage</span><div class="marker-blocks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="memory-transfer"><span aria-hidden="true">→</span><span>Decode</span></div><div class="ram-block"><div class="diagram-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="44" rx="5"/><path d="M24 10v44M40 10v44M8 25h48M8 39h48"/><g fill="currentColor" stroke="none"><rect x="11" y="13" width="10" height="9" rx="2" opacity=".2"/><rect x="27" y="13" width="10" height="9" rx="2" opacity=".8"/><rect x="43" y="13" width="10" height="9" rx="2" opacity=".2"/><rect x="11" y="28" width="10" height="8" rx="2" opacity=".2"/><rect x="27" y="28" width="10" height="8" rx="2" opacity=".8"/><rect x="43" y="28" width="10" height="8" rx="2" opacity=".2"/><rect x="11" y="42" width="10" height="9" rx="2" opacity=".2"/><rect x="27" y="42" width="10" height="9" rx="2" opacity=".8"/><rect x="43" y="42" width="10" height="9" rx="2" opacity=".2"/></g></svg></div><strong>Working memory</strong><span>Current marker block</span><div class="active-blocks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+        <div class="memory-compute"><span class="compute-dot" aria-hidden="true"></span>Compute<span class="next-block">Next block → repeat</span></div>
+        <p class="memory-boundary">Keep the active genotype block in memory while the analysis moves through the genome.</p>
+      </figure>
+    </div>
+  </div></section>
+    <section id="visualization" class="section gallery-section" aria-labelledby="gallery-title">
+      <div class="wrap">
+        <div class="gallery-title-row"><div class="section-heading"><span class="section-number">02 / V — Visualization-enhanced</span><h2 id="gallery-title">From results to figures for publication.</h2></div><a class="text-link" href="/tutorial/running-himvp/#plot-generation">Plotting guide <span aria-hidden="true">↗</span></a></div>
+        <div class="gallery-grid">
+          <a class="plot-card" href="/design-preview/assets/circular-manhattan-transparent.png" target="_blank" rel="noopener noreferrer"><div class="plot-paper"><img class="plot-image-light" src="/design-preview/assets/circular-manhattan-transparent.png" width="1800" height="1800" alt="Example circular Manhattan plot with multiple traits." loading="lazy"><img class="plot-image-dark" src="/design-preview/assets/circular-manhattan-transparent-dark.png" width="1800" height="1800" aria-hidden="true" alt="" loading="lazy"></div><div class="plot-caption"><h3>Circular Manhattan <span aria-hidden="true">↗</span></h3><p>A compact view of association patterns across multiple traits.</p></div></a>
+          <a class="plot-card" href="/design-preview/assets/qq-multitrait-transparent.png" target="_blank" rel="noopener noreferrer"><div class="plot-paper"><img class="plot-image-light" src="/design-preview/assets/qq-multitrait-transparent.png" width="1500" height="1500" alt="Example multi-trait Q–Q plot comparing expected and observed negative log10 p-values with confidence bands." loading="lazy"><img class="plot-image-dark" src="/design-preview/assets/qq-multitrait-transparent-dark.png" width="1500" height="1500" aria-hidden="true" alt="" loading="lazy"></div><div class="plot-caption"><h3>Q–Q plots <span aria-hidden="true">↗</span></h3><p>Inspect observed versus expected association statistics.</p></div></a>
+          <a class="plot-card" href="/design-preview/assets/snp-density-transparent.png" target="_blank" rel="noopener noreferrer"><div class="plot-paper"><img class="plot-image-light" src="/design-preview/assets/snp-density-transparent.png" width="1800" height="1200" alt="Example SNP density plot displaying marker counts by chromosome within one megabase windows." loading="lazy"><img class="plot-image-dark" src="/design-preview/assets/snp-density-transparent-dark.png" width="1800" height="1200" aria-hidden="true" alt="" loading="lazy"></div><div class="plot-caption"><h3>SNP density <span aria-hidden="true">↗</span></h3><p>See how markers are distributed across the genome.</p></div></a>
+        </div>
+      </div>
+    </section>
+  <section id="parallel" class="section parallel-section" aria-labelledby="parallel-title"><div class="wrap">
+    <div class="section-heading"><span class="section-number">03 / P — Parallel-accelerated</span><h2 id="parallel-title">Match the workload to your hardware.</h2></div>
+    <div class="parallel-layout">
+      <div class="parallel-copy"><p>MVP uses multithreaded computing with <strong>high-performance math libraries (Intel MKL, Kunpeng [鲲鹏] KML, OpenBLAS, and Apple Accelerate) and OpenMP</strong> to accelerate the analysis of large genomic datasets.</p><p>An optional <strong>CUDA backend</strong> brings GPU acceleration to matrix operations and eigendecomposition, with <strong>multi-GPU eigendecomposition</strong> available on supported systems.</p><a class="text-link" href="/tutorial/running-himvp/#gpu-acceleration">Compute guide <span aria-hidden="true">↗</span></a></div>
+      <div class="compute-architecture" role="group" aria-label="Standard CPU and optional GPU execution paths.">
+        <div class="compute-lanes"><article class="compute-lane cpu-lane"><div class="lane-heading"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11" y="11" width="26" height="26" rx="4"/><rect x="18" y="18" width="12" height="12" rx="1"/><path d="M17 5v6m7-6v6m7-6v6M17 37v6m7-6v6m7-6v6M5 17h6m-6 7h6m-6 7h6m26-14h6m-6 7h6m-6 7h6"/></svg><h3>CPU</h3><span class="lane-status">STANDARD</span></div><p>OpenMP worker threads</p><div class="core-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="lane-tags"><span>OpenMP</span><span>BLAS / LAPACK</span></div><p class="lane-detail">Library availability depends<br>on the platform and build.</p></article>
+        <article class="compute-lane gpu-lane"><div class="lane-heading"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="10" width="32" height="28" rx="4"/><rect x="14" y="16" width="20" height="16" rx="2"/><path d="M18 20h4m4 0h4M18 24h4m4 0h4M18 28h4m4 0h4M5 16h3m-3 8h3m-3 8h3m32-16h3m-3 8h3m-3 8h3"/></svg><h3>GPU</h3><span class="lane-status">OPTIONAL</span></div><p>CUDA parallel work</p><div class="core-grid gpu-cores" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="lane-tags"><span>cuBLAS</span><span>cuSOLVER</span></div><p class="lane-detail">Multi-GPU eigendecomposition<br>where available</p></article></div>
+        <div class="compute-requirement">GPU requires a CUDA-enabled build and compatible NVIDIA hardware/runtime.</div>
+      </div>
+    </div>
+  </div></section>
+</main>
+<footer class="footer footer-site">
+  <div class="container footer-site-grid">
+    <section class="footer-site-col">
+      <div class="footer-site-heading">Sitemap</div>
+      <div class="footer-site-links">
+        <a href="/home/">Home</a>
+        <a href="/download/">Download</a>
+        <a href="/tutorial/">Tutorial</a>
+        <a href="/contact/">Contact Us</a>
+      </div>
+    </section>
+
+    <section class="footer-site-col">
+      <div class="footer-site-heading">Other Tools</div>
+      <div class="footer-site-links">
+        <a href="https://github.com/xiaolei-lab/rMVP" target="_blank" rel="noopener noreferrer">rMVP</a>
+        <a href="https://github.com/YinLiLin/KAML" target="_blank" rel="noopener noreferrer">KAML</a>
+        <a href="https://www.hiblup.com" target="_blank" rel="noopener noreferrer">hiblup</a>
+        <a href="https://github.com/YinLiLin/hibayes" target="_blank" rel="noopener noreferrer">hibayes</a>
+        <a href="https://github.com/xiaolei-lab/SIMER" target="_blank" rel="noopener noreferrer">SIMER</a>
+        <a href="https://ianimal.pro/" target="_blank" rel="noopener noreferrer">IAnimal</a>
+      </div>
+    </section>
+
+    <section class="footer-site-col footer-site-right">
+      <div class="footer-site-copy">
+        Copyright © 2026–present. All rights reserved.
+      </div>
+      <div class="footer-site-copy">
+        No commercial use without authorization.
+      </div>
+      <div class="footer-site-copy footer-hits-row">
+        <img alt="Hits" src="https://hits.sh/mvp-cpp.github.io.svg?view=today-total&label=Today%2FTotal%20Visitors&color=007ec6&labelColor=ffffff"/>
+      </div>
+    </section>
+  </div>
+</footer>
+</body>
+</html>
