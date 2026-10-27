@@ -98,3 +98,48 @@ html{scroll-padding-top:102px}.home-page{font-family:var(--home-font);background
 /* Replace the previous homepage hero surface with the centered introduction. */
 .home-page .hero{min-height:0;padding:0}
 .home-page .hero::before{display:none}
+
+/* Desktop: one viewport for the welcome and feature strip, with wider page gutters. */
+@media(min-width:1100px){
+  .home-page{--home-content-width:min(1920px,calc(100% - clamp(64px,8vw,192px)));--home-header-height:79px;--home-body-size:clamp(16px,1.04vw,20px)}
+  .home-page .wrap,.home-page .container{width:var(--home-content-width) !important}
+  .home-page .site-header .nav-wrap{width:calc(100% - 2 * clamp(24px,1.6vw,40px)) !important;height:78px;min-height:78px}
+  .home-page .brand strong{font-size:clamp(20px,1.15vw,24px)}
+  .home-page .site-nav{gap:clamp(22px,1.5vw,36px)}
+  .home-page .site-nav a{font-size:clamp(16px,.94vw,19px)}
+  .home-intro{min-height:calc(100vh - var(--home-header-height));min-height:calc(100svh - var(--home-header-height));display:flex;flex-direction:column}
+  .home-intro>.hero{flex:1;display:flex;align-items:center}
+  .home-page .hero-layout{min-height:0;padding-block:clamp(48px,7svh,96px) clamp(64px,9svh,120px)}
+  .home-page .hero h1{font-size:clamp(96px,6.4vw,152px);margin-bottom:clamp(28px,2vw,40px)}
+  .home-page .hero-summary{max-width:1240px;font-size:clamp(19px,1.15vw,24px);line-height:1.7}
+  .home-page .hero-actions{margin-top:clamp(28px,2vw,40px);gap:16px}
+  .home-page .hero-actions .btn{font-size:clamp(16px,.94vw,19px);padding:14px 24px}
+  .home-page .hero-landscape{height:min(100%,560px)}
+  .home-intro>.qualities{flex-shrink:0}
+  .home-page .quality-grid{padding-block:clamp(24px,1.6vw,36px)}
+  .home-page .quality-initial{font-size:clamp(32px,1.8vw,44px)}
+  .home-page .quality-grid strong{font-size:clamp(16px,1.04vw,21px)}
+  .home-page .section{padding-block:clamp(48px,3.3vw,80px)}
+  .home-page .section-number{font-size:clamp(16px,.94vw,20px)}
+  .home-page .section-heading h2{font-size:clamp(32px,2vw,44px)}
+  .home-page .memory-layout,.home-page .parallel-layout{gap:clamp(40px,3vw,72px);margin-top:clamp(28px,2vw,44px)}
+  .home-page .memory-copy,.home-page .parallel-copy{max-width:780px}
+  .home-page .feature-list strong,.home-page .plot-caption h3{font-size:clamp(18px,1.15vw,24px)}
+  .home-page .feature-list p,.home-page .parallel-copy>p,.home-page .plot-caption>p{font-size:var(--home-body-size)}
+  .home-page .feature-list li{padding-block:clamp(14px,1vw,22px)}
+  .home-page .feature-list li:first-child{padding-top:0}
+  .home-page .text-link{font-size:clamp(14px,.85vw,17px)}
+  .home-page .memory-figure,.home-page .compute-architecture{width:100%;max-width:980px;justify-self:end;padding:clamp(22px,1.6vw,36px)}
+  .home-page .memory-figure figcaption{font-size:clamp(20px,1.25vw,26px)}
+  .home-page .disk-block,.home-page .ram-block{height:clamp(256px,15vw,320px);padding-block:clamp(22px,1.5vw,32px)}
+  .home-page .diagram-icon{width:clamp(56px,3.2vw,72px);height:clamp(56px,3.2vw,72px)}
+  .home-page .disk-block strong,.home-page .ram-block strong{font-size:clamp(15px,.94vw,20px)}
+  .home-page .disk-block>span,.home-page .ram-block>span,.home-page .memory-compute,.home-page .next-block,.home-page p.memory-boundary{font-size:clamp(12px,.73vw,15px)}
+  .home-page .gallery-grid{gap:clamp(24px,2vw,40px)}
+  .home-page .lane-heading h3{font-size:clamp(20px,1.25vw,26px)}
+  .home-page .lane-heading svg{width:clamp(36px,2vw,44px);height:clamp(36px,2vw,44px)}
+  .home-page .compute-lane>p{font-size:clamp(14px,.85vw,18px)}
+  .home-page .core-grid{height:clamp(52px,3vw,64px)}
+  .home-page .lane-tags span{font-size:clamp(11px,.68vw,14px)}
+  .home-page .compute-lane p.lane-detail,.home-page .compute-requirement{font-size:clamp(12px,.73vw,15px)}
+}
