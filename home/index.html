@@ -6,8 +6,9 @@
   <meta name="description" content="MVP is a C++ toolkit for GWAS, population structure analysis, meta-analysis, high-dimensional phenotype analysis, and visualization.">
   <title>MVP | Home</title>
   <script src="/assets/js/home.js"></script>
+  <script src="/assets/js/home-manhattan.js?v=20261028-static" defer></script>
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="stylesheet" href="/assets/css/home.css?v=20261027-layout-2">
+  <link rel="stylesheet" href="/assets/css/home.css?v=20261028-static">
 </head>
 <body class="home-page">
 <header class="site-header">
@@ -28,12 +29,9 @@
 <main>
   <div class="home-intro">
   <section class="hero" aria-labelledby="hero-title">
-    <svg class="hero-landscape" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <defs><linearGradient id="hero-ridge-fade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="currentColor" stop-opacity=".12"/><stop offset="1" stop-color="currentColor" stop-opacity=".02"/></linearGradient></defs>
-      <path class="ridge-back" d="M0 400C120 390 180 334 330 340S620 377 770 266 974 91 1080 132 1260 367 1440 400Z"/>
-      <path class="ridge-front" d="M0 400C94 246 185 168 298 221S502 358 694 366 1065 379 1440 400Z"/>
-      <path class="ridge-line" d="M0 400C94 246 185 168 298 221S502 358 694 366 1065 379 1440 400"/>
-    </svg>
+    <div class="hero-manhattan" aria-hidden="true">
+      <canvas></canvas>
+    </div>
     <div class="wrap hero-layout">
       <div class="hero-copy">
         <h1 id="hero-title"><span class="highlight">MVP</span></h1>

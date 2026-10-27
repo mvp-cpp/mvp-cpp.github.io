@@ -4,7 +4,7 @@
 
 ## 页面结构
 
-- 居中 MVP 标识、精简的软件介绍、Download / Tutorial / Issues 三个原版按钮，以及浅色层叠背景。
+- 居中 MVP 标识、精简的软件介绍、Download / Tutorial / Issues 三个原版按钮。Canvas 曼哈顿背景，位于 hero 底部约 48%，顶部渐隐；左右高峰、中间矮峰，衬托上方内容。
 - M / V / P 三项入口分别跳转到内存、可视化与并行计算板块。
 - **Memory-efficient**：内存映射、基因型分块处理和混合精度，配合数据块到工作内存的示意图。减少基因型数据内存占用不意味着关系矩阵和模型不再需要额外内存。
 - **Visualization-enhanced**：环形 Manhattan、Q–Q 与 SNP density 示例，保留坐标和色标，透明底图片按系统明暗主题切换。
@@ -19,11 +19,16 @@
 - `home/index.html`：正式首页。
 - `assets/css/style.css`：原有公共样式。
 - `assets/css/home.css`：首页布局与图示样式，仅在首页加载。
+- `assets/js/home-manhattan.js`：固定模拟数据及静态 Canvas 背景绘制。
 - `assets/js/home.js`：跟随系统外观，监听系统明暗模式变更；没有预览工具条或 URL 模式参数。
 - `assets/img/*-transparent*.png`：日间/夜间科研图示。
 - `assets/img/home-plot-sources.json`：原始图和透明底衍生图的来源与处理记录；原始 WebP 同目录保留。
 
 科研配图来自 CMplot 官方仓库的示例，并非本次运行 MVP 生成的结果，也不是性能测试。内存与 CPU/GPU 图使用 HTML/CSS/内嵌 SVG 绘制。文案核对参考本仓库教程及用户提供的 MVP 源码；本轮没有运行 GWAS 或性能测试。
+
+首页曼哈顿背景由 `assets/js/home-manhattan.js` 使用 Canvas 2D 绘制。22 条人类常染色体按 [UCSC GRCh38 染色体长度](https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.chrom.sizes) 分配宽度，保留间隙、淡色编号和无文字显著性虚线（−log10(5×10⁻⁸) ≈ 7.30103）。两档蓝色交替，8 个峰的 lead 点使用橙色；中央两个峰较低。峰形是为了展示而生成的衰减包络，不能解释为真实 LD 估计。
+
+固定种子生成 6500 个模拟点，窄于 900px 时下采样至约 3250 点（保留所有 lead 点），染色体编号隔一个显示。模拟数据不对应真实 SNP 或 MVP 分析结果。背景不响应鼠标或触摸，没有圆点命中检测、标签、描边、高亮或光晕。Canvas 按设备像素比绘制，仅在初次加载、窗口尺寸或系统外观改变时重新绘制，无入场或持续动画。画布标记为装饰性，保留原有链接焦点样式。
 
 ## 本地检查
 
