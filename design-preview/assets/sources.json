@@ -1,0 +1,46 @@
+{
+  "retrieved": "2026-10-24",
+  "usage": "Illustrative examples for the MVP homepage design preview; retain source attribution. These are not verified MVP outputs or benchmark results.",
+  "assets": [
+    {
+      "file": "circular-manhattan.webp",
+      "source_url": "https://raw.githubusercontent.com/YinLiLin/CMplot/master/Figure/9.jpg",
+      "source_page": "https://github.com/YinLiLin/CMplot",
+      "original_dimensions": [
+        3000,
+        3000
+      ],
+      "sha256_original": "ac246723216179fafef3d901684652b698bcb4ad5be087d01da91231249ca97e",
+      "processing": "Resized proportionally to at most 1800 px and converted to WebP; chart content unchanged.",
+      "role": "CMplot README example, not verified MVP output."
+    },
+    {
+      "file": "qq-multitrait.webp",
+      "source_url": "https://raw.githubusercontent.com/YinLiLin/CMplot/master/Figure/8.jpg",
+      "source_page": "https://github.com/YinLiLin/CMplot",
+      "original_dimensions": [
+        1500,
+        1500
+      ],
+      "sha256_original": "ea7bf2f49be7276f0b0ae24ec4c26fd86bdd3af04a7da4577f959473470bde5e",
+      "processing": "Resized proportionally to at most 1800 px and converted to WebP; chart content unchanged.",
+      "role": "CMplot README example, not verified MVP output."
+    },
+    {
+      "file": "snp-density.webp",
+      "source_url": "https://raw.githubusercontent.com/YinLiLin/CMplot/master/Figure/illumilla_60K_Qc.jpg",
+      "source_page": "https://github.com/YinLiLin/CMplot",
+      "original_dimensions": [
+        2700,
+        1800
+      ],
+      "sha256_original": "117a338f930f077e6c5608d97813133fdfa00e9440f974b858edd74958fc9e10",
+      "processing": "Resized proportionally to at most 1800 px and converted to WebP; chart content unchanged.",
+      "role": "CMplot README example, not verified MVP output."
+    }
+  ],
+  "transparent_derivatives": {
+    "files": "*-transparent.png and *-transparent-dark.png",
+    "processing": "Derived locally from the listed WebP examples. Near-white matte removed to alpha; dark variants remap neutral text, axes, grids and neutral legend areas for contrast. Colored data marks and layout retained. Raster display derivatives, not new scientific outputs."
+  }
+}
