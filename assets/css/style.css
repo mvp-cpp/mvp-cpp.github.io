@@ -1222,6 +1222,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 }
 .download-intro p{max-width:none;margin:0;color:var(--muted);font-size:1.05rem}
 .download-section{margin-top:22px}
+.download-section > .build-selector,
+.download-section > .release-timeline{width:100%;max-width:100%;box-sizing:border-box}
 .download-section-heading{
   display:flex;
   align-items:flex-end;
@@ -1269,9 +1271,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .gpu-requirements strong{color:var(--text);font-size:.86rem}
 .changelog-section{padding-top:28px}
 .release-timeline{position:relative;display:grid;gap:18px}
-.release-timeline::before{content:"";position:absolute;left:170px;top:20px;bottom:20px;width:1px;background:linear-gradient(var(--blue),rgba(105,183,255,.08))}
-.release-entry{display:grid;grid-template-columns:150px minmax(0,1fr);gap:40px;position:relative}
-.release-date{padding-top:23px;text-align:right;color:var(--muted);font-size:.82rem}
+.release-timeline::before{content:"";position:absolute;left:150px;top:20px;bottom:20px;width:1px;background:linear-gradient(var(--blue),rgba(105,183,255,.08))}
+.release-entry{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;position:relative}
+.release-date{padding-top:23px;text-align:left;color:var(--muted);font-size:.82rem}
 .release-date strong{display:block;color:var(--text);font:800 1rem ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .release-date span{display:block;margin-top:3px}
 .release-body{position:relative;padding:22px 24px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.04))}
