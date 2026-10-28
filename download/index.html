@@ -6,6 +6,7 @@
   <title>MVP | Download</title>
   <meta name="description" content="Download MVP releases, clone the source repository, and review basic build requirements." />
   <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/download-selector.css" />
 </head>
 <body>
 <header class="site-header">
@@ -43,57 +44,48 @@
         <span class="download-status"><span></span> Latest builds</span>
       </div>
 
-      <div class="download-groups">
-        <section class="download-group panel float-in" aria-labelledby="cpu-title">
-          <div class="download-group-header">
-            <div class="compute-mark compute-mark-cpu">CPU</div>
-            <div>
-              <h3 id="cpu-title">CPU builds</h3>
-              <p>Portable builds for standard desktop and server workflows.</p>
+      <div class="build-selector" data-build-selector>
+        <div class="selector-row">
+          <div class="selector-label" id="selector-build-label">MVP Build</div>
+          <div class="selector-options selector-builds" role="radiogroup" aria-labelledby="selector-build-label">
+            <label class="selector-option"><input type="radio" name="mvp-build" value="cpu" checked /><span><strong>CPU only</strong><small>Full workflow · CPU computing</small></span></label>
+            <label class="selector-option"><input type="radio" name="mvp-build" value="gpu" /><span><strong>GPU enabled</strong><small>Full workflow · CPU + CUDA</small></span></label>
+          </div>
+        </div>
+        <div class="selector-row">
+          <div class="selector-label" id="selector-os-label">Operating system</div>
+          <div class="selector-options" role="radiogroup" aria-labelledby="selector-os-label">
+            <label class="selector-option"><input type="radio" name="mvp-os" value="linux" checked /><span>Linux</span></label>
+            <label class="selector-option"><input type="radio" name="mvp-os" value="macos" /><span>macOS</span></label>
+            <label class="selector-option"><input type="radio" name="mvp-os" value="windows" /><span>Windows</span></label>
+          </div>
+        </div>
+        <div class="selector-row">
+          <div class="selector-label" id="selector-architecture-label">Architecture</div>
+          <div class="selector-options" style="--columns:2" role="radiogroup" aria-labelledby="selector-architecture-label">
+            <label class="selector-option"><input type="radio" name="mvp-architecture" value="x86_64" checked /><span>x86_64 <small>Intel / AMD</small></span></label>
+            <label class="selector-option"><input type="radio" name="mvp-architecture" value="arm64" disabled /><span>arm64 <small>Apple Silicon · macOS</small></span></label>
+          </div>
+        </div>
+        <div class="selector-divider"></div>
+        <div class="selector-row">
+          <div class="selector-label">Compute support</div>
+          <div class="selector-support"><span data-compute-support>CPU only</span><p data-requirement hidden></p></div>
+        </div>
+        <div class="selector-row selector-result">
+          <div class="selector-label">Selected package</div>
+          <div class="selector-output" role="status" aria-live="polite" aria-atomic="true">
+            <div class="selector-package-icon" data-platform-icon>LIN</div>
+            <div class="selector-package-copy">
+              <strong data-selected-package>CPU-only build · Linux · x86_64</strong>
+            </div>
+            <span class="selector-version">v0.1.0</span>
+            <div class="selector-package-action">
+              <button class="selector-download" type="button" disabled>Download</button>
             </div>
           </div>
-          <div class="platform-list">
-            <article class="platform-row">
-              <div class="platform-icon">WIN</div>
-              <div class="platform-copy"><h4>Windows</h4><p>Windows 10 / 11 · x64</p></div>
-              <span class="platform-version">v0.1.0</span>
-              <a class="btn btn-primary btn-small" href="#replace-windows-cpu-link">Download</a>
-            </article>
-            <article class="platform-row">
-              <div class="platform-icon">LIN</div>
-              <div class="platform-copy"><h4>Linux</h4><p>Ubuntu 22.04+ · x86_64</p></div>
-              <span class="platform-version">v0.1.0</span>
-              <a class="btn btn-primary btn-small" href="#replace-linux-cpu-link">Download</a>
-            </article>
-            <article class="platform-row">
-              <div class="platform-icon">MAC</div>
-              <div class="platform-copy"><h4>macOS</h4><p>macOS 13+ · Apple Silicon / Intel</p></div>
-              <span class="platform-version">v0.1.0</span>
-              <a class="btn btn-primary btn-small" href="#replace-macos-cpu-link">Download</a>
-            </article>
-          </div>
-          <p class="download-note">Replace each placeholder link and version when a CPU package is published.</p>
-        </section>
-
-        <section class="download-group panel float-in" aria-labelledby="gpu-title">
-          <div class="download-group-header">
-            <div class="compute-mark compute-mark-gpu">GPU</div>
-            <div>
-              <h3 id="gpu-title">GPU builds</h3>
-              <p>CUDA-enabled Linux build for accelerated GWAS workloads.</p>
-            </div>
-          </div>
-          <div class="platform-list">
-            <article class="platform-row">
-              <div class="platform-icon platform-icon-gpu">LIN</div>
-              <div class="platform-copy"><h4>Linux + CUDA</h4><p>Ubuntu 22.04+ · NVIDIA GPU · CUDA 12+</p></div>
-              <span class="platform-version">v0.1.0</span>
-              <a class="btn btn-primary btn-small" href="#replace-linux-gpu-link">Download</a>
-            </article>
-          </div>
-          <div class="gpu-requirements"><strong>Before you install</strong><span>NVIDIA driver and CUDA Toolkit are required. Check the compatibility notes in the tutorial.</span></div>
-          <p class="download-note">The GPU section is ready for additional CUDA variants or packages later.</p>
-        </section>
+        </div>
+        <noscript><p>Enable JavaScript to switch between build and platform targets.</p></noscript>
       </div>
     </section>
 
@@ -170,5 +162,6 @@
 </footer>
 
 <script src="/assets/js/site.js"></script>
+<script src="/assets/js/download-selector.js"></script>
 </body>
 </html>
