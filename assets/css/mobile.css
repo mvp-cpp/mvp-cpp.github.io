@@ -1,0 +1,92 @@
+/* Phone-only overrides, loaded after each page's existing styles. */
+@media (max-width: 760px) {
+  html { scroll-padding-top: 112px; }
+  body { overflow-wrap: break-word; }
+  .container, .narrow, .home-page .wrap { width: calc(100% - 32px) !important; }
+  .site-header .nav-wrap { min-height: 0; padding: 8px 0 4px; gap: 0; }
+  .site-header .brand { min-height: 36px; }
+  .site-header .site-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; gap: 4px; }
+  .site-header .site-nav a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 4px 0; font-size: 13px; white-space: nowrap; }
+  .site-header .brand::before, .site-header .site-nav a::before, .footer-site-links a::before { inset: 0; }
+  .site-nav a:focus-visible, .mobile-tutorial-toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .section { padding: 28px 0; }
+  .section-title { display: block; margin-bottom: 20px; }
+  .section-title p { margin-top: 10px; max-width: none; }
+  .section-title h2, .download-section-heading h2, .contact-section-heading h2 { font-size: 1.65rem; line-height: 1.25; }
+  .download-intro, .contact-intro { padding: 12px 0 24px; }
+  .download-intro h1, .contact-intro h1 { font-size: clamp(1.9rem, 8vw, 2.5rem); line-height: 1.15; }
+  .download-intro p, .contact-intro p { font-size: 1rem; line-height: 1.65; }
+  .btn, .text-link { min-height: 44px; }
+  .footer-site { margin-top: 24px; padding: 24px 0; }
+  .footer-site-grid { gap: 24px; }
+  .footer-site-links { gap: 0 16px; }
+  .footer-site-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
+  .footer-site-copy { font-size: 13px; }
+
+  /* Keep the illustration below the copy rather than behind the actions. */
+  .home-page .hero-layout { min-height: 0; padding-block: 36px 180px; }
+  .home-page .hero h1 { font-size: clamp(64px, 19vw, 80px); margin-bottom: 20px; }
+  .home-page .hero-summary { max-width: 540px; font-size: 16px; line-height: 1.7; }
+  .home-page .hero-actions { display: flex; flex-wrap: nowrap; gap: 8px; margin-top: 24px; }
+  .home-page .hero-actions .btn { flex: 1; min-width: 0; min-height: 46px; padding: 10px 6px; font-size: 14px; }
+  .home-page .hero-manhattan { height: 164px; }
+  .home-page .quality-grid { padding-block: 18px; gap: 8px; }
+  .home-page .quality-grid > a { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .home-page .quality-grid > a + a { padding-left: 10px; }
+  .home-page .quality-grid strong { font-size: 11px; line-height: 1.5; overflow-wrap: anywhere; }
+  .home-page .quality-initial { font-size: 28px; }
+  .home-page .section { padding-block: 32px; }
+  .home-page .section-heading h2 { font-size: 26px; }
+  .home-page .memory-layout, .home-page .parallel-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .home-page .feature-list { display: block; }
+  .home-page .memory-figure, .home-page .compute-architecture { min-width: 0; }
+  .home-page .gallery-grid { grid-template-columns: minmax(0, 1fr); }
+
+  .build-selector { padding: 18px 14px; border-radius: 18px; }
+  .build-selector .selector-row { gap: 8px; }
+  .build-selector .selector-label { color: var(--text); }
+  .build-selector .selector-option span { padding: 10px 8px; font-size: 13px; min-height: 48px; }
+  .build-selector .selector-option:hover input:checked:not(:disabled) + span { background: var(--selector-accent); border-color: var(--selector-accent); color: #fff; }
+  .build-selector .selector-output { grid-template-columns: 42px minmax(0, 1fr); }
+  .build-selector .selector-output strong { font-size: 14px; }
+  .build-selector .selector-version { grid-column: 2; grid-row: 2; }
+  .build-selector .selector-package-action { grid-column: 1 / -1; grid-row: 3; margin-top: 4px; }
+  .build-selector .selector-output .selector-download { width: 100%; min-height: 44px; font-family: inherit; font-size: 14px; }
+  .release-entry { padding-left: 24px; }
+  .release-body { padding: 18px 16px; border-radius: 16px; }
+  .release-body::before { left: -25px; }
+  .release-date { padding-bottom: 12px; }
+  .release-columns { gap: 18px; }
+  .release-body h3 { font-size: 1.1rem; }
+
+  /* Local tutorial styles appear inline; this sheet is deliberately loaded last. */
+  .tutorial-layout { gap: 16px; }
+  .tutorial-layout .tutorial-content { padding: 22px 16px; border-radius: 18px; }
+  .tutorial-layout .tutorial-sidebar { border-radius: 16px; }
+  .tutorial-layout .tutorial-sidebar-inner { padding: 16px; }
+  .mobile-tutorial-toggle { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 52px; padding: 14px 16px; border: 0; border-radius: 16px; background: transparent; color: var(--text); font-family: inherit; font-weight: 600; font-size: 15px; line-height: 1.5; cursor: pointer; }
+  .mobile-tutorial-toggle::after { content: '+'; font-size: 22px; line-height: 1; }
+  .mobile-tutorial-toggle[aria-expanded="true"]::after { content: '−'; }
+  .tutorial-layout .tutorial-search-input { min-height: 44px; font-size: 16px; }
+  .tutorial-layout .tutorial-search-clear, .tutorial-layout .tutorial-search-nav button { min-width: 44px; height: 44px; }
+  .tutorial-layout .toc-link { min-height: 44px; }
+  .tutorial-layout .tutorial-content h2 { font-size: 1.6rem; line-height: 1.3; }
+  .tutorial-layout .tutorial-content h3 { font-size: 1.25rem; line-height: 1.4; }
+  .tutorial-content p, .tutorial-content li { overflow-wrap: anywhere; }
+  .tutorial-content .code, .tutorial-content .table-wrap { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+  .tutorial-content pre { font-size: 13px; overflow-wrap: normal; }
+  .tutorial-content .code-copy-wrap { padding-top: 64px; }
+  .tutorial-content .code-copy-btn { min-width: 44px; min-height: 44px; opacity: 1; }
+  .tutorial-content .tutorial-table { font-size: 14px; }
+  .issue-panel { grid-template-columns: 40px minmax(0, 1fr); padding: 20px 16px; gap: 14px; }
+  .issue-panel .btn { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 380px) {
+  .home-page .compute-lanes { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .home-page .compute-lane { padding: 14px; }
+  .home-page .memory-diagram { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .home-page .disk-block, .home-page .ram-block { min-height: 0; }
+  .home-page .memory-transfer { padding: 0; }
+  .home-page .memory-transfer > span:first-child { transform: rotate(90deg); }
+}
